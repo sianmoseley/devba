@@ -1,0 +1,23 @@
+//TODO
+    Look into memory leaks {
+        -- componentDidUnmount
+    }
+
+    Integrate code {
+        -- Maps
+        -- Notifications
+        -- Change password
+        -- Delete account
+        -- T&Cs
+
+        -- Edit & delete
+
+        -- Change own username =Pearl
+
+        -- Image with new post = Sian on it
+
+        -- Alter Search so it uses Picker rather than material-dropdown = CONTINUE NEXT
+
+    }
+    
+-- Replace hollow heart icon with a filled in heart once favourite clicked
