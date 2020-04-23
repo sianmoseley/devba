@@ -6,7 +6,6 @@ import {
   Picker,
   Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -15,28 +14,9 @@ import {globalStyles} from '../config/Styles';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import Firebase from 'firebase';
+import {userKey} from '../config/ReusableVariables';
+import {FieldWrapper, CustomTextInput} from '../config/ReusableVariables';
 
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
 const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
   <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
     <Switch
@@ -67,7 +47,6 @@ const reportSchema = yup.object().shape({
 let Username = '';
 
 export default function ReportBugScreen({navigation}) {
-  const userKey = Firebase.auth().currentUser.uid;
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {

@@ -1,58 +1,39 @@
 import React, {Component} from 'react';
-import {Image, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {Image, FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
-
-const Post = ({
-  heading,
-  description,
-  location,
-  createdBy,
-  createdAt,
-  uri,
-  onPress,
-}) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={globalStyles.postContainer}>
-      <Image style={globalStyles.image} source={uri} />
-      <Text style={globalStyles.postText}>
-        {heading} @ {location}
-        {'\n'}
-        posted by {createdBy}
-        {'\n'}
-        {description}
-        {'\n'}
-        {createdAt}
-      </Text>
-    </View>
-  </TouchableOpacity>
-);
+import {Post, userPostRef} from '../config/ReusableVariables';
 
 export default class ViewPostsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //sets empty array
       userPostList: [],
     };
   }
 
   componentDidMount() {
+    //function runs as soon as the component loads
     this.getUserPosts();
   }
 
   getUserPosts = () => {
-    const userKey = Firebase.auth().currentUser.uid;
-    const ref = Firebase.database().ref('user_posts/' + userKey);
-    ref.on('value', snapshot => {
+    userPostRef.on('value', snapshot => {
+      ////obtain entire section of database specified in reference as one object
       const postObject = snapshot.val();
       if (!postObject) {
         console.log('USER HAS NO POSTS', Date(Date.now()));
         this.setState({userPostList: null});
       } else {
         console.log('USER POSTS RETRIEVED!', Date(Date.now()));
+
+        //converts data object of all the posts into an array of the posts
         const postsArray = Object.values(postObject);
+
+        //set variable userPostList to the array of posts
         this.setState({userPostList: postsArray});
       }
     });
@@ -75,10 +56,13 @@ export default class ViewPostsScreen extends Component {
           </View>
         ) : (
           <FlatList
-            keyExtractor={post => post.heading}
-            data={this.state.userPostList}
+            keyExtractor={post => post.id}
+            data={this.state.userPostList.sort(a =>
+              a.createdAt.localeCompare(),
+            )}
             renderItem={({item: post}) => (
               <Post
+                //individual posts made by the logged in user rendered
                 key={post.id}
                 heading={post.heading}
                 description={post.description}

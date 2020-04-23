@@ -5,7 +5,6 @@ import {
   Keyboard,
   Picker,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -17,28 +16,9 @@ import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
+import {userKey} from '../config/ReusableVariables';
+import {userPostRef} from '../config/ReusableVariables';
+import {CustomTextInput} from '../config/ReusableVariables';
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -61,9 +41,6 @@ let Username = '';
 
 export default function AddPostScreen({navigation}) {
   //AuthNavigator recognises if a user is logged in and remembers the account
-
-  //reads unique user id from firebase authentication and places in userKey const
-  const userKey = Firebase.auth().currentUser.uid;
 
   //uuid used to identify path of user info in database
   Firebase.database()
@@ -117,7 +94,7 @@ export default function AddPostScreen({navigation}) {
   /////////// END OF IMAGE PICKER CODE
 
   async function AddPost(values, addComplete) {
-    //creates unique idenfitier (string of random number, letters and symbols) to be used for new post
+    //creates unique identifier (string of random number, letters and symbols) to be used for new post
     const key = Firebase.database()
       .ref('posts')
       .push().key;
@@ -146,20 +123,18 @@ export default function AddPostScreen({navigation}) {
         .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
 
       //same values for post are added to the user_posts table, so every post a user makes is tracked
-      Firebase.database()
-        .ref('user_posts/' + userKey + '/' + key)
-        .set({
-          id: key,
-          heading: values.heading,
-          description: values.description,
-          location: values.location,
-          createdAt:
-            [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') +
-            ' ' +
-            [d.getHours(), d.getMinutes()].join('.'),
-          createdBy: Username,
-          uri: Uri,
-        });
+      userPostRef.child(key).set({
+        id: key,
+        heading: values.heading,
+        description: values.description,
+        location: values.location,
+        createdAt:
+          [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') +
+          ' ' +
+          [d.getHours(), d.getMinutes()].join('.'),
+        createdBy: Username,
+        uri: Uri,
+      });
 
       //don't necessarily need this now promise for set has been fulfilled
       const snapshot = undefined;
@@ -286,7 +261,9 @@ export default function AddPostScreen({navigation}) {
                           Select Photo
                         </Text>
                       </TouchableOpacity>
-                      {renderSelectedImage()}
+                      {renderSelectedImage()
+                      //selected image rendered here so user can inspect photo before uploading it
+                      }
                       <TouchableOpacity
                         style={globalStyles.inAppButton}
                         onPress={

@@ -4,14 +4,17 @@ import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {Formik} from 'formik';
+import {userKey} from '../config/ReusableVariables';
 
 export default function ChangeUsername() {
+  //obtain the user and username of logged in user as objects
   const user = Firebase.auth().currentUser;
-  const userKey = Firebase.auth().currentUser.uid;
   const currentUsername = Firebase.auth().currentUser.displayName;
-  const [Username, setUsername] = useState(currentUsername);
-  console.log(currentUsername);
 
+  //set username variable that will be changed as the existing username
+  const [Username, setUsername] = useState(currentUsername);
+
+  //function that rewrites username in firebase authentication and database
   function changeUsername(value) {
     user.updateProfile({displayName: value.username}).then(() => {
       Firebase.database()
@@ -30,16 +33,26 @@ export default function ChangeUsername() {
           changeUsername({
             username: Username,
             displayName: Username,
+            //values in authentication and database changed to newly set Username
           });
         }}>
         {props => (
           <View>
             <TextInput
               style={style.txtInput}
-              onChangeText={text => setUsername(text)}
+              onChangeText={
+                text => setUsername(text)
+                //variable Username will be set to whatever is typed into this text input
+              }
               value={Username}
             />
-            <Button title="Submit" onPress={props.handleSubmit} />
+            <Button
+              title="Submit"
+              onPress={
+                props.handleSubmit
+                //links button to onSubmit function in Formik
+              }
+            />
           </View>
         )}
       </Formik>
