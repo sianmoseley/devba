@@ -109,6 +109,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#2bb76e',
     borderRadius: 10,
     paddingVertical: 10,
+    marginBottom: 10 // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
   },
   inAppTouchText: {
     color: 'white',

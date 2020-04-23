@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View, Image, RefreshControl} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
@@ -10,6 +10,7 @@ const Post = ({
   description,
   location,
   createdBy,
+  uri, // SIAN - added as to include photo in post 
   report,
   favourite,
 }) => (
@@ -22,6 +23,11 @@ const Post = ({
       {'\n'}
       {description}
     </Text>
+    
+    {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
+
+    <Image style={{alignSelf: 'center', height: 150, width: 150}} source={uri}/>
+
     <View style={globalStyles.iconMargin}>
       <Icon
         iconStyle={globalStyles.icon}
@@ -45,6 +51,7 @@ export default class HomeScreen extends Component {
     super(props);
     this.state = {
       postList: [],
+      refreshing: false
     };
   }
 
@@ -81,6 +88,7 @@ export default class HomeScreen extends Component {
               description={post.description}
               location={post.location}
               createdBy={post.createdBy}
+              uri={{uri: post.uri}} // SIAN - added as to include photo in post 
               report={() =>
                 this.props.navigation.navigate('ReportPostScreen', post)
               }
@@ -97,6 +105,7 @@ export default class HomeScreen extends Component {
                   location: post.location,
                   createdAt: post.createdAt,
                   createdBy: post.createdBy,
+                  uri: post.uri // SIAN - added as to include photo in post  
                 });
               }}
             />
