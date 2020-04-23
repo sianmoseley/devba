@@ -5,26 +5,29 @@ import 'firebase/database';
 import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
 
-const Post = ({heading, description, location, createdBy, onPress}) => (
-  <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-    </Text>
-    {/* <View style={globalStyles.iconFlagMargin}>
-      <Icon
-        iconStyle={globalStyles.iconFlag}
-        name="flag"
-        type="entypo"
-        onPress={onPress}
-      />
-    </View> */}
-    {/* </TouchableOpacity> */}
-  </View>
+const Post = ({
+  heading,
+  description,
+  location,
+  createdBy,
+  createdAt,
+  uri,
+  onPress,
+}) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={globalStyles.postContainer}>
+      <Image style={globalStyles.image} source={uri} />
+      <Text style={globalStyles.postText}>
+        {heading} @ {location}
+        {'\n'}
+        posted by {createdBy}
+        {'\n'}
+        {description}
+        {'\n'}
+        {createdAt}
+      </Text>
+    </View>
+  </TouchableOpacity>
 );
 
 export default class ViewPostsScreen extends Component {
@@ -81,10 +84,9 @@ export default class ViewPostsScreen extends Component {
                 description={post.description}
                 location={post.location}
                 createdBy={post.createdBy}
-                image={post.image && {uri: post.image}}
-                onPress={() =>
-                  this.props.navigation.navigate('PostDetails', post)
-                }
+                createdAt={post.createdAt}
+                uri={{uri: post.uri}}
+                onPress={() => this.props.navigation.navigate('EditForm', post)}
               />
             )}
           />

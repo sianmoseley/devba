@@ -5,6 +5,8 @@ import AccountScreen from '../screens/AccountScreen';
 import ViewPostsScreen from '../screens/ViewPostsScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
+import ChangeUsernameScreen from '../screens/ChangeUsernameScreen';
+import EditPostScreen from '../screens/EditPostScreen';
 
 const Stack = createStackNavigator();
 
@@ -32,9 +34,19 @@ export default function AccountStack() {
         options={{title: 'Your Posts', headerTitleAlign: 'center'}}
       />
       <Stack.Screen
+        name="EditForm"
+        component={EditPostScreen}
+        options={{title: 'Edit Post', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
         options={{title: 'Change Password', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
+        name="ChangeUsername"
+        component={ChangeUsernameScreen}
+        options={{title: 'Change Username', headerTitleAlign: 'center'}}
       />
       <Stack.Screen
         name="DeleteAccount"

@@ -90,7 +90,7 @@ const registerSchema = yup.object().shape({
     ),
 });
 
-SubmitRegister = values => {
+function SubmitRegister(values) {
   Firebase.auth()
     .createUserWithEmailAndPassword(values.email, values.password)
     .then(res => {
@@ -100,7 +100,14 @@ SubmitRegister = values => {
           uid: res.user.uid,
           username: values.username,
           email: values.email,
-        });
+        })
+        .then(
+          Firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              user.updateProfile({displayName: values.username});
+            }
+          }),
+        );
     })
     .catch(function(error) {
       //handle errors here
@@ -114,7 +121,7 @@ SubmitRegister = values => {
       console.log(error);
     });
   console.log('USER REGISTERED SUCCESSFULLY', Date(Date.now()), values);
-};
+}
 
 export default class Register extends Component {
   render() {

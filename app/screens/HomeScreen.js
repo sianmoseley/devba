@@ -1,26 +1,31 @@
 import React, {Component} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Text, Image, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
 import 'firebase/database';
+import {create} from 'react-native/jest/renderer';
 
 const Post = ({
   heading,
   description,
   location,
+  createdAt,
   createdBy,
+  uri,
   report,
   favourite,
 }) => (
   <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
+    <Image style={globalStyles.image} source={uri} />
     <Text style={globalStyles.postText}>
       {heading} @ {location}
       {'\n'}
       posted by {createdBy}
       {'\n'}
       {description}
+      {'\n'}
+      {createdAt}
     </Text>
     <View style={globalStyles.iconMargin}>
       <Icon
@@ -36,7 +41,6 @@ const Post = ({
         onPress={report}
       />
     </View>
-    {/* </TouchableOpacity> */}
   </View>
 );
 
@@ -80,7 +84,9 @@ export default class HomeScreen extends Component {
               heading={post.heading}
               description={post.description}
               location={post.location}
+              createdAt={post.createdAt}
               createdBy={post.createdBy}
+              uri={{uri: post.uri}}
               report={() =>
                 this.props.navigation.navigate('ReportPostScreen', post)
               }

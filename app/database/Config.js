@@ -8,3 +8,5 @@ export const firebaseConfig = {
   appId: '1:302949475610:web:ce87017adfc56e137938a3',
   measurementId: 'G-PGWQBWZ4FV',
 };
+
+//credentials from Firebase project to allow access to all features within bigAPPetite project

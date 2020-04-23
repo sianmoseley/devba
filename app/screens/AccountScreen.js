@@ -28,6 +28,11 @@ export default function AccountScreen({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={globalStyles.accountButton}
+          onPress={() => navigation.navigate('ChangeUsername')}>
+          <Text style={globalStyles.accountButtonText}>Change Username</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.accountButton}
           onPress={() => navigation.navigate('DeleteAccount')}>
           <Text style={globalStyles.accountButtonText}>Delete Account</Text>
         </TouchableOpacity>

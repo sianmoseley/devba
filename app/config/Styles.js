@@ -105,6 +105,11 @@ export const globalStyles = StyleSheet.create({
   iconRight: {
     right: 12,
   },
+  image: {
+    flexDirection: 'row',
+    height: 150,
+    width: 150,
+  },
   inAppButton: {
     backgroundColor: '#2bb76e',
     borderRadius: 10,
