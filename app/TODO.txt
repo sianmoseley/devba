@@ -3,14 +3,15 @@
         -- componentDidUnmount
     }
 
--- Maps - Pearl
+    Me {
+        -- Search posts get clipped, need to fix
+        -- Replace hollow heart icon with a filled in heart once favourite clicked
+        -- Seperate model and view code 
+        -- Add comments to all code
+    }
 
+-- Maps - Pearl
 -- Notifications - Steph
 -- T&Cs - Steph
-
 -- Change password - Sian
 -- Delete account - Sian
-
--- Search posts get clipped, need to fix - Me
--- Replace hollow heart icon with a filled in heart once favourite clicked - Me
--- Seperate model and view code - Me
