@@ -4,8 +4,6 @@
     }
 
 -- Maps - Pearl
--- Edit & delete post - Pearl
--- Change own username - Pearl
 
 -- Notifications - Steph
 -- T&Cs - Steph

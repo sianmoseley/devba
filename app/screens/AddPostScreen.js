@@ -57,6 +57,7 @@ const addPostSchema = yup.object().shape({
 let Username = '';
 
 export default function AddPostScreen({navigation}) {
+  const date = new Date();
   const userKey = Firebase.auth().currentUser.uid;
   Firebase.database()
     .ref('users/' + userKey)
@@ -77,7 +78,12 @@ export default function AddPostScreen({navigation}) {
           heading: values.heading,
           description: values.description,
           location: values.location,
-          createdAt: Date(Date.now()),
+          createdAt:
+            [date.getDate(), date.getMonth() + 1, date.getFullYear()].join(
+              '/',
+            ) +
+            ' ' +
+            [date.getHours(), date.getMinutes()].join(':'),
           createdBy: Username,
         })
         .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
@@ -88,7 +94,12 @@ export default function AddPostScreen({navigation}) {
           heading: values.heading,
           description: values.description,
           location: values.location,
-          createdAt: Date(Date.now()),
+          createdAt:
+            [date.getDate(), date.getMonth() + 1, date.getFullYear()].join(
+              '/',
+            ) +
+            ' ' +
+            [date.getHours(), date.getMinutes()].join(':'),
           createdBy: Username,
         });
       const snapshot = undefined;

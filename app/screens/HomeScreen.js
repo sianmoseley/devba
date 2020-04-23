@@ -20,7 +20,6 @@ const Post = ({
 }) => (
   <View style={globalStyles.postContainer}>
     <Image source={uri} />
-    {/* <TouchableOpacity> */}
     <Text style={globalStyles.postText}>
       {heading} @ {location}
       {'\n'}
@@ -44,7 +43,6 @@ const Post = ({
         onPress={report}
       />
     </View>
-    {/* </TouchableOpacity> */}
   </View>
 );
 

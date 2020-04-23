@@ -9,18 +9,20 @@ const Post = ({
   heading,
   description,
   location,
+  createdAt,
   createdBy,
   report,
   favourite,
 }) => (
   <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
     <Text style={globalStyles.postText}>
       {heading} @ {location}
       {'\n'}
       posted by {createdBy}
       {'\n'}
       {description}
+      {'\n'}
+      {createdAt}
     </Text>
     <View style={globalStyles.iconMargin}>
       <Icon
@@ -129,6 +131,7 @@ export default class SearchScreen extends Component {
               heading={post.heading}
               description={post.description}
               location={post.location}
+              createdAt={post.createdAt}
               createdBy={post.createdBy}
               report={() =>
                 this.props.navigation.navigate('ReportPostScreen', post)

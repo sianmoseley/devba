@@ -1,29 +1,46 @@
 import React, {Component} from 'react';
-import {Image, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Icon,
+  Image,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
 
-const Post = ({heading, description, location, createdBy, onPress}) => (
+const Post = ({
+  heading,
+  description,
+  location,
+  createdBy,
+  createdAt,
+  uri,
+  edit,
+}) => (
   <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-    </Text>
-    {/* <View style={globalStyles.iconFlagMargin}>
-      <Icon
-        iconStyle={globalStyles.iconFlag}
-        name="flag"
-        type="entypo"
-        onPress={onPress}
-      />
-    </View> */}
-    {/* </TouchableOpacity> */}
+    <TouchableOpacity onPress={edit}>
+      <Text style={globalStyles.postText}>
+        {heading} @ {location}
+        {'\n'}
+        posted by {createdBy}
+        {'\n'}
+        {description}
+        {'\n'}
+        {createdAt}
+      </Text>
+      <View style={globalStyles.iconMargin}>
+        {/* <Icon
+          iconStyle={globalStyles.icon}
+          name="flag"
+          type="entypo"
+          // onPress={onPress}
+        /> */}
+      </View>
+    </TouchableOpacity>
   </View>
 );
 
@@ -80,11 +97,13 @@ export default class ViewPostsScreen extends Component {
                 heading={post.heading}
                 description={post.description}
                 location={post.location}
+                createdAt={post.createdAt}
                 createdBy={post.createdBy}
                 image={post.image && {uri: post.image}}
                 onPress={() =>
                   this.props.navigation.navigate('PostDetails', post)
                 }
+                edit={() => this.props.navigation.navigate('EditForm', post)}
               />
             )}
           />

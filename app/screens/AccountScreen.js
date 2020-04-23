@@ -23,6 +23,11 @@ export default function AccountScreen({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={globalStyles.accountButton}
+          onPress={() => navigation.navigate('ChangeUsername')}>
+          <Text style={globalStyles.accountButtonText}>Change Username</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.accountButton}
           onPress={() => navigation.navigate('ChangePassword')}>
           <Text style={globalStyles.accountButtonText}>Change Password</Text>
         </TouchableOpacity>
