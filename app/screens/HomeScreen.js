@@ -1,19 +1,25 @@
 import React, {Component} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
+// import * as Animatable from 'react-native-animatable';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
 import 'firebase/database';
+
+// const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 const Post = ({
   heading,
   description,
   location,
+  createdAt,
   createdBy,
+  uri,
   report,
   favourite,
 }) => (
   <View style={globalStyles.postContainer}>
+    <Image source={uri} />
     {/* <TouchableOpacity> */}
     <Text style={globalStyles.postText}>
       {heading} @ {location}
@@ -21,6 +27,8 @@ const Post = ({
       posted by {createdBy}
       {'\n'}
       {description}
+      {'\n'}
+      {createdAt}
     </Text>
     <View style={globalStyles.iconMargin}>
       <Icon
@@ -45,8 +53,19 @@ export default class HomeScreen extends Component {
     super(props);
     this.state = {
       postList: [],
+      // liked: false, //auto set to false on page load, change to interact with firebase user 'fav'
     };
   }
+
+  // handleSmallAnimatedIconRef = ref => {
+  //   this.smallAnimatedIcon = ref;
+  // };
+  // handleOnPressLike = () => {
+  //   /* This is a separate function for liking the photo,
+  //   it activates only smart heart animation and it's invoked by pressing small icon */
+  //   this.smallAnimatedIcon.bounceIn();
+  //   this.setState(prevState => ({liked: !prevState.liked}));
+  // };
 
   componentDidMount() {
     this.getPostData();
@@ -67,39 +86,58 @@ export default class HomeScreen extends Component {
   };
 
   render() {
+    const {liked} = this.state;
     return (
       <View>
+        {/* <AnimatedIcon
+          iconStyle={globalStyles.icon}
+          name={liked ? 'favorite' : 'favorite-border'}
+          type="material"
+          ref={this.handleSmallAnimatedIconRef}
+          onPress={this.handleOnPressLike}
+        /> */}
         <FlatList
           //inverted={true}
           // initialScrollIndex={}
           keyExtractor={post => post.id}
           data={this.state.postList}
           renderItem={({item: post}) => (
-            <Post
-              key={post.heading}
-              heading={post.heading}
-              description={post.description}
-              location={post.location}
-              createdBy={post.createdBy}
-              report={() =>
-                this.props.navigation.navigate('ReportPostScreen', post)
-              }
-              favourite={() => {
-                const userKey = Firebase.auth().currentUser.uid;
-                const postKey = post.id;
-                const favRef = Firebase.database().ref(
-                  'favourites/' + userKey + '/' + postKey,
-                );
-                favRef.set({
-                  id: postKey,
-                  heading: post.heading,
-                  description: post.description,
-                  location: post.location,
-                  createdAt: post.createdAt,
-                  createdBy: post.createdBy,
-                });
-              }}
-            />
+            <View>
+              <Post
+                key={post.heading}
+                heading={post.heading}
+                description={post.description}
+                location={post.location}
+                createdAt={post.createdAt}
+                createdBy={post.createdBy}
+                uri={{uri: post.uri}}
+                report={() =>
+                  this.props.navigation.navigate('ReportPostScreen', post)
+                }
+                favourite={() => {
+                  const userKey = Firebase.auth().currentUser.uid;
+                  const postKey = post.id;
+                  const favRef = Firebase.database().ref(
+                    'favourites/' + userKey + '/' + postKey,
+                  );
+                  favRef.set({
+                    id: postKey,
+                    heading: post.heading,
+                    description: post.description,
+                    location: post.location,
+                    createdAt: post.createdAt,
+                    createdBy: post.createdBy,
+                  });
+                }}
+              />
+              {/* <AnimatedIcon
+                iconStyle={globalStyles.icon}
+                name={liked ? 'favorite' : 'favorite-border'}
+                type="material"
+                ref={this.handleSmallAnimatedIconRef}
+                onPress={this.handleOnPressLike}
+              /> */}
+            </View>
           )}
         />
       </View>

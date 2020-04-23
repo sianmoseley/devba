@@ -1,13 +1,6 @@
-import React, {Component, useState} from 'react';
-import {Dropdown} from 'react-native-material-dropdown';
-import {
-  Button,
-  FlatList,
-  Picker,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {Component} from 'react';
+import {Picker} from '@react-native-community/picker';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
@@ -49,7 +42,7 @@ const Post = ({
 export default class SearchScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {location: '', postList: [], searchedList: []};
+    this.state = {location: 'Adsetts', postList: [], searchedList: []};
   }
 
   componentDidMount() {
@@ -82,62 +75,16 @@ export default class SearchScreen extends Component {
   }
 
   render() {
-    let locations = [
-      {
-        value: 'Harmer',
-      },
-      {
-        value: 'Eric Mensforth',
-      },
-      {
-        value: 'Sheaf',
-      },
-      {
-        value: 'Howard/Surrey',
-      },
-      {
-        value: 'Adsetts',
-      },
-      {
-        value: 'Stoddart',
-      },
-      {
-        value: 'Cantor',
-      },
-      {
-        value: 'Arundel',
-      },
-      {
-        value: 'Oneleven',
-      },
-      {
-        value: 'Charles Street',
-      },
-      {
-        value: 'Sheffield Institute of Arts',
-      },
-      {
-        value: 'Owen',
-      },
-      {
-        value: 'Norfolk',
-      },
-    ];
-
-    //might have to change this to a function in order to use state
-    // const [selectedValue, setSelectedValue] = useState('Harmer');
-
     return (
       <View style={globalStyles.formField}>
         <Picker
           style={globalStyles.formPicker}
           mode="dialog"
           prompt="Search posts by location"
-          // selectedValue={selectedValue}
-          // onValueChange={(itemValue, itemPosition) =>
-          // setSelectedValue(itemValue)
-          // }
-        >
+          selectedValue={this.state.location}
+          onValueChange={(itemValue, itemPosition) =>
+            this.setState({location: itemValue})
+          }>
           <Picker.Item label="Adsetts" value="Adsetts" />
           <Picker.Item label="Arundel" value="Arundel" />
           <Picker.Item label="Cantor" value="Cantor" />
@@ -168,16 +115,11 @@ export default class SearchScreen extends Component {
           <Picker.Item label="Willow Court" value="Willow Court" />
           <Picker.Item label="Woodville" value="Woodville" />
         </Picker>
-        <Dropdown
-          label="Search posts by location"
-          data={locations}
-          onChangeText={location => this.setState({location})}
-          value={this.state.location}
-        />
-        <Button
-          onPress={() => this.onPressSearchHandler(this.state.location)}
-          title="Search"
-        />
+        <TouchableOpacity
+          style={globalStyles.inAppButton}
+          onPress={() => this.onPressSearchHandler(this.state.location)}>
+          <Text style={globalStyles.inAppTouchText}>SEARCH</Text>
+        </TouchableOpacity>
         <FlatList
           keyExtractor={post => post.heading}
           data={this.state.searchedList}

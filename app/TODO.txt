@@ -3,24 +3,16 @@
         -- componentDidUnmount
     }
 
-    Integrate code {
-        -- Maps
-        -- Notifications
-        -- Change password
-        -- Delete account
-        -- T&Cs
+-- Maps - Pearl
+-- Edit & delete post - Pearl
+-- Change own username - Pearl
 
-        -- Edit & delete
+-- Notifications - Steph
+-- T&Cs - Steph
 
-        -- Change own username =Pearl
+-- Change password - Sian
+-- Delete account - Sian
 
-        -- Image with new post = Sian on it
-
-        -- Alter Search so it uses Picker rather than material-dropdown = CONTINUE NEXT
-
-    }
-    
--- Replace hollow heart icon with a filled in heart once favourite clicked
-
-
-this is a change
+-- Search posts get clipped, need to fix - Me
+-- Replace hollow heart icon with a filled in heart once favourite clicked - Me
+-- Seperate model and view code - Me

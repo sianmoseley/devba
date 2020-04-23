@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
+import {Picker} from '@react-native-community/picker';
 import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Picker,
   Switch,
   Text,
   TextInput,

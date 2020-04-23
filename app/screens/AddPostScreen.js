@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
+import {Picker} from '@react-native-community/picker';
 import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Picker,
   Text,
   TextInput,
   TouchableOpacity,
@@ -100,7 +100,7 @@ export default function AddPostScreen({navigation}) {
     }
   }
 
-  const [selectedValue, setSelectedValue] = useState('Harmer');
+  const [selectedValue, setSelectedValue] = useState('Adsetts');
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
