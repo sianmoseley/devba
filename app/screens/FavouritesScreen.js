@@ -3,7 +3,14 @@ import {FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
 
-const Post = ({heading, description, location, createdBy, onPress}) => (
+const Post = ({
+  heading,
+  description,
+  location,
+  createdAt,
+  createdBy,
+  onPress,
+}) => (
   <View style={globalStyles.postContainer}>
     {/* <TouchableOpacity> */}
     <Text style={globalStyles.postText}>
@@ -12,6 +19,8 @@ const Post = ({heading, description, location, createdBy, onPress}) => (
       posted by {createdBy}
       {'\n'}
       {description}
+      {'\n'}
+      {createdAt}
     </Text>
     {/* <View style={globalStyles.iconFlagMargin}>
         <Icon
@@ -64,7 +73,7 @@ export default class SearchScreen extends Component {
         <FlatList
           keyExtractor={post => post.heading}
           //inserts data to be rendered as the array of favourite posts
-          data={this.state.favList}
+          data={this.state.favList.sort(a => a.createdAt.localeCompare())}
           //each item in the array is identified as 'post'
           renderItem={({item: post}) => (
             <Post
@@ -73,6 +82,7 @@ export default class SearchScreen extends Component {
               heading={post.heading}
               description={post.description}
               location={post.location}
+              createdAt={post.createdAt}
               createdBy={post.createdBy}
               image={post.image && {uri: post.image}}
             />

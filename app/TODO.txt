@@ -4,14 +4,25 @@
     }
 
     Me {
-        -- Search posts get clipped, need to fix
         -- Replace hollow heart icon with a filled in heart once favourite clicked
-        -- Seperate model and view code 
-        -- Add comments to all code
+        -- Seperate model code {
+            - ChangePassword
+            - Change Username
+            - Delete Account
+            - Edit Post
+            - Forgot Password
+            - Login
+            - Register
+            - Report Bug
+            - Report Post
+        } 
     }
 
 -- Maps - Pearl
+
 -- Notifications - Steph
 -- T&Cs - Steph
+
+both done, need to integrate
 -- Change password - Sian
 -- Delete account - Sian

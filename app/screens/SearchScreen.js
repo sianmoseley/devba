@@ -83,82 +83,87 @@ export default class SearchScreen extends Component {
 
   render() {
     return (
-      <View style={globalStyles.formField}>
-        <Picker
-          style={globalStyles.formPicker}
-          mode="dialog"
-          prompt="Search posts by location"
-          selectedValue={this.state.location}
-          onValueChange={(itemValue, itemPosition) =>
-            this.setState({location: itemValue})
-          }>
-          <Picker.Item label="Adsetts" value="Adsetts" />
-          <Picker.Item label="Arundel" value="Arundel" />
-          <Picker.Item label="Cantor" value="Cantor" />
-          <Picker.Item label="Charles Street" value="Charles Street" />
-          <Picker.Item label="Chestnut Court" value="Chestnut Court" />
-          <Picker.Item label="Collegiate Hall" value="Collegiate Hall" />
-          <Picker.Item label="Eric Mensforth" value="Eric Mensforth" />
-          <Picker.Item label="Harmer" value="Harmer" />
-          <Picker.Item label="Heart of Campus" value="Heart of Campus" />
-          <Picker.Item label="Howard/Surrey" value="Howard/Surrey" />
-          <Picker.Item label="Library" value="Library" />
-          <Picker.Item label="Main Building" value="Main Building" />
-          <Picker.Item label="The Mews" value="The Mews" />
-          <Picker.Item label="Norfolk" value="Norfolk" />
-          <Picker.Item label="Oneleven" value="Oneleven" />
-          <Picker.Item label="Owen" value="Owen" />
-          <Picker.Item
-            label="Robert Winston Building"
-            value="Robert Winston Building"
-          />
-          <Picker.Item label="Saunders Building" value="Saunders Building" />
-          <Picker.Item
-            label="Sheffield Institute of Arts"
-            value="Sheffield Institute of Arts"
-          />
-          <Picker.Item label="Sheaf" value="Sheaf" />
-          <Picker.Item label="Stoddart" value="Stoddart" />
-          <Picker.Item label="Willow Court" value="Willow Court" />
-          <Picker.Item label="Woodville" value="Woodville" />
-        </Picker>
-        <TouchableOpacity
-          style={globalStyles.inAppButton}
-          onPress={() => this.onPressSearchHandler(this.state.location)}>
-          <Text style={globalStyles.inAppTouchText}>SEARCH</Text>
-        </TouchableOpacity>
-        <FlatList
-          keyExtractor={post => post.heading}
-          data={this.state.searchedList}
-          renderItem={({item: post}) => (
-            <Post
-              key={post.heading}
-              heading={post.heading}
-              description={post.description}
-              location={post.location}
-              createdAt={post.createdAt}
-              createdBy={post.createdBy}
-              report={() =>
-                this.props.navigation.navigate('ReportPostScreen', post)
-              }
-              favourite={() => {
-                const userKey = Firebase.auth().currentUser.uid;
-                const postKey = post.id;
-                const favRef = Firebase.database().ref(
-                  'favourites/' + userKey + '/' + postKey,
-                );
-                favRef.set({
-                  id: postKey,
-                  heading: post.heading,
-                  description: post.description,
-                  location: post.location,
-                  createdAt: post.createdAt,
-                  createdBy: post.createdBy,
-                });
-              }}
+      //added paddingBottom so last post doesn't get clipped
+      <View style={{paddingBottom: 25}}>
+        <View style={globalStyles.formField}>
+          <Picker
+            style={globalStyles.formPicker}
+            mode="dialog"
+            prompt="Search posts by location"
+            selectedValue={this.state.location}
+            onValueChange={(itemValue, itemPosition) =>
+              this.setState({location: itemValue})
+            }>
+            <Picker.Item label="Adsetts" value="Adsetts" />
+            <Picker.Item label="Arundel" value="Arundel" />
+            <Picker.Item label="Cantor" value="Cantor" />
+            <Picker.Item label="Charles Street" value="Charles Street" />
+            <Picker.Item label="Chestnut Court" value="Chestnut Court" />
+            <Picker.Item label="Collegiate Hall" value="Collegiate Hall" />
+            <Picker.Item label="Eric Mensforth" value="Eric Mensforth" />
+            <Picker.Item label="Harmer" value="Harmer" />
+            <Picker.Item label="Heart of Campus" value="Heart of Campus" />
+            <Picker.Item label="Howard/Surrey" value="Howard/Surrey" />
+            <Picker.Item label="Library" value="Library" />
+            <Picker.Item label="Main Building" value="Main Building" />
+            <Picker.Item label="The Mews" value="The Mews" />
+            <Picker.Item label="Norfolk" value="Norfolk" />
+            <Picker.Item label="Oneleven" value="Oneleven" />
+            <Picker.Item label="Owen" value="Owen" />
+            <Picker.Item
+              label="Robert Winston Building"
+              value="Robert Winston Building"
             />
-          )}
-        />
+            <Picker.Item label="Saunders Building" value="Saunders Building" />
+            <Picker.Item
+              label="Sheffield Institute of Arts"
+              value="Sheffield Institute of Arts"
+            />
+            <Picker.Item label="Sheaf" value="Sheaf" />
+            <Picker.Item label="Stoddart" value="Stoddart" />
+            <Picker.Item label="Willow Court" value="Willow Court" />
+            <Picker.Item label="Woodville" value="Woodville" />
+          </Picker>
+          <TouchableOpacity
+            style={globalStyles.inAppButton}
+            onPress={() => this.onPressSearchHandler(this.state.location)}>
+            <Text style={globalStyles.inAppTouchText}>SEARCH</Text>
+          </TouchableOpacity>
+          <FlatList
+            keyExtractor={post => post.heading}
+            data={this.state.searchedList.sort(a =>
+              a.createdAt.localeCompare(),
+            )}
+            renderItem={({item: post}) => (
+              <Post
+                key={post.heading}
+                heading={post.heading}
+                description={post.description}
+                location={post.location}
+                createdAt={post.createdAt}
+                createdBy={post.createdBy}
+                report={() =>
+                  this.props.navigation.navigate('ReportPostScreen', post)
+                }
+                favourite={() => {
+                  const userKey = Firebase.auth().currentUser.uid;
+                  const postKey = post.id;
+                  const favRef = Firebase.database().ref(
+                    'favourites/' + userKey + '/' + postKey,
+                  );
+                  favRef.set({
+                    id: postKey,
+                    heading: post.heading,
+                    description: post.description,
+                    location: post.location,
+                    createdAt: post.createdAt,
+                    createdBy: post.createdBy,
+                  });
+                }}
+              />
+            )}
+          />
+        </View>
       </View>
     );
   }

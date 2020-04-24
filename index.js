@@ -2,7 +2,7 @@
  * @format
  */
 
-//main screen form where the app is loaded
+//main screen from where app is loaded
 
 import {AppRegistry} from 'react-native';
 import devba from './app/App';

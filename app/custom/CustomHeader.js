@@ -19,7 +19,7 @@ export default function DrawerHeader({navigation, title}) {
       </View>
       <Text style={globalStyles.headerText}>{title}</Text>
       <View>
-        {/* Icon is invisible, but is needed so that the header is aligned in the middle */}
+        {/* Icon is invisible and has no onPress, but is needed so that the header is aligned in the middle */}
         <Icon iconStyle={{color: '#2bb76e'}} name="plus" type="feather" />
       </View>
     </View>

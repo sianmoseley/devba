@@ -13,6 +13,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
 import {CustomTextInput} from '../config/CustomForm';
+import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
 
 //client-side validation with yup
@@ -31,14 +32,9 @@ const addPostSchema = yup.object().shape({
     .max(50, "Don't be daft"),
 });
 
-//so username is global
-let Username = '';
-
 //AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
-  //reads today's date in default Javascript
-  const date = new Date();
-  //uuid used to identify path of user info in database
+  //uid used to identify path of user info in database
   const userKey = Firebase.auth().currentUser.uid;
   Firebase.database()
     .ref('users/' + userKey)
@@ -46,64 +42,9 @@ export default function AddPostScreen({navigation}) {
       //set of data in path read as an object
       const user = snapshot.val();
       //extract specific value of username
-      Username = user.username;
+      const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  async function AddPost(values, addComplete) {
-    //creates unique identifier (string of random number, letters and symbols) to be used for new post
-    const key = Firebase.database()
-      .ref('posts')
-      .push().key;
-    //path in realtime-database established
-    try {
-      await Firebase.database()
-        .ref('posts/' + key)
-        //values for each field declared
-        .set({
-          id: key,
-          heading: values.heading,
-          description: values.description,
-          location: values.location,
-          //generates date formatted: DD/MM/YYYY hh:mm
-          createdAt:
-            [date.getDate(), date.getMonth() + 1, date.getFullYear()].join(
-              '/',
-            ) +
-            ' ' +
-            [
-              date.getHours(),
-              (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-            ].join(':'),
-          createdBy: Username,
-        })
-        .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
-      Firebase.database()
-        //same values for post are added to the user_posts table, so every post a user makes is tracked
-        .ref('user_posts/' + userKey + '/' + key)
-        .set({
-          id: key,
-          heading: values.heading,
-          description: values.description,
-          location: values.location,
-          createdAt:
-            [date.getDate(), date.getMonth() + 1, date.getFullYear()].join(
-              '/',
-            ) +
-            ' ' +
-            [
-              date.getHours(),
-              (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-            ].join(':'),
-          createdBy: Username,
-        });
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return addComplete(values);
-    } catch (error) {
-      return console.log(error);
-    }
-  }
 
   //track state for location picker
   const [selectedValue, setSelectedValue] = useState('Adsetts');

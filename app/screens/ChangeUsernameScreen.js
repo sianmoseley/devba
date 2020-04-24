@@ -28,7 +28,7 @@ export default function ChangeUsernameScreen({navigation}) {
   const [Username, setUsername] = useState(currentUsername);
 
   //rewrites username in firebase authentication and database
-  function changeUsername(value) {
+  function ChangeUsername(value) {
     user.updateProfile({displayName: value.username}).then(() => {
       Firebase.database()
         .ref('users/' + userKey)
@@ -48,7 +48,7 @@ export default function ChangeUsernameScreen({navigation}) {
           }}
           enableReinitialize={true}
           onSubmit={values => {
-            changeUsername({
+            ChangeUsername({
               //values in authentication and database changed to newly set Username
               username: Username,
               displayName: Username,
