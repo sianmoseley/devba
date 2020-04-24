@@ -29,26 +29,32 @@ export default class SearchScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //set value of favList as empty array
       favList: [],
     };
   }
 
+  //obtain list of posts favourited by current user
   getFavourites = () => {
     const userKey = Firebase.auth().currentUser.uid;
+    //path reference for current user's favourite posts
     const ref = Firebase.database().ref('favourites/' + userKey);
     ref.on('value', snapshot => {
+      //obtain entire section of database specified in reference as one object
       const favObject = snapshot.val();
       if (!favObject) {
-        return console.warn('No data from firebase');
+        return console.warn('NO DATA FROM FIREBASE', Date(Date.now()));
       } else {
-        console.log('Favourites retrieved!');
+        console.log('FAVOURITES RETRIEVED!', Date(Date.now()));
         const favArray = Object.values(favObject);
+        //assign data to favList array
         this.setState({favList: favArray});
       }
     });
   };
 
   componentDidMount() {
+    //executes function as FavouritesScreen is loaded
     this.getFavourites();
   }
 
@@ -57,9 +63,12 @@ export default class SearchScreen extends Component {
       <View>
         <FlatList
           keyExtractor={post => post.heading}
+          //inserts data to be rendered as the array of favourite posts
           data={this.state.favList}
+          //each item in the array is identified as 'post'
           renderItem={({item: post}) => (
             <Post
+              //specified Post component rendered as item in list with fields from database rendered in their designated sections
               key={post.id}
               heading={post.heading}
               description={post.description}

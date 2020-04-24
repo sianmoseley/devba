@@ -4,6 +4,9 @@ import LogOutStack from './LogoutStack';
 import {firebaseConfig} from '../database/Config';
 import Firebase from 'firebase';
 
+//plugs into App.js
+//initializes firebase database on app start
+
 const AuthContext = createContext(null);
 
 export default function AuthNavigator() {
@@ -28,6 +31,7 @@ export default function AuthNavigator() {
     return null;
   }
 
+  //directs to relevant stack dependant if user is logged in
   return user ? (
     <AuthContext.Provider value={user}>
       <LogInStack />

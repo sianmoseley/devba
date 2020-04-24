@@ -44,13 +44,16 @@ const Post = ({
 export default class SearchScreen extends Component {
   constructor(props) {
     super(props);
+    //sets state for picker and initialzes two empty arrays
     this.state = {location: 'Adsetts', postList: [], searchedList: []};
   }
 
   componentDidMount() {
+    //executes when page loads
     this.getPostData();
   }
 
+  //stores all posts in postList array
   getPostData = () => {
     const ref = Firebase.database().ref('/posts');
     ref.on('value', snapshot => {
@@ -66,6 +69,8 @@ export default class SearchScreen extends Component {
     });
   };
 
+  //executes when search button is pressed
+  //stores all posts with corresponding location in searchedList array
   onPressSearchHandler(location) {
     let searchedListVar = this.state.postList.filter(function(post) {
       return post.location === location;

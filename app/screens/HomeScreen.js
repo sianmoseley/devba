@@ -50,6 +50,7 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //set value of postList variable as an empty array
       postList: [],
       // liked: false, //auto set to false on page load, change to interact with firebase user 'fav'
     };
@@ -66,18 +67,24 @@ export default class HomeScreen extends Component {
   // };
 
   componentDidMount() {
+    //execute function as'HomeScreen' is loaded
     this.getPostData();
   }
 
+  //get post data from firebase database
   getPostData = () => {
+    //path reference for posts table
     const ref = Firebase.database().ref('/posts');
     ref.on('value', snapshot => {
+      //all data for all posts set as one object
       const postsObject = snapshot.val();
       if (!postsObject) {
         console.log('NO DATA IN FIREBASE:', Date(Date.now()));
       } else {
         console.log('HOMESCREEN FIREBASE DATA RETRIEVED:', Date(Date.now()));
+        //object with all post data converted into an array of posts
         const postsArray = Object.values(postsObject);
+        //set value of postList to the array of posts
         this.setState({postList: postsArray});
       }
     });
@@ -95,10 +102,10 @@ export default class HomeScreen extends Component {
           onPress={this.handleOnPressLike}
         /> */}
         <FlatList
-          //inverted={true}
-          // initialScrollIndex={}
+          //data for list specified as the list of posts
           keyExtractor={post => post.id}
-          data={this.state.postList}
+          //posts sorted by newest to oldest
+          data={this.state.postList.sort(a => a.createdAt.localeCompare())}
           renderItem={({item: post}) => (
             <View>
               <Post
@@ -109,9 +116,11 @@ export default class HomeScreen extends Component {
                 createdAt={post.createdAt}
                 createdBy={post.createdBy}
                 uri={{uri: post.uri}}
+                //when report icon pressed, navigates user to ReportPostScreen
                 report={() =>
                   this.props.navigation.navigate('ReportPostScreen', post)
                 }
+                //when the favourite icon pressed, function executes
                 favourite={() => {
                   const userKey = Firebase.auth().currentUser.uid;
                   const postKey = post.id;

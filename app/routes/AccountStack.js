@@ -8,6 +8,9 @@ import ChangeUsernameScreen from '../screens/ChangeUsernameScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
 
+//plugs into RootStack
+//directs to AccountScreen
+
 const Stack = createStackNavigator();
 
 export default function AccountStack() {

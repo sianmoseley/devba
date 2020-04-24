@@ -11,8 +11,8 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {authenticationStyles, globalStyles} from '../config/Styles';
+// import {CustomTextInput} from '../config/CustomForm';
 import Firebase from 'firebase';
-// import {CustomTextInput} from '../custom/CustomFormik';
 
 const FieldWrapper = ({children, label, formikProps, formikKey}) => (
   <View>

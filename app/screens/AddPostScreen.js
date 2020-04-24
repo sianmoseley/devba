@@ -5,7 +5,6 @@ import {
   Alert,
   Keyboard,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -13,29 +12,8 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput} from '../config/CustomForm';
 import Firebase from 'firebase';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -56,38 +34,51 @@ const addPostSchema = yup.object().shape({
 //so username is global
 let Username = '';
 
+//AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
+  //reads today's date in default Javascript
   const date = new Date();
+  //uuid used to identify path of user info in database
   const userKey = Firebase.auth().currentUser.uid;
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
+      //set of data in path read as an object
       const user = snapshot.val();
+      //extract specific value of username
       Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
   async function AddPost(values, addComplete) {
+    //creates unique identifier (string of random number, letters and symbols) to be used for new post
     const key = Firebase.database()
       .ref('posts')
       .push().key;
+    //path in realtime-database established
     try {
       await Firebase.database()
         .ref('posts/' + key)
+        //values for each field declared
         .set({
           id: key,
           heading: values.heading,
           description: values.description,
           location: values.location,
+          //generates date formatted: DD/MM/YYYY hh:mm
           createdAt:
             [date.getDate(), date.getMonth() + 1, date.getFullYear()].join(
               '/',
             ) +
             ' ' +
-            [date.getHours(), date.getMinutes()].join(':'),
+            [
+              date.getHours(),
+              (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+            ].join(':'),
           createdBy: Username,
         })
         .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
       Firebase.database()
+        //same values for post are added to the user_posts table, so every post a user makes is tracked
         .ref('user_posts/' + userKey + '/' + key)
         .set({
           id: key,
@@ -99,7 +90,10 @@ export default function AddPostScreen({navigation}) {
               '/',
             ) +
             ' ' +
-            [date.getHours(), date.getMinutes()].join(':'),
+            [
+              date.getHours(),
+              (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+            ].join(':'),
           createdBy: Username,
         });
       const snapshot = undefined;
@@ -111,17 +105,22 @@ export default function AddPostScreen({navigation}) {
     }
   }
 
+  //track state for location picker
   const [selectedValue, setSelectedValue] = useState('Adsetts');
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
+      //dismisses keyboard when pressing on screen
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <View>
+      {/* flex forces content to fit to size of screen */}
+      <View style={{flex: 1}}>
         <Formik
           initialValues={{heading: '', description: ''}}
           onSubmit={(values, actions) => {
+            //code executes when the Submit button is pressed
+            //alert confrims to user their post has been accepted and posted
             Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
               {
                 text: 'OK',
@@ -133,6 +132,7 @@ export default function AddPostScreen({navigation}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
+            //AddPost function called
             AddPost({
               heading: values.heading,
               description: values.description,
@@ -143,6 +143,7 @@ export default function AddPostScreen({navigation}) {
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
+                {/* custom inputs */}
                 <CustomTextInput
                   label="Heading:"
                   formikProps={formikProps}
@@ -204,6 +205,7 @@ export default function AddPostScreen({navigation}) {
                   <Picker.Item label="Willow Court" value="Willow Court" />
                   <Picker.Item label="Woodville" value="Woodville" />
                 </Picker>
+                {/* renders activity indicator when button is pressed */}
                 <View style={globalStyles.submitButtonContainer}>
                   {formikProps.isSubmitting ? (
                     <ActivityIndicator size="large" color="#2bb76e" />
@@ -211,6 +213,7 @@ export default function AddPostScreen({navigation}) {
                     <View>
                       <TouchableOpacity
                         style={globalStyles.inAppButton}
+                        //handles from submission
                         onPress={formikProps.handleSubmit}>
                         <Text style={globalStyles.inAppTouchText}>
                           Post your leftovers!

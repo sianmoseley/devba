@@ -4,50 +4,16 @@ import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput, CustomSwitch} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import Firebase from 'firebase';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
-const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
-  <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-    <Switch
-      value={formikProps.values[formikKey]}
-      onValueChange={value => {
-        formikProps.setFieldValue(formikKey, value);
-      }}
-      {...rest}
-    />
-  </FieldWrapper>
-);
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({
@@ -68,6 +34,7 @@ let Username = '';
 
 export default function ReportBugScreen({navigation}) {
   const userKey = Firebase.auth().currentUser.uid;
+  //references firebase to grab current user username
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
@@ -75,6 +42,7 @@ export default function ReportBugScreen({navigation}) {
       Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
+  //executes when submission is called
   async function SubmitBug(values, submitComplete) {
     const key = Firebase.database()
       .ref('bugReports')
@@ -83,6 +51,7 @@ export default function ReportBugScreen({navigation}) {
       await Firebase.database()
         .ref('bugReports/' + key)
         .set({
+          //stores data in firebase
           bugDescription: values.bugDescription,
           bugId: key,
           bugType: values.bugType,
@@ -99,8 +68,10 @@ export default function ReportBugScreen({navigation}) {
     }
   }
 
+  //set state for form picker
   const [selectedValue, setSelectedValue] = useState('crash');
   return (
+    //dimiss keyboard when user clicks elsewhere
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
       onPress={() => {
@@ -108,6 +79,7 @@ export default function ReportBugScreen({navigation}) {
       }}>
       <View>
         <Formik
+          //sets initial values for form
           initialValues={{bugDescription: '', agreeToTerms: false}}
           onSubmit={(values, actions) => {
             Alert.alert('The bug has been logged for review.', 'Thank you.', [
@@ -126,6 +98,7 @@ export default function ReportBugScreen({navigation}) {
               bugType: selectedValue,
             });
           }}
+          //runs yup validation
           validationSchema={reportSchema}>
           {formikProps => (
             <React.Fragment>
@@ -135,6 +108,7 @@ export default function ReportBugScreen({navigation}) {
                   style={globalStyles.formPicker}
                   mode="dialog"
                   prompt="Select an option"
+                  //interacts with state set prior
                   selectedValue={selectedValue}
                   onValueChange={(itemValue, itemPosition) =>
                     setSelectedValue(itemValue)
@@ -154,6 +128,7 @@ export default function ReportBugScreen({navigation}) {
                   />
                   <Picker.Item label="Other" value="other" />
                 </Picker>
+                {/* custom fields */}
                 <CustomTextInput
                   label="Description of the bug:"
                   formikProps={formikProps}

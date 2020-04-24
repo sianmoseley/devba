@@ -11,15 +11,23 @@ import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {Formik} from 'formik';
+import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
 
-export default function ChangeUsernameScreen({navigation}) {
-  const user = Firebase.auth().currentUser;
-  const userKey = Firebase.auth().currentUser.uid;
-  const currentUsername = Firebase.auth().currentUser.displayName;
-  const [Username, setUsername] = useState(currentUsername);
-  // console.log(currentUsername);
+//client-side validation with yup
+// const changeUsernameSchema = yup.object().shape({});
 
+export default function ChangeUsernameScreen({navigation}) {
+  //obtain the user and username of logged in user as objects
+  const user = Firebase.auth().currentUser;
+  const currentUsername = Firebase.auth().currentUser.displayName;
+
+  const userKey = Firebase.auth().currentUser.uid;
+
+  //create state for username variable that will be changed as the existing username
+  const [Username, setUsername] = useState(currentUsername);
+
+  //rewrites username in firebase authentication and database
   function changeUsername(value) {
     user.updateProfile({displayName: value.username}).then(() => {
       Firebase.database()
@@ -41,6 +49,7 @@ export default function ChangeUsernameScreen({navigation}) {
           enableReinitialize={true}
           onSubmit={values => {
             changeUsername({
+              //values in authentication and database changed to newly set Username
               username: Username,
               displayName: Username,
             });
@@ -51,14 +60,16 @@ export default function ChangeUsernameScreen({navigation}) {
               },
             ]);
             console.log(Username);
-          }}>
+          }}
+          // validationSchema={changeUsernameSchema}
+        >
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
                 <Text style={globalStyles.formLabel}>Username:</Text>
-
                 <TextInput
                   style={globalStyles.inputBox}
+                  //variable Username will be set to whatever is typed into this text input
                   onChangeText={text => setUsername(text)}
                   value={Username}
                 />

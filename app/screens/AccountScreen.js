@@ -3,7 +3,10 @@ import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
 
+//page with various navigation options
+
 export default function AccountScreen({navigation}) {
+  //executes when user presses Logout button
   function LogOut() {
     try {
       Firebase.auth().signOut();
@@ -39,6 +42,7 @@ export default function AccountScreen({navigation}) {
         <TouchableOpacity
           style={globalStyles.accountButton}
           onPress={() => {
+            //alerst user to confirm if they want to logout
             Alert.alert(
               'Are you sure you wish to log out?',
               'You can always log back in.',

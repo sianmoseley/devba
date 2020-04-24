@@ -48,11 +48,13 @@ export default class ViewPostsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //sets empty array
       userPostList: [],
     };
   }
 
   componentDidMount() {
+    //executes function on page load
     this.getUserPosts();
   }
 
@@ -60,13 +62,16 @@ export default class ViewPostsScreen extends Component {
     const userKey = Firebase.auth().currentUser.uid;
     const ref = Firebase.database().ref('user_posts/' + userKey);
     ref.on('value', snapshot => {
+      //obtain entire section of database specified in reference as one object
       const postObject = snapshot.val();
       if (!postObject) {
         console.log('USER HAS NO POSTS', Date(Date.now()));
         this.setState({userPostList: null});
       } else {
         console.log('USER POSTS RETRIEVED!', Date(Date.now()));
+        //converts data object of all the posts into an array of the posts
         const postsArray = Object.values(postObject);
+        //set variable userPostList to the array of posts
         this.setState({userPostList: postsArray});
       }
     });
@@ -93,6 +98,7 @@ export default class ViewPostsScreen extends Component {
             data={this.state.userPostList}
             renderItem={({item: post}) => (
               <Post
+                //individual posts made by the logged in user rendered
                 key={post.id}
                 heading={post.heading}
                 description={post.description}

@@ -4,37 +4,15 @@ import {
   Alert,
   Keyboard,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import Firebase from 'firebase';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
 
 //client-side validation with yup
 const changePasswordSchema = yup.object().shape({
@@ -93,7 +71,8 @@ export default class ChangePasswordScreen extends Component {
         onPress={() => {
           Keyboard.dismiss();
         }}>
-        <View>
+        {/* flex forces content to fit to size of screen */}
+        <View style={{flex: 1}}>
           <Formik
             initialValues={{
               currentPassword: '',
