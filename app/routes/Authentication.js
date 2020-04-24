@@ -1,7 +1,7 @@
 import React, {useState, useEffect, createContext} from 'react';
 import LogInStack from './LoginStack';
 import LogOutStack from './LogoutStack';
-import {firebaseConfig} from '../database/Config';
+import {firebaseConfig} from '../database/Firebase';
 import Firebase from 'firebase';
 
 //plugs into App.js

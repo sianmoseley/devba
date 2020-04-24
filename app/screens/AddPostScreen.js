@@ -34,8 +34,9 @@ const addPostSchema = yup.object().shape({
 
 //AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
-  //uid used to identify path of user info in database
+  //uid used to identify path of user
   const userKey = Firebase.auth().currentUser.uid;
+  //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {

@@ -1,11 +1,18 @@
 import Firebase from 'firebase';
 
-//so username is global
+//global variable
 let Username = '';
 
 export default async function AddPost(values, addComplete) {
   //uid used to identify path of user info in database
   const userKey = Firebase.auth().currentUser.uid;
+  //reads today's date in default Javascript
+  const date = new Date();
+  //creates unique identifier to be used for new post
+  const key = Firebase.database()
+    //path in realtime-database established
+    .ref('posts')
+    .push().key;
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
@@ -14,13 +21,6 @@ export default async function AddPost(values, addComplete) {
       //extract specific value of username
       Username = user.username;
     });
-  //reads today's date in default Javascript
-  const date = new Date();
-  //creates unique identifier to be used for new post
-  const key = Firebase.database()
-    //path in realtime-database established
-    .ref('posts')
-    .push().key;
   try {
     await Firebase.database()
       .ref('posts/' + key)

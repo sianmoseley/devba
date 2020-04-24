@@ -13,6 +13,7 @@ import {globalStyles} from '../config/Styles';
 import {CustomTextInput, CustomSwitch} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import ReportPost from '../database/ReportPost';
 import Firebase from 'firebase';
 
 //client-side validation with yup
@@ -29,45 +30,18 @@ const reportSchema = yup.object().shape({
     .test('is-true', 'Terms must be agreed upon.', value => value === true),
 });
 
-//so username is global
-let Username = '';
-
 export default function ReportPostScreen({navigation, route}) {
+  //uid used to identify path of user
   const userKey = Firebase.auth().currentUser.uid;
   //references firebase to grab current user username
+  //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
       const user = snapshot.val();
-      Username = user.username;
+      const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  //executes when submission is called
-  async function SubmitPost(values, submitComplete) {
-    const key = Firebase.database()
-      .ref('postReports')
-      .push().key;
-    try {
-      await Firebase.database()
-        .ref('postReports/' + key)
-        .set({
-          //stores data in firebase
-          postId: values.postId,
-          reportDescription: values.reportDescription,
-          reportId: key,
-          reportTimeStamp: Date(Date.now()),
-          reportType: values.reportType,
-          submittedBy: Username,
-        })
-        .then(console.log('POST REPORTED SUCCESSFULLY', Date(Date.now())));
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return submitComplete(values);
-    } catch (error) {
-      return console.log(error);
-    }
-  }
 
   //stores id of post pressed on prior screen
   const {id} = route.params;
@@ -104,7 +78,7 @@ export default function ReportPostScreen({navigation, route}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
-            SubmitPost({
+            ReportPost({
               postId: id,
               reportDescription: values.reportDescription,
               reportType: selectedValue,

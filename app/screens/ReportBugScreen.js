@@ -13,6 +13,7 @@ import {globalStyles} from '../config/Styles';
 import {CustomTextInput, CustomSwitch} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import ReportBug from '../database/ReportBug';
 import Firebase from 'firebase';
 
 //client-side validation with yup
@@ -42,31 +43,30 @@ export default function ReportBugScreen({navigation}) {
       Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  //executes when submission is called
-  async function SubmitBug(values, submitComplete) {
-    const key = Firebase.database()
-      .ref('bugReports')
-      .push().key;
-    try {
-      await Firebase.database()
-        .ref('bugReports/' + key)
-        .set({
-          //stores data in firebase
-          bugDescription: values.bugDescription,
-          bugId: key,
-          bugType: values.bugType,
-          reportTimeStamp: Date(Date.now()),
-          submittedBy: Username,
-        })
-        .then(console.log('BUG REPORTED SUCCESSFULLY', Date(Date.now())));
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return submitComplete(values);
-    } catch (error) {
-      return console.log(error);
-    }
-  }
+  // async function SubmitBug(values, submitComplete) {
+  //   const key = Firebase.database()
+  //     .ref('bugReports')
+  //     .push().key;
+  //   try {
+  //     await Firebase.database()
+  //       .ref('bugReports/' + key)
+  //       .set({
+  //         //stores data in firebase
+  //         bugDescription: values.bugDescription,
+  //         bugId: key,
+  //         bugType: values.bugType,
+  //         reportTimeStamp: Date(Date.now()),
+  //         submittedBy: Username,
+  //       })
+  //       .then(console.log('BUG REPORTED SUCCESSFULLY', Date(Date.now())));
+  //     const snapshot = undefined;
+  //     values.Id = snapshot.Id;
+  //     snapshot.set(values);
+  //     return submitComplete(values);
+  //   } catch (error) {
+  //     return console.log(error);
+  //   }
+  // }
 
   //set state for form picker
   const [selectedValue, setSelectedValue] = useState('crash');
@@ -93,7 +93,7 @@ export default function ReportBugScreen({navigation}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
-            SubmitBug({
+            ReportBug({
               bugDescription: values.bugDescription,
               bugType: selectedValue,
             });
