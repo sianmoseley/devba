@@ -16,5 +16,5 @@ export default async function SubmitLogin(values) {
       }
       console.log(error);
     });
-  console.log('USER LOGGED IN SUCCESSFULLY', Date(Date.now()));
+  console.log('USER LOGGED IN SUCCESSFULLY:', Date(Date.now()));
 }

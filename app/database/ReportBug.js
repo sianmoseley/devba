@@ -37,7 +37,7 @@ export default async function ReportBug(values, submitComplete) {
           ].join(':'),
         submittedBy: Username,
       })
-      .then(console.log('BUG REPORTED SUCCESSFULLY', Date(Date.now())));
+      .then(console.log('BUG REPORTED SUCCESSFULLY:', Date(Date.now())));
     const snapshot = undefined;
     values.Id = snapshot.Id;
     snapshot.set(values);

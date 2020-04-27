@@ -11,8 +11,8 @@ import {
   View,
 } from 'react-native';
 import {Formik} from 'formik';
-import Firebase from 'firebase';
 import * as yup from 'yup';
+import Firebase from 'firebase';
 import 'firebase/database';
 import ImagePicker from 'react-native-image-picker';
 import {globalStyles} from '../config/Styles';

@@ -38,7 +38,7 @@ export default async function ReportPost(values, submitComplete) {
         reportType: values.reportType,
         submittedBy: Username,
       })
-      .then(console.log('POST REPORTED SUCCESSFULLY', Date(Date.now())));
+      .then(console.log('POST REPORTED SUCCESSFULLY:', Date(Date.now())));
     const snapshot = undefined;
     values.Id = snapshot.Id;
     snapshot.set(values);

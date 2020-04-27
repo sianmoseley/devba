@@ -40,7 +40,7 @@ export default async function AddPost(values, addComplete) {
           ].join(':'),
         createdBy: Username,
       })
-      .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
+      .then(console.log('POST ADDED SUCCESSFULLY:', Date(Date.now())));
     Firebase.database()
       //same values for post are added to the user_posts table, so every post a user makes is tracked
       .ref('user_posts/' + userKey + '/' + key)
