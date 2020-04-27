@@ -74,6 +74,15 @@ export default function AddPostScreen({navigation}) {
 ///////////////// IMAGE PICKER CODE - SIAN
 
     const [Uri, setUri] = useState('');
+    const [Filename, setFilename] = useState('');
+
+////////////////  EXTRACTS FILE NAME FROM USER SELECTED IMAGE - SIAN  
+
+    const createStorageReferenceToFile = response => {
+      const fileName = (response.fileName);
+      setFilename(fileName);
+      return fileName;
+    }
 
     const selectImage = () => {
       const options = {
@@ -88,8 +97,8 @@ export default function AddPostScreen({navigation}) {
           console.log('User tapped custom button: ', response.customButton)
         } else {
           const source = (response.uri)
-          console.log(source)
           setUri(source)
+          console.log('My file storage reference is: ', createStorageReferenceToFile(response));
         }
       })
     }
