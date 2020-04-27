@@ -7,9 +7,7 @@
         -- Replace hollow heart icon with a filled in heart once favourite clicked
 
         -- Seperate model code {
-            - Change Password
             - Change Username
-            - Delete Account
             - Edit Post
         } 
     }
@@ -18,7 +16,3 @@
 
 -- Notifications - Steph
 -- T&Cs - Steph
-
-both done, need to integrate
--- Change password - Sian
--- Delete account - Sian

@@ -12,7 +12,7 @@ import {globalStyles} from '../config/Styles';
 import {CustomTextInput} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import Firebase from 'firebase';
+import DeleteUser from '../database/DeleteAccount';
 
 //client-side validation with yup
 const deleteAccountSchema = yup.object().shape({
@@ -26,31 +26,6 @@ const deleteAccountSchema = yup.object().shape({
     .label('Password')
     .required('Please enter your current password'),
 });
-
-// reauthenticate = password => {
-//   const user = Firebase.auth().currentUser;
-//   const cred = Firebase.auth.EmailAuthProvider.credential(user.email, password);
-//   return user.reauthenticateWithCredential(cred);
-// };
-
-// DeleteUser = values => {
-//   reauthenticate(values.password)
-//     .then(() => {
-//       const user = Firebase.auth().currentUser;
-//       user
-//         .delete()
-//         .then(() => {
-//           console.log('Account deleted');
-//           Alert.alert('Account deleted');
-//         })
-//         .catch(error => {
-//           Alert.alert(error.message);
-//         });
-//     })
-//     .catch(error => {
-//       Alert.alert(error.message);
-//     });
-// };
 
 export default class ChangePasswordScreen extends Component {
   render() {
@@ -69,6 +44,12 @@ export default class ChangePasswordScreen extends Component {
               setTimeout(() => {
                 actions.setSubmitting(false);
               }, 1000);
+              Keyboard.dismiss();
+              Alert.alert('You deleted your account.', ':(', [
+                {
+                  text: 'OK',
+                },
+              ]);
             }}
             validationSchema={deleteAccountSchema}>
             {formikProps => (

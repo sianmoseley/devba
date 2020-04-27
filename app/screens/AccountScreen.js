@@ -13,7 +13,7 @@ export default function AccountScreen({navigation}) {
     } catch (e) {
       console.error(e);
     }
-    console.log('User logged out successfully.');
+    console.log('USER LOGGED OUT SUCCESSFULLY:', Date(Date.now()));
   }
 
   return (

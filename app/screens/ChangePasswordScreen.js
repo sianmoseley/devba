@@ -12,7 +12,7 @@ import {globalStyles} from '../config/Styles';
 import {CustomTextInput} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import Firebase from 'firebase';
+import ChangePassword from '../database/ChangePassword';
 
 //client-side validation with yup
 const changePasswordSchema = yup.object().shape({
@@ -34,34 +34,6 @@ const changePasswordSchema = yup.object().shape({
       return this.parent.newPassword === value;
     }),
 });
-
-// reauthenticate = currentPassword => {
-//   const user = Firebase.auth().currentUser;
-//   const cred = Firebase.auth.EmailAuthProvider.credential(
-//     user.email,
-//     currentPassword,
-//   );
-//   return user.reauthenticateWithCredential(cred);
-// };
-
-// ChangePassword = values => {
-//   reauthenticate(values.currentPassword)
-//     .then(() => {
-//       const user = Firebase.auth().currentUser;
-//       user
-//         .updatePassword(values.newPassword)
-//         .then(() => {
-//           console.log('User password successfully changed.');
-//           Alert.alert('Password was changed');
-//         })
-//         .catch(error => {
-//           Alert.alert(error.message);
-//         });
-//     })
-//     .catch(error => {
-//       Alert.alert(error.message);
-//     });
-// };
 
 export default class ChangePasswordScreen extends Component {
   render() {
@@ -85,6 +57,17 @@ export default class ChangePasswordScreen extends Component {
               setTimeout(() => {
                 actions.setSubmitting(false);
               }, 1000);
+              Keyboard.dismiss();
+              Alert.alert(
+                'Your password was changed successfully.',
+                'Thank you!',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => this.props.navigation.navigate('HomeScreen'),
+                  },
+                ],
+              );
             }}
             validationSchema={changePasswordSchema}>
             {formikProps => (
