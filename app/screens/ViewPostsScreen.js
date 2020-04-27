@@ -84,10 +84,10 @@ export default class ViewPostsScreen extends Component {
           <View>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={globalStyles.logo}
-                source={require('../images/burger.png')}
+                style={{width: '69%', height: '60%'}}
+                source={require('../images/bigapp.png')}
               />
-              <Text style={{fontSize: 16}}>
+              <Text style={{fontSize: 16, marginTop: 90}}>
                 You've not listed any of your leftovers yet!
               </Text>
             </View>

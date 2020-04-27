@@ -3,14 +3,23 @@ import {StyleSheet, Dimensions} from 'react-native';
 export const authenticationStyles = StyleSheet.create({
   authContainer: {
     backgroundColor: '#2bb76e',
-    flex: 1,
+    // flex: 1,
     padding: 10,
-    paddingBottom: 15,
+    paddingBottom: 20,
+    height: '100%',
+    width: '100%',
   },
   authError: {
     color: 'red',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  authInput: {
+    height: 40,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    marginBottom: 2,
+    color: 'black',
+    paddingHorizontal: 10,
   },
   authLabel: {
     marginBottom: 3,
@@ -122,20 +131,24 @@ export const globalStyles = StyleSheet.create({
     padding: 5,
     paddingLeft: 0,
   },
-  logo: {
-    width: 220,
-    height: 220,
-  },
   logoContainer: {
     alignItems: 'center',
-    flexGrow: 1,
     justifyContent: 'center',
+    flexGrow: 1,
     padding: 10,
   },
+  logoLoginContainer: {
+    alignItems: 'center',
+    // backgroundColor: 'black',
+    justifyContent: 'center',
+    marginHorizontal: 68,
+    marginVertical: 0,
+  },
   logoTag: {
+    // backgroundColor: 'red',
     color: 'white',
     fontSize: 16,
-    marginTop: -20,
+    marginTop: -7,
     textAlign: 'center',
   },
   postContainer: {

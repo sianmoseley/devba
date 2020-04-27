@@ -7,13 +7,10 @@
         -- Replace hollow heart icon with a filled in heart once favourite clicked
 
         -- Seperate model code {
-            - ChangePassword
+            - Change Password
             - Change Username
             - Delete Account
             - Edit Post
-            - Forgot Password
-            - Login
-            - Register
         } 
     }
 

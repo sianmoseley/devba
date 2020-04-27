@@ -12,7 +12,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {authenticationStyles, globalStyles} from '../config/Styles';
 // import {CustomTextInput} from '../config/CustomForm';
-import Firebase from 'firebase';
+import ResetPassword from '../database/ForgotPassword';
 
 const FieldWrapper = ({children, label, formikProps, formikKey}) => (
   <View>
@@ -53,23 +53,6 @@ const passwordSchema = yup.object().shape({
     .email('Enter a valid email')
     .required('Please enter a registered email'),
 });
-
-ResetPassword = (values, navigation) => {
-  Firebase.auth()
-    .sendPasswordResetEmail(values.email)
-    .then(() => navigation.navigate('Login'))
-    .catch(function(error) {
-      //handle errors here
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (errorCode == 'auth/invalid-email') {
-        alert('Email address is not valid');
-      } else {
-        alert(errorMessage);
-      }
-      console.log(error);
-    });
-};
 
 export default class ForgotPassword extends Component {
   render() {

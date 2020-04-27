@@ -8,12 +8,12 @@ export default function AboutScreen() {
   return (
     <View style={globalStyles.logoContainer}>
       <Image
-        style={globalStyles.logo}
-        source={require('../images/bigapp.jpeg')}
+        style={{width: '69%', height: '40%'}}
+        source={require('../images/bigapp.png')}
       />
       <View style={{padding: 25}}>
         <Text style={globalStyles.aboutText}>
-          Big APPetite reduces food waste and feeds students on a budget by
+          big APPetite reduces food waste and feeds students on a budget by
           advertising when free food is available on campus.
           {'\n\n'}
           It was created in 2020 by student developers at Sheffield Hallam
