@@ -12,7 +12,7 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {authenticationStyles, globalStyles} from '../config/Styles';
-// import {CustomTextInput} from '../config/CustomForm';
+// import {CustomTextInput} from '../config/Variables';
 import SubmitRegister from '../database/Register';
 
 const FieldWrapper = ({children, label, formikProps, formikKey}) => (

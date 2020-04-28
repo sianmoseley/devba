@@ -19,9 +19,8 @@ import {userPostRef} from '../config/Variables';
 import {globalStyles} from '../config/Styles';
 
 export default function EditPostScreen({navigation, route}) {
-  //field values for the individual post that has been clicked passed through navigation props
+  //obtain id of post from last screen
   const post = route.params;
-  //obtain id of post which is stored as a field and the path reference
   const postKey = post.id;
   //obtain URL path reference in database for the chosen post
   const ref = Firebase.database().ref('posts/' + postKey);

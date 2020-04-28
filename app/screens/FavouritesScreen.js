@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
+import {Image, FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
-import {userKey, Post} from '../config/Variables';
+import {globalStyles} from '../config/Styles';
+import {Post, userKey} from '../config/Variables';
 
 export default class FavouritesScreen extends Component {
   constructor(props) {
@@ -10,6 +11,11 @@ export default class FavouritesScreen extends Component {
       //set value of favList as empty array
       favList: [],
     };
+  }
+
+  componentDidMount() {
+    //executes on page load
+    this.getFavourites();
   }
 
   //function to obtain list of posts favourited by the logged in user
@@ -30,38 +36,47 @@ export default class FavouritesScreen extends Component {
     });
   };
 
-  componentDidMount() {
-    //executes function as FavouritesScreen is loaded
-    this.getFavourites();
-  }
-
   render() {
     return (
       <View>
-        <FlatList
-          keyExtractor={post => post.id}
-          //inserts data to be rendered as the array of favourite posts
-          data={this.state.favList.sort(a => a.createdAt.localeCompare())}
-          //each item in the array is identified as 'post'
-          renderItem={({item: post}) => (
-            <Post
-              //specified Post component rendered as item in list with fields from database rendered in their designated sections
-              key={post.id}
-              heading={post.heading}
-              description={post.description}
-              location={post.location}
-              createdAt={post.createdAt}
-              createdBy={post.createdBy}
-              uri={{uri: post.uri}}
-              onPress={() => {
-                const postKey = post.id;
-                Firebase.database()
-                  .ref('favourites/' + userKey + '/' + postKey)
-                  .remove();
-              }}
-            />
-          )}
-        />
+        {!this.state.favList ? (
+          <View>
+            <View style={globalStyles.logoContainer}>
+              <Image
+                style={{width: '69%', height: '60%'}}
+                source={require('../images/bigapp.png')}
+              />
+              <Text style={{fontSize: 16, marginTop: 90}}>
+                You've not 'hearted' any posts yet!
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <FlatList
+            keyExtractor={post => post.id}
+            //inserts data to be rendered as the array of favourite posts
+            data={this.state.favList.sort(a => a.createdAt.localeCompare())}
+            //each item in the array is identified as 'post'
+            renderItem={({item: post}) => (
+              <Post
+                //specified Post component rendered as item in list with fields from database rendered in their designated sections
+                key={post.id}
+                heading={post.heading}
+                description={post.description}
+                location={post.location}
+                createdAt={post.createdAt}
+                createdBy={post.createdBy}
+                uri={{uri: post.uri}}
+                onPress={() => {
+                  const postKey = post.id;
+                  Firebase.database()
+                    .ref('favourites/' + userKey + '/' + postKey)
+                    .remove();
+                }}
+              />
+            )}
+          />
+        )}
       </View>
     );
   }

@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/CustomForm';
+import {CustomTextInput} from '../config/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ChangePassword from '../database/ChangePassword';

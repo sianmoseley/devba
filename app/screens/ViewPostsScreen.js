@@ -1,17 +1,10 @@
 import React, {Component} from 'react';
-import {
-  Icon,
-  Image,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, FlatList, Text, View} from 'react-native';
 // import Firebase from 'firebase';
 // import 'firebase/database';
 // import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
-import {Post, userPostRef} from '../config/ReusableVariables';
+import {Post, userPostRef} from '../config/Variables';
 
 export default class ViewPostsScreen extends Component {
   constructor(props) {
@@ -23,7 +16,7 @@ export default class ViewPostsScreen extends Component {
   }
 
   componentDidMount() {
-    //executes function on page load
+    //executes on page load
     this.getUserPosts();
   }
 
