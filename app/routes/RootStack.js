@@ -7,6 +7,9 @@ import ContactStack from './ContactStack';
 import ReportBugStack from './ReportBugStack';
 import TCStack from './TCStack';
 
+//holds Drawer Navigation at the 'root'
+//directs to TabNav
+
 const Drawer = createDrawerNavigator();
 
 export default function RootStack() {
@@ -15,6 +18,7 @@ export default function RootStack() {
       drawerType="back"
       initialRouteName="HomeStack"
       drawerContentOptions={{
+        //options for colour when drawer is open
         activeTintColor: 'white',
         inactiveTintColor: '#2bb76e',
         activeBackgroundColor: '#2bb76e',

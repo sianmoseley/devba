@@ -1,19 +1,33 @@
 import React from 'react';
-import {Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
+import {
+  Image,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/database';
 import {globalStyles} from './Styles';
 
+//reads today's date in default Javascript
+export const date = new Date();
+//current user ID
+export const userKey = Firebase.auth().currentUser.uid;
+//reference of current user posts
+export const userPostRef = Firebase.database().ref('user_posts/' + userKey);
+
 //constant component for posts
 export const Post = ({
-  heading,
-  description,
-  location,
-  createdBy,
   createdAt,
-  uri,
+  createdBy,
+  description,
+  heading,
+  location,
   onPress,
+  uri,
 }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={globalStyles.postContainer}>
@@ -31,12 +45,8 @@ export const Post = ({
   </TouchableOpacity>
 );
 
-//unique user id of the logged in user
-export const userKey = Firebase.auth().currentUser.uid;
-
-//database reference for all posts created by logged in user
-export const userPostRef = Firebase.database().ref('user_posts/' + userKey);
-
+//variables for custom text input and switches
+//works with formik and yup for user authentication
 const FieldWrapper = ({children, label, formikProps, formikKey}) => (
   <View>
     <Text style={globalStyles.formLabel}>{label}</Text>
@@ -46,7 +56,6 @@ const FieldWrapper = ({children, label, formikProps, formikKey}) => (
     </Text>
   </View>
 );
-
 export const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
   return (
     <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
@@ -59,3 +68,14 @@ export const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
     </FieldWrapper>
   );
 };
+export const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
+  <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
+    <Switch
+      value={formikProps.values[formikKey]}
+      onValueChange={value => {
+        formikProps.setFieldValue(formikKey, value);
+      }}
+      {...rest}
+    />
+  </FieldWrapper>
+);

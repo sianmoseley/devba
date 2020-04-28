@@ -1,12 +1,24 @@
 import React, {useState} from 'react';
-import {TextInput, View, Button, StyleSheet} from 'react-native';
+import {
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {Formik} from 'formik';
-import {userKey} from '../config/ReusableVariables';
+import {userKey} from '../config/Variables';
+import * as yup from 'yup';
+import {globalStyles} from '../config/Styles';
 
-export default function ChangeUsername() {
+//client-side validation with yup
+// const changeUsernameSchema = yup.object().shape({});
+
+export default function ChangeUsernameScreen({navigation}) {
   //obtain the user and username of logged in user as objects
   const user = Firebase.auth().currentUser;
   const currentUsername = Firebase.auth().currentUser.displayName;
@@ -15,7 +27,7 @@ export default function ChangeUsername() {
   const [Username, setUsername] = useState(currentUsername);
 
   //function that rewrites username in firebase authentication and database
-  function changeUsername(value) {
+  function ChangeUsername(value) {
     user.updateProfile({displayName: value.username}).then(() => {
       Firebase.database()
         .ref('users/' + userKey)
@@ -23,55 +35,55 @@ export default function ChangeUsername() {
     });
   }
   return (
-    <View>
-      <Formik
-        initialValues={{
-          username: currentUsername,
-        }}
-        enableReinitialize={true}
-        onSubmit={values => {
-          changeUsername({
-            username: Username,
-            displayName: Username,
-            //values in authentication and database changed to newly set Username
-          });
-        }}>
-        {props => (
-          <View>
-            <TextInput
-              style={style.txtInput}
-              onChangeText={
-                text => setUsername(text)
-                //variable Username will be set to whatever is typed into this text input
-              }
-              value={Username}
-            />
-            <Button
-              title="Submit"
-              onPress={
-                props.handleSubmit
-                //links button to onSubmit function in Formik
-              }
-            />
-          </View>
-        )}
-      </Formik>
-    </View>
+    <TouchableWithoutFeedback
+      touchSoundDisabled={true}
+      onPress={() => {
+        Keyboard.dismiss();
+      }}>
+      <View>
+        <Formik
+          initialValues={{
+            username: currentUsername,
+          }}
+          enableReinitialize={true}
+          onSubmit={values => {
+            ChangeUsername({
+              //values in authentication and database changed to newly set Username
+              username: Username,
+              displayName: Username,
+            });
+            Alert.alert('Your username has been changed.', Username, [
+              {
+                text: 'OK',
+                onPress: () => navigation.goBack(),
+              },
+            ]);
+            console.log(Username);
+          }}
+          // validationSchema={changeUsernameSchema}
+        >
+          {formikProps => (
+            <React.Fragment>
+              <View style={globalStyles.formField}>
+                <Text style={globalStyles.formLabel}>Username:</Text>
+                <TextInput
+                  style={globalStyles.inputBox}
+                  //variable Username will be set to whatever is typed into this text input
+                  onChangeText={text => setUsername(text)}
+                  value={Username}
+                />
+                <TouchableOpacity
+                  style={globalStyles.inAppButton}
+                  onPress={formikProps.handleSubmit}>
+                  <Text style={globalStyles.inAppTouchText}>
+                    Change username
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </React.Fragment>
+          )}
+        </Formik>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
-
-const style = StyleSheet.create({
-  txtInput: {
-    margin: 5,
-    padding: 30,
-    fontSize: 15,
-    borderWidth: 2,
-    color: 'red',
-    borderRadius: 5,
-    backgroundColor: (255, 250, 250, 50),
-  },
-  container: {
-    width: '100%',
-    alignItems: 'center',
-  },
-});

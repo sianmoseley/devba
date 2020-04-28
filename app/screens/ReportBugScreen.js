@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
+import {Picker} from '@react-native-community/picker';
 import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Picker,
-  Switch,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -13,21 +12,9 @@ import {
 import {globalStyles} from '../config/Styles';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import ReportBug from '../database/ReportBug';
 import Firebase from 'firebase';
-import {userKey} from '../config/ReusableVariables';
-import {FieldWrapper, CustomTextInput} from '../config/ReusableVariables';
-
-const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
-  <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-    <Switch
-      value={formikProps.values[formikKey]}
-      onValueChange={value => {
-        formikProps.setFieldValue(formikKey, value);
-      }}
-      {...rest}
-    />
-  </FieldWrapper>
-);
+import {CustomTextInput, CustomSwitch, userKey} from '../config/Variables';
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({
@@ -54,32 +41,11 @@ export default function ReportBugScreen({navigation}) {
       Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  async function SubmitBug(values, submitComplete) {
-    const key = Firebase.database()
-      .ref('bugReports')
-      .push().key;
-    try {
-      await Firebase.database()
-        .ref('bugReports/' + key)
-        .set({
-          bugDescription: values.bugDescription,
-          bugId: key,
-          bugType: values.bugType,
-          reportTimeStamp: Date(Date.now()),
-          submittedBy: Username,
-        })
-        .then(console.log('BUG REPORTED SUCCESSFULLY', Date(Date.now())));
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return submitComplete(values);
-    } catch (error) {
-      return console.log(error);
-    }
-  }
 
+  //set state for form picker
   const [selectedValue, setSelectedValue] = useState('crash');
   return (
+    //dimiss keyboard when user clicks elsewhere
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
       onPress={() => {
@@ -87,6 +53,7 @@ export default function ReportBugScreen({navigation}) {
       }}>
       <View>
         <Formik
+          //sets initial values for form
           initialValues={{bugDescription: '', agreeToTerms: false}}
           onSubmit={(values, actions) => {
             Alert.alert('The bug has been logged for review.', 'Thank you.', [
@@ -100,11 +67,12 @@ export default function ReportBugScreen({navigation}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
-            SubmitBug({
+            ReportBug({
               bugDescription: values.bugDescription,
               bugType: selectedValue,
             });
           }}
+          //runs yup validation
           validationSchema={reportSchema}>
           {formikProps => (
             <React.Fragment>
@@ -114,6 +82,7 @@ export default function ReportBugScreen({navigation}) {
                   style={globalStyles.formPicker}
                   mode="dialog"
                   prompt="Select an option"
+                  //interacts with state set prior
                   selectedValue={selectedValue}
                   onValueChange={(itemValue, itemPosition) =>
                     setSelectedValue(itemValue)
@@ -133,6 +102,7 @@ export default function ReportBugScreen({navigation}) {
                   />
                   <Picker.Item label="Other" value="other" />
                 </Picker>
+                {/* custom fields */}
                 <CustomTextInput
                   label="Description of the bug:"
                   formikProps={formikProps}

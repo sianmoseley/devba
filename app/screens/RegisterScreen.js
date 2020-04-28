@@ -12,7 +12,8 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {authenticationStyles, globalStyles} from '../config/Styles';
-import Firebase from 'firebase';
+// import {CustomTextInput} from '../config/CustomForm';
+import SubmitRegister from '../database/Register';
 
 const FieldWrapper = ({children, label, formikProps, formikKey}) => (
   <View>
@@ -89,39 +90,6 @@ const registerSchema = yup.object().shape({
       value => value === true,
     ),
 });
-
-function SubmitRegister(values) {
-  Firebase.auth()
-    .createUserWithEmailAndPassword(values.email, values.password)
-    .then(res => {
-      Firebase.database()
-        .ref('users/' + res.user.uid)
-        .set({
-          uid: res.user.uid,
-          username: values.username,
-          email: values.email,
-        })
-        .then(
-          Firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-              user.updateProfile({displayName: values.username});
-            }
-          }),
-        );
-    })
-    .catch(function(error) {
-      //handle errors here
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (errorCode == 'auth/weak-password') {
-        alert('The password is not secure enough.');
-      } else {
-        alert(errorMessage);
-      }
-      console.log(error);
-    });
-  console.log('USER REGISTERED SUCCESSFULLY', Date(Date.now()), values);
-}
 
 export default class Register extends Component {
   render() {

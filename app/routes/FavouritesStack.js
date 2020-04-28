@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import FavouritesScreen from '../screens/FavouritesScreen';
 import CustomHeader from '../custom/CustomHeader';
 
+//plugs into TabNav
+//directs to FavouritesScreen
+
 const Stack = createStackNavigator();
 
 export default function FavouritesStack() {

@@ -1,8 +1,15 @@
 import React, {Component} from 'react';
-import {Image, FlatList, Text, View} from 'react-native';
-import Firebase from 'firebase';
-import 'firebase/database';
-import 'firebase/auth';
+import {
+  Icon,
+  Image,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+// import Firebase from 'firebase';
+// import 'firebase/database';
+// import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
 import {Post, userPostRef} from '../config/ReusableVariables';
 
@@ -16,7 +23,7 @@ export default class ViewPostsScreen extends Component {
   }
 
   componentDidMount() {
-    //function runs as soon as the component loads
+    //executes function on page load
     this.getUserPosts();
   }
 
@@ -25,14 +32,12 @@ export default class ViewPostsScreen extends Component {
       ////obtain entire section of database specified in reference as one object
       const postObject = snapshot.val();
       if (!postObject) {
-        console.log('USER HAS NO POSTS', Date(Date.now()));
+        console.log('USER HAS NO POSTS:', Date(Date.now()));
         this.setState({userPostList: null});
       } else {
-        console.log('USER POSTS RETRIEVED!', Date(Date.now()));
-
+        console.log('USER POSTS RETRIEVED:', Date(Date.now()));
         //converts data object of all the posts into an array of the posts
         const postsArray = Object.values(postObject);
-
         //set variable userPostList to the array of posts
         this.setState({userPostList: postsArray});
       }
@@ -46,10 +51,10 @@ export default class ViewPostsScreen extends Component {
           <View>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={globalStyles.logo}
-                source={require('../images/burger.png')}
+                style={{width: '69%', height: '60%'}}
+                source={require('../images/bigapp.png')}
               />
-              <Text style={{fontSize: 16}}>
+              <Text style={{fontSize: 16, marginTop: 90}}>
                 You've not listed any of your leftovers yet!
               </Text>
             </View>
@@ -67,8 +72,8 @@ export default class ViewPostsScreen extends Component {
                 heading={post.heading}
                 description={post.description}
                 location={post.location}
-                createdBy={post.createdBy}
                 createdAt={post.createdAt}
+                createdBy={post.createdBy}
                 uri={{uri: post.uri}}
                 onPress={() => this.props.navigation.navigate('EditForm', post)}
               />

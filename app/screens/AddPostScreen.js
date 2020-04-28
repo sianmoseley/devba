@@ -1,24 +1,23 @@
 import React, {useState} from 'react';
+import {Picker} from '@react-native-community/picker';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Keyboard,
-  Picker,
+  ScrollView,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image,
-  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput, userKey} from '../config/Variables';
+import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
-import {userKey} from '../config/ReusableVariables';
-import {userPostRef} from '../config/ReusableVariables';
-import {CustomTextInput} from '../config/ReusableVariables';
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -36,13 +35,9 @@ const addPostSchema = yup.object().shape({
     .max(50, "Don't be daft"),
 });
 
-//global variable for username declared outside function so accessible anywhere in this file
-let Username = '';
-
+//AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
-  //AuthNavigator recognises if a user is logged in and remembers the account
-
-  //uuid used to identify path of user info in database
+  //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
@@ -54,7 +49,6 @@ export default function AddPostScreen({navigation}) {
     });
 
   ///////////////// IMAGE PICKER CODE - SIAN
-
   const [Uri, setUri] = useState('');
 
   const selectImage = () => {
@@ -75,9 +69,7 @@ export default function AddPostScreen({navigation}) {
       }
     });
   };
-
   //// FUNCTION TO DISPLAY USER SELECTED IMAGE
-
   function renderSelectedImage() {
     if (Uri === '') {
       return (
@@ -90,61 +82,7 @@ export default function AddPostScreen({navigation}) {
       return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
     }
   }
-
   /////////// END OF IMAGE PICKER CODE
-
-  async function AddPost(values, addComplete) {
-    //creates unique identifier (string of random number, letters and symbols) to be used for new post
-    const key = Firebase.database()
-      .ref('posts')
-      .push().key;
-
-    //reads today's date in default Javascript
-    const d = new Date();
-
-    //path in realtime-database established
-    try {
-      await Firebase.database()
-        .ref('posts/' + key)
-        //values for each field declared
-        .set({
-          id: key,
-          heading: values.heading,
-          description: values.description,
-          location: values.location,
-          //date generated in neater format
-          createdAt:
-            [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') +
-            ' ' +
-            [d.getHours(), d.getMinutes()].join('.'),
-          createdBy: Username,
-          uri: Uri,
-        })
-        .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
-
-      //same values for post are added to the user_posts table, so every post a user makes is tracked
-      userPostRef.child(key).set({
-        id: key,
-        heading: values.heading,
-        description: values.description,
-        location: values.location,
-        createdAt:
-          [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') +
-          ' ' +
-          [d.getHours(), d.getMinutes()].join('.'),
-        createdBy: Username,
-        uri: Uri,
-      });
-
-      //don't necessarily need this now promise for set has been fulfilled
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return addComplete(values);
-    } catch (error) {
-      return console.log(error);
-    }
-  }
 
   //state set for 'location' picker
   const [selectedValue, setSelectedValue] = useState('Harmer');
@@ -153,20 +91,22 @@ export default function AddPostScreen({navigation}) {
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
+      //dismisses keyboard when pressing on screen
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView>
+      {/* flex forces content to fit to size of screen */}
+      <ScrollView style={{flex: 1}}>
         <Formik
           initialValues={{heading: '', description: ''}}
           onSubmit={(values, actions) => {
-            //all the following is carried out when the Submit button is pressed
-            //alert pops up to advise their post has been accepted and posted
+            //code executes when the Submit button is pressed
+            //alert confrims to user their post has been accepted and posted
             Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
               {
                 text: 'OK',
-                onPress: () => navigation.navigate('HomeScreen'),
                 //navigation back to the home page
+                onPress: () => navigation.navigate('HomeScreen'),
               },
             ]);
             console.log({selectedValue, values});
@@ -174,7 +114,7 @@ export default function AddPostScreen({navigation}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
-            //AddPost function from above called
+            //AddPost function called
             AddPost({
               heading: values.heading,
               description: values.description,
@@ -186,6 +126,7 @@ export default function AddPostScreen({navigation}) {
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
+                {/* custom inputs */}
                 <CustomTextInput
                   //textboxes for each field
                   label="Heading:"
@@ -249,6 +190,7 @@ export default function AddPostScreen({navigation}) {
                   <Picker.Item label="Willow Court" value="Willow Court" />
                   <Picker.Item label="Woodville" value="Woodville" />
                 </Picker>
+                {/* renders activity indicator when button is pressed */}
                 <View style={globalStyles.submitButtonContainer}>
                   {formikProps.isSubmitting ? (
                     <ActivityIndicator size="large" color="#2bb76e" />

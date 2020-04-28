@@ -5,6 +5,9 @@ import Login from '../screens/LoginScreen';
 import Register from '../screens/RegisterScreen';
 import ForgotPassword from '../screens/ForgotPasswordScreen';
 
+//directs to LoginScreen
+//contains navigation options for Register and ForgotPassword
+
 const Stack = createStackNavigator();
 
 export default function LogOutStack() {

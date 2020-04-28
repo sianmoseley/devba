@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-import {FlatList, Image, Text, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import Firebase from 'firebase';
-import {globalStyles} from '../config/Styles';
-import {Post} from '../config/ReusableVariables';
-import {userKey} from '../config/ReusableVariables';
+import {userKey, Post} from '../config/Variables';
 
 export default class FavouritesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //set value of favList as empty array to be filled
+      //set value of favList as empty array
       favList: [],
     };
   }
@@ -18,27 +16,22 @@ export default class FavouritesScreen extends Component {
   getFavourites = () => {
     //path reference for logged in user's favourite posts in favourites table
     const ref = Firebase.database().ref('favourites/' + userKey);
-
     ref.on('value', snapshot => {
       //obtain entire section of database specified in reference as one object
       const favObject = snapshot.val();
-
       if (!favObject) {
-        return console.warn('No data from firebase');
+        return console.warn('NO DATA FROM FIREBASE:', Date(Date.now()));
       } else {
-        console.log('Favourites retrieved!');
-
-        //converts data object of all the posts into an array of the posts
+        console.log('FAVOURITES RETRIEVED:', Date(Date.now()));
         const favArray = Object.values(favObject);
-
-        //set variable favList to the array of posts
+        //assign data to favList array
         this.setState({favList: favArray});
       }
     });
   };
 
   componentDidMount() {
-    //runs function as soon as component i.e. FavouritesScreen is loaded
+    //executes function as FavouritesScreen is loaded
     this.getFavourites();
   }
 
@@ -47,23 +40,18 @@ export default class FavouritesScreen extends Component {
       <View>
         <FlatList
           keyExtractor={post => post.id}
-          data={
-            this.state.favList
-            //inserts data to be rendered as the array of favourite posts
-          }
-          renderItem={({
-            item: post,
-            //each item in the array is identified as 'post'
-          }) => (
+          //inserts data to be rendered as the array of favourite posts
+          data={this.state.favList.sort(a => a.createdAt.localeCompare())}
+          //each item in the array is identified as 'post'
+          renderItem={({item: post}) => (
             <Post
-              //specified Post component rendered as item in list with fields from database rendered
-              // in their designated sections
+              //specified Post component rendered as item in list with fields from database rendered in their designated sections
               key={post.id}
               heading={post.heading}
               description={post.description}
               location={post.location}
-              createdBy={post.createdBy}
               createdAt={post.createdAt}
+              createdBy={post.createdBy}
               uri={{uri: post.uri}}
               onPress={() => {
                 const postKey = post.id;

@@ -1,53 +1,20 @@
 import React, {useState} from 'react';
+import {Picker} from '@react-native-community/picker';
 import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Picker,
-  Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput, CustomSwitch, userKey} from '../config/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import ReportPost from '../database/ReportPost';
 import Firebase from 'firebase';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
-const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
-  <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-    <Switch
-      value={formikProps.values[formikKey]}
-      onValueChange={value => {
-        formikProps.setFieldValue(formikKey, value);
-      }}
-      {...rest}
-    />
-  </FieldWrapper>
-);
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({
@@ -63,46 +30,23 @@ const reportSchema = yup.object().shape({
     .test('is-true', 'Terms must be agreed upon.', value => value === true),
 });
 
-//so username is global
-let Username = '';
-
 export default function ReportPostScreen({navigation, route}) {
-  const userKey = Firebase.auth().currentUser.uid;
+  //references firebase to grab current user username
+  //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
       const user = snapshot.val();
-      Username = user.username;
+      const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  async function SubmitPost(values, submitComplete) {
-    const key = Firebase.database()
-      .ref('postReports')
-      .push().key;
-    try {
-      await Firebase.database()
-        .ref('postReports/' + key)
-        .set({
-          postId: values.postId,
-          reportDescription: values.reportDescription,
-          reportId: key,
-          reportTimeStamp: Date(Date.now()),
-          reportType: values.reportType,
-          submittedBy: Username,
-        })
-        .then(console.log('POST REPORTED SUCCESSFULLY', Date(Date.now())));
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return submitComplete(values);
-    } catch (error) {
-      return console.log(error);
-    }
-  }
 
+  //stores id of post pressed on prior screen
   const {id} = route.params;
+  //set state for form picker
   const [selectedValue, setSelectedValue] = useState('spam');
   return (
+    //dimiss keyboard when user clicks elsewhere
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
       onPress={() => {
@@ -110,6 +54,7 @@ export default function ReportPostScreen({navigation, route}) {
       }}>
       <View>
         <Formik
+          //sets initial values for form
           initialValues={{reportDescription: '', agreeToTerms: false}}
           onSubmit={(values, actions) => {
             Alert.alert(
@@ -131,12 +76,13 @@ export default function ReportPostScreen({navigation, route}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
-            SubmitPost({
+            ReportPost({
               postId: id,
               reportDescription: values.reportDescription,
               reportType: selectedValue,
             });
           }}
+          //runs yup validation
           validationSchema={reportSchema}>
           {formikProps => (
             <React.Fragment>
@@ -146,6 +92,7 @@ export default function ReportPostScreen({navigation, route}) {
                   style={globalStyles.formPicker}
                   mode="dialog"
                   prompt="Select an option"
+                  //interacts with state set prior
                   selectedValue={selectedValue}
                   onValueChange={(itemValue, itemPosition) =>
                     setSelectedValue(itemValue)
@@ -161,6 +108,7 @@ export default function ReportPostScreen({navigation, route}) {
                   />
                   <Picker.Item label="Other (offensive...)" value="other" />
                 </Picker>
+                {/* custom fields */}
                 <CustomTextInput
                   label="Reason(s) for reporting this post:"
                   formikProps={formikProps}
