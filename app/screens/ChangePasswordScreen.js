@@ -1,45 +1,18 @@
-import React, {useState, Component} from 'react';
+import React, {Component} from 'react';
 import {
   ActivityIndicator,
   Alert,
   Keyboard,
-  Picker,
-  Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput} from '../config/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import Firebase from 'firebase';
-
-
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
-
+import ChangePassword from '../database/ChangePassword';
 
 //client-side validation with yup
 const changePasswordSchema = yup.object().shape({
@@ -62,30 +35,7 @@ const changePasswordSchema = yup.object().shape({
     }),
 });
 
-reauthenticate = (currentPassword) => {
-  const user = Firebase.auth().currentUser;
-  const cred = Firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
-  return user.reauthenticateWithCredential(cred);
-}
-
-ChangePassword = (values)  => {
-  reauthenticate(values.currentPassword).then(() => {
-    const user = Firebase.auth().currentUser;
-    user.updatePassword(values.newPassword).then(() => {
-    console.log('User password successfully changed.');
-    Alert.alert("Password was changed");
-    }).catch((error) => {
-    Alert.alert(error.message);
-    })
-  }).catch((error) => {
-    Alert.alert(error.message)
-  });
-}
-
-
-
 export default class ChangePasswordScreen extends Component {
-
   render() {
     return (
       <TouchableWithoutFeedback
@@ -93,16 +43,31 @@ export default class ChangePasswordScreen extends Component {
         onPress={() => {
           Keyboard.dismiss();
         }}>
-        <View>
+        {/* flex forces content to fit to size of screen */}
+        <View style={{flex: 1}}>
           <Formik
-            initialValues={{currentPassword: '', newPassword: '', confirmPassword: ''}}
+            initialValues={{
+              currentPassword: '',
+              newPassword: '',
+              confirmPassword: '',
+            }}
             onSubmit={(values, actions) => {
               console.log(values);
               ChangePassword(values);
               setTimeout(() => {
                 actions.setSubmitting(false);
               }, 1000);
-              
+              Keyboard.dismiss();
+              Alert.alert(
+                'Your password was changed successfully.',
+                'Thank you!',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => this.props.navigation.navigate('HomeScreen'),
+                  },
+                ],
+              );
             }}
             validationSchema={changePasswordSchema}>
             {formikProps => (
@@ -129,7 +94,7 @@ export default class ChangePasswordScreen extends Component {
                     placeholder="Please confirm your new password"
                     secureTextEntry
                   />
-  
+
                   <View style={globalStyles.submitButtonContainer}>
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator size="large" color="#2bb76e" />
@@ -151,6 +116,6 @@ export default class ChangePasswordScreen extends Component {
           </Formik>
         </View>
       </TouchableWithoutFeedback>
-    )
+    );
   }
 }

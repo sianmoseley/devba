@@ -7,6 +7,9 @@ import SearchStack from './SearchStack';
 import MapStack from './MapStack';
 import NotificationsStack from './NotificationsStack';
 
+//stack that generates tab bar on bottom of screen
+//directs to HomeStack
+
 const Tab = createBottomTabNavigator();
 
 export default function TabNav() {
@@ -15,6 +18,7 @@ export default function TabNav() {
       backBehavior="initialRoute"
       initialRouteName="Home"
       tabBarOptions={{
+        //options for tab colours
         adaptive: true,
         activeTintColor: 'white', //passes to color prop
         inactiveTintColor: '#2bb76e',

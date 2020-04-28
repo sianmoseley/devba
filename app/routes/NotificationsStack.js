@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import CustomHeader from '../custom/CustomHeader';
 
+//plugs into TabNav
+//directs to NotifdicationsScreen
+
 const Stack = createStackNavigator();
 
 export default function MapStack() {

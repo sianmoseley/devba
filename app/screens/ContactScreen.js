@@ -2,6 +2,8 @@ import React from 'react';
 import {Image, Text, View} from 'react-native';
 import {globalStyles} from '../config/Styles';
 
+//basic page with Contact info
+
 export default function ContactScreen() {
   return (
     <View style={{padding: 25}}>

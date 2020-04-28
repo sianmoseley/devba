@@ -1,41 +1,20 @@
 import React, {Component} from 'react';
-import {Image, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {Image, FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
-import 'firebase/database';
-import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
-
-const Post = ({heading, description, location, createdBy, onPress}) => (
-  <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-    </Text>
-    {/* <View style={globalStyles.iconFlagMargin}>
-      <Icon
-        iconStyle={globalStyles.iconFlag}
-        name="flag"
-        type="entypo"
-        onPress={onPress}
-      />
-    </View> */}
-    {/* </TouchableOpacity> */}
-  </View>
-);
+import {Post} from '../config/Variables';
 
 export default class ViewPostsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //sets empty array
       userPostList: [],
     };
   }
 
   componentDidMount() {
+    //executes on page load
     this.getUserPosts();
   }
 
@@ -43,13 +22,16 @@ export default class ViewPostsScreen extends Component {
     const userKey = Firebase.auth().currentUser.uid;
     const ref = Firebase.database().ref('user_posts/' + userKey);
     ref.on('value', snapshot => {
+      //obtain entire section of database specified in reference as one object
       const postObject = snapshot.val();
       if (!postObject) {
-        console.log('USER HAS NO POSTS', Date(Date.now()));
+        console.log('USER HAS NO POSTS:', Date(Date.now()));
         this.setState({userPostList: null});
       } else {
-        console.log('USER POSTS RETRIEVED!', Date(Date.now()));
+        console.log('USER POSTS RETRIEVED:', Date(Date.now()));
+        //converts data object of all the posts into an array of the posts
         const postsArray = Object.values(postObject);
+        //set variable userPostList to the array of posts
         this.setState({userPostList: postsArray});
       }
     });
@@ -62,29 +44,31 @@ export default class ViewPostsScreen extends Component {
           <View>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={globalStyles.logo}
-                source={require('../images/burger.png')}
+                style={{width: '69%', height: '60%'}}
+                source={require('../images/bigapp.png')}
               />
-              <Text style={{fontSize: 16}}>
+              <Text style={{fontSize: 16, marginTop: 90}}>
                 You've not listed any of your leftovers yet!
               </Text>
             </View>
           </View>
         ) : (
           <FlatList
-            keyExtractor={post => post.heading}
-            data={this.state.userPostList}
+            keyExtractor={post => post.id}
+            data={this.state.userPostList.sort(a =>
+              a.createdAt.localeCompare(),
+            )}
             renderItem={({item: post}) => (
               <Post
+                //individual posts made by the logged in user rendered
                 key={post.id}
                 heading={post.heading}
                 description={post.description}
                 location={post.location}
+                createdAt={post.createdAt}
                 createdBy={post.createdBy}
-                image={post.image && {uri: post.image}}
-                onPress={() =>
-                  this.props.navigation.navigate('PostDetails', post)
-                }
+                uri={{uri: post.uri}}
+                onPress={() => this.props.navigation.navigate('EditForm', post)}
               />
             )}
           />

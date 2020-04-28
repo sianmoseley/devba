@@ -5,11 +5,14 @@ import HomeScreen from '../screens/HomeScreen';
 import ReportPostScreen from '../screens/ReportPostScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 
+//stack that holds screens for main page
+//user sees HomeScreen upon successful login
+
 const Stack = createStackNavigator();
 
 export default function HomeNavigator({navigation, route}) {
   navigation.setOptions({
-    //hides tab bar on report post screen
+    //hides tab bar on report post and add post screens
     tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
   });
   return (
@@ -32,6 +35,7 @@ export default function HomeNavigator({navigation, route}) {
       <Stack.Screen
         name="ReportPostScreen"
         component={ReportPostScreen}
+        //passes heading of post to ReportPostScreen
         options={({route}) => ({title: route.params.heading})}
       />
       <Stack.Screen

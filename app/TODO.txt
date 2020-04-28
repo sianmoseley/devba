@@ -3,24 +3,18 @@
         -- componentDidUnmount
     }
 
-    Integrate code {
-        -- Maps
-        -- Notifications
-        -- Change password
-        -- Delete account
-        -- T&Cs
+    Me {
+        -- Replace hollow heart icon with a filled in heart once favourite clicked
 
-        -- Edit & delete
-
-        -- Change own username =Pearl
-
-        -- Image with new post = Sian on it
-
-        -- Alter Search so it uses Picker rather than material-dropdown = CONTINUE NEXT
-
+        -- Seperate model code {
+            - Change Username
+            - Edit Post
+        } 
     }
-    
--- Replace hollow heart icon with a filled in heart once favourite clicked
 
+-- Maps: Pearl
+-- Images: Sian
+-- Notifications: Steph
+-- T&Cs: Steph
 
-this is a change
+Look at removing posts table and getting HomeScreen to look at user_posts. This will make it so that firebase uses less data, allows for efficient code and make for fewer deletes from DeleteUser

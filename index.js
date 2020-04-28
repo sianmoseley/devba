@@ -2,6 +2,8 @@
  * @format
  */
 
+//main screen from where app is loaded
+
 import {AppRegistry} from 'react-native';
 import devba from './app/App';
 import {name as appName} from './app.json';

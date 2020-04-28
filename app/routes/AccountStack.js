@@ -3,8 +3,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import CustomHeader from '../custom/CustomHeader';
 import AccountScreen from '../screens/AccountScreen';
 import ViewPostsScreen from '../screens/ViewPostsScreen';
+import EditPostScreen from '../screens/EditPostScreen';
+import ChangeUsernameScreen from '../screens/ChangeUsernameScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
+
+//plugs into RootStack
+//directs to AccountScreen
 
 const Stack = createStackNavigator();
 
@@ -30,6 +35,16 @@ export default function AccountStack() {
         name="ViewPosts"
         component={ViewPostsScreen}
         options={{title: 'Your Posts', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
+        name="EditForm"
+        component={EditPostScreen}
+        options={{title: 'Edit Posts', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
+        name="ChangeUsername"
+        component={ChangeUsernameScreen}
+        options={{title: 'Change Username', headerTitleAlign: 'center'}}
       />
       <Stack.Screen
         name="ChangePassword"

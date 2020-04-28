@@ -3,6 +3,9 @@ import {Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {globalStyles} from '../config/Styles';
 
+//custom header that loads on home screen
+//has icon in top right corner to navigate to add post screen
+
 export default function HomeHeader({navigation, title}) {
   return (
     <View style={globalStyles.header}>
