@@ -14,7 +14,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import ReportBug from '../database/ReportBug';
 import Firebase from 'firebase';
-import {CustomTextInput, CustomSwitch, userKey} from '../config/Variables';
+import {CustomTextInput, CustomSwitch} from '../config/Variables';
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({
@@ -34,6 +34,10 @@ const reportSchema = yup.object().shape({
 let Username = '';
 
 export default function ReportBugScreen({navigation}) {
+  //current user ID
+  const userKey = Firebase.auth().currentUser.uid;
+
+  //remove later, just for logging
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {

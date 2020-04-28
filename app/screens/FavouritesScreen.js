@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Image, FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
-import {Post, userKey} from '../config/Variables';
+import {Post} from '../config/Variables';
+
+//global variable enables interaction with onPress
+let userKey = '';
 
 export default class FavouritesScreen extends Component {
   constructor(props) {
@@ -20,6 +23,8 @@ export default class FavouritesScreen extends Component {
 
   //function to obtain list of posts favourited by the logged in user
   getFavourites = () => {
+    //current user ID
+    userKey = Firebase.auth().currentUser.uid;
     //path reference for logged in user's favourite posts in favourites table
     const ref = Firebase.database().ref('favourites/' + userKey);
     ref.on('value', snapshot => {

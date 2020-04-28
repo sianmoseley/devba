@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
-import {CustomTextInput, CustomSwitch, userKey} from '../config/Variables';
+import {CustomTextInput, CustomSwitch} from '../config/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ReportPost from '../database/ReportPost';
@@ -31,8 +31,11 @@ const reportSchema = yup.object().shape({
 });
 
 export default function ReportPostScreen({navigation, route}) {
+  //current user ID
+  const userKey = Firebase.auth().currentUser.uid;
+
   //references firebase to grab current user username
-  //used for logging, can remove
+  //used for logging, can remove later
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {

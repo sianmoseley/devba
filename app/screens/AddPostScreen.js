@@ -14,7 +14,7 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
-import {CustomTextInput, userKey} from '../config/Variables';
+import {CustomTextInput} from '../config/Variables';
 import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
@@ -37,6 +37,8 @@ const addPostSchema = yup.object().shape({
 
 //AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
+  //current user ID
+  const userKey = Firebase.auth().currentUser.uid;
   //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)

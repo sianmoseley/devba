@@ -1,5 +1,4 @@
 import Firebase from 'firebase';
-import {userKey} from '../config/Variables';
 
 function reauthenticate(password) {
   const user = Firebase.auth().currentUser;
@@ -8,6 +7,9 @@ function reauthenticate(password) {
 }
 
 export default async function DeleteUser(values) {
+  //current user ID
+  const userKey = Firebase.auth().currentUser.uid;
+
   reauthenticate(values.password)
     .then(() => {
       const user = Firebase.auth().currentUser;

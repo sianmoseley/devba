@@ -1,7 +1,6 @@
 import Firebase from 'firebase';
 
 //firebase function to authenticate user gets called onSubmit
-//replicates model aspect of MVC architecture
 export default async function SubmitLogin(values) {
   Firebase.auth()
     .signInWithEmailAndPassword(values.email, values.password)

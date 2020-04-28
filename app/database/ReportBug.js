@@ -1,14 +1,19 @@
 import Firebase from 'firebase';
-import {date, userKey} from '../config/Variables';
 
 //global variable
 let Username = '';
 
 export default async function ReportBug(values, submitComplete) {
+  //reads today's date in default Javascript
+  const date = new Date();
+  //current user ID
+  const userKey = Firebase.auth().currentUser.uid;
+
   //creates unique identifier to be used for new post
   const key = Firebase.database()
     .ref('bugReports')
     .push().key;
+
   //references firebase to grab current user username
   Firebase.database()
     .ref('users/' + userKey)
@@ -16,6 +21,7 @@ export default async function ReportBug(values, submitComplete) {
       const user = snapshot.val();
       Username = user.username;
     });
+
   try {
     await Firebase.database()
       .ref('bugReports/' + key)

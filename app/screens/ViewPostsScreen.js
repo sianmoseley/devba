@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {Image, FlatList, Text, View} from 'react-native';
-// import Firebase from 'firebase';
-// import 'firebase/database';
-// import 'firebase/auth';
+import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
-import {Post, userPostRef} from '../config/Variables';
+import {Post} from '../config/Variables';
 
 export default class ViewPostsScreen extends Component {
   constructor(props) {
@@ -21,8 +19,10 @@ export default class ViewPostsScreen extends Component {
   }
 
   getUserPosts = () => {
-    userPostRef.on('value', snapshot => {
-      ////obtain entire section of database specified in reference as one object
+    const userKey = Firebase.auth().currentUser.uid;
+    const ref = Firebase.database().ref('user_posts/' + userKey);
+    ref.on('value', snapshot => {
+      //obtain entire section of database specified in reference as one object
       const postObject = snapshot.val();
       if (!postObject) {
         console.log('USER HAS NO POSTS:', Date(Date.now()));

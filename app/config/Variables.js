@@ -7,17 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Firebase from 'firebase';
-import 'firebase/auth';
-import 'firebase/database';
 import {globalStyles} from './Styles';
-
-//reads today's date in default Javascript
-export const date = new Date();
-//current user ID
-export const userKey = Firebase.auth().currentUser.uid;
-//reference of current user posts
-export const userPostRef = Firebase.database().ref('user_posts/' + userKey);
 
 //constant component for posts
 export const Post = ({
