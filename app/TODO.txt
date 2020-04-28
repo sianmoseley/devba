@@ -13,8 +13,8 @@
     }
 
 -- Maps: Pearl
-
+-- Images: Sian
 -- Notifications: Steph
 -- T&Cs: Steph
 
-Look at removing posts table and getting HomeScreen to look at user_posts. This will mean that the firebase can use less data, allows for efficient code and make for fewer deletes from DeleteUser
+Look at removing posts table and getting HomeScreen to look at user_posts. This will make it so that firebase uses less data, allows for efficient code and make for fewer deletes from DeleteUser

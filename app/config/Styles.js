@@ -27,7 +27,9 @@ export const authenticationStyles = StyleSheet.create({
   },
   authText: {
     color: 'white',
+    fontFamily: 'Arial',
     fontSize: 16,
+    //fontSize: 20,
     textAlign: 'center',
   },
   loginButton: {
@@ -121,7 +123,8 @@ export const globalStyles = StyleSheet.create({
   },
   inAppTouchText: {
     color: 'white',
-    fontSize: 18,
+    // fontFamily: 'Arial',
+    fontSize: 20,
     textAlign: 'center',
   },
   inputBox: {
@@ -160,7 +163,7 @@ export const globalStyles = StyleSheet.create({
     paddingBottom: 8,
   },
   postText: {
-    fontSize: 18,
+    fontSize: 20,
     paddingBottom: 3,
     paddingTop: 5,
     textAlign: 'center',

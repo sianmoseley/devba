@@ -91,7 +91,7 @@ export default class HomeScreen extends Component {
   };
 
   render() {
-    const {liked} = this.state;
+    // const {liked} = this.state;
     return (
       <View>
         {/* <AnimatedIcon
@@ -106,6 +106,7 @@ export default class HomeScreen extends Component {
           keyExtractor={post => post.id}
           //posts sorted by newest to oldest
           data={this.state.postList.sort(a => a.createdAt.localeCompare())}
+          // data={this.state.postList}
           renderItem={({item: post}) => (
             <View>
               <Post
