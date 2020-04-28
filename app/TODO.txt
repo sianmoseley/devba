@@ -18,3 +18,5 @@
 -- T&Cs: Steph
 
 Look at removing posts table and getting HomeScreen to look at user_posts. This will make it so that firebase uses less data, allows for efficient code and make for fewer deletes from DeleteUser
+
+this is a test
