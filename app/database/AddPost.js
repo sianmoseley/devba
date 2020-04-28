@@ -1,13 +1,10 @@
 import Firebase from 'firebase';
+import {date, userKey} from '../config/Variables';
 
 //global variable
 let Username = '';
 
 export default async function AddPost(values, addComplete) {
-  //uid used to identify path of user info in database
-  const userKey = Firebase.auth().currentUser.uid;
-  //reads today's date in default Javascript
-  const date = new Date();
   //creates unique identifier to be used for new post
   const key = Firebase.database()
     //path in realtime-database established

@@ -10,11 +10,11 @@ import {
   View,
 } from 'react-native';
 import {globalStyles} from '../config/Styles';
-import {CustomTextInput, CustomSwitch} from '../config/CustomForm';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ReportBug from '../database/ReportBug';
 import Firebase from 'firebase';
+import {CustomTextInput, CustomSwitch, userKey} from '../config/Variables';
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({
@@ -34,8 +34,6 @@ const reportSchema = yup.object().shape({
 let Username = '';
 
 export default function ReportBugScreen({navigation}) {
-  const userKey = Firebase.auth().currentUser.uid;
-  //references firebase to grab current user username
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
@@ -43,30 +41,6 @@ export default function ReportBugScreen({navigation}) {
       Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  // async function SubmitBug(values, submitComplete) {
-  //   const key = Firebase.database()
-  //     .ref('bugReports')
-  //     .push().key;
-  //   try {
-  //     await Firebase.database()
-  //       .ref('bugReports/' + key)
-  //       .set({
-  //         //stores data in firebase
-  //         bugDescription: values.bugDescription,
-  //         bugId: key,
-  //         bugType: values.bugType,
-  //         reportTimeStamp: Date(Date.now()),
-  //         submittedBy: Username,
-  //       })
-  //       .then(console.log('BUG REPORTED SUCCESSFULLY', Date(Date.now())));
-  //     const snapshot = undefined;
-  //     values.Id = snapshot.Id;
-  //     snapshot.set(values);
-  //     return submitComplete(values);
-  //   } catch (error) {
-  //     return console.log(error);
-  //   }
-  // }
 
   //set state for form picker
   const [selectedValue, setSelectedValue] = useState('crash');

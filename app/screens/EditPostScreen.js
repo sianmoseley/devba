@@ -15,6 +15,7 @@ import * as yup from 'yup';
 import Firebase from 'firebase';
 import 'firebase/database';
 import ImagePicker from 'react-native-image-picker';
+import {userPostRef} from '../config/Variables';
 import {globalStyles} from '../config/Styles';
 
 export default function EditPostScreen({navigation, route}) {
@@ -30,8 +31,6 @@ export default function EditPostScreen({navigation, route}) {
   const [Description, setDescription] = useState(post.description);
   const [Location, setLocation] = useState(post.location);
   const [Uri, setUri] = useState(post.uri);
-
-  const userKey = Firebase.auth().currentUser.uid;
 
   //function to get image details from device gallery
   const selectImage = () => {
@@ -79,23 +78,20 @@ export default function EditPostScreen({navigation, route}) {
       })
       .then(() => {
         //simultaneously updates same fields in user_posts table
-        Firebase.database()
-          .ref('user_posts/' + userKey + '/' + postKey)
-          .update({
-            heading: values.heading,
-            description: values.description,
-            location: values.location,
-            uri: Uri,
-          });
+        userPostRef.child(postKey).update({
+          heading: values.heading,
+          description: values.description,
+          location: values.location,
+          uri: Uri,
+        });
       });
   }
 
-  //removes post from database
-  function DeletePost() {
+  //removes entire section in database specified
+  function deletePost(values) {
     ref.remove().then(() => {
-      Firebase.database()
-        .ref('user_posts/' + userKey + '/' + postKey)
-        .remove();
+      //simultaneously removes same post in user_posts table
+      userPostRef.child(postKey).remove();
     });
   }
 

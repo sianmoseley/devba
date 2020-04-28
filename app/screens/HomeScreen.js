@@ -9,17 +9,17 @@ import 'firebase/database';
 // const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 const Post = ({
-  heading,
-  description,
-  location,
   createdAt,
   createdBy,
+  description,
+  favourite,
+  heading,
+  location,
   uri,
   report,
-  favourite,
 }) => (
   <View style={globalStyles.postContainer}>
-    <Image source={uri} />
+    <Image style={globalStyles.image} source={uri} />
     <Text style={globalStyles.postText}>
       {heading} @ {location}
       {'\n'}
@@ -67,11 +67,11 @@ export default class HomeScreen extends Component {
   // };
 
   componentDidMount() {
-    //execute function as'HomeScreen' is loaded
+    //function runs as soon as the component 'HomeScreen' is loaded
     this.getPostData();
   }
 
-  //get post data from firebase database
+  //function to get post data from firebase database
   getPostData = () => {
     //path reference for posts table
     const ref = Firebase.database().ref('/posts');

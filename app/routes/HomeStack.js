@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 export default function HomeNavigator({navigation, route}) {
   navigation.setOptions({
-    //hides tab bar on report post screen
+    //hides tab bar on report post and add post screens
     tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
   });
   return (

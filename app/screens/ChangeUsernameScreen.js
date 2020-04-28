@@ -11,6 +11,7 @@ import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {Formik} from 'formik';
+import {userKey} from '../config/Variables';
 import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
 
@@ -22,12 +23,10 @@ export default function ChangeUsernameScreen({navigation}) {
   const user = Firebase.auth().currentUser;
   const currentUsername = Firebase.auth().currentUser.displayName;
 
-  const userKey = Firebase.auth().currentUser.uid;
-
-  //create state for username variable that will be changed as the existing username
+  //set username variable that will be changed as the existing username
   const [Username, setUsername] = useState(currentUsername);
 
-  //rewrites username in firebase authentication and database
+  //function that rewrites username in firebase authentication and database
   function ChangeUsername(value) {
     user.updateProfile({displayName: value.username}).then(() => {
       Firebase.database()

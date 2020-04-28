@@ -1,40 +1,9 @@
-import React, {Component, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import React, {Component} from 'react';
+import {FlatList, View} from 'react-native';
 import Firebase from 'firebase';
-import {globalStyles} from '../config/Styles';
+import {userKey, Post} from '../config/Variables';
 
-const Post = ({
-  heading,
-  description,
-  location,
-  createdAt,
-  createdBy,
-  onPress,
-}) => (
-  <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-      {'\n'}
-      {createdAt}
-    </Text>
-    {/* <View style={globalStyles.iconFlagMargin}>
-        <Icon
-          iconStyle={globalStyles.iconFlag}
-          name="flag"
-          type="entypo"
-          onPress={onPress}
-        />
-      </View> */}
-    {/* </TouchableOpacity> */}
-  </View>
-);
-
-export default class SearchScreen extends Component {
+export default class FavouritesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,18 +12,17 @@ export default class SearchScreen extends Component {
     };
   }
 
-  //obtain list of posts favourited by current user
+  //function to obtain list of posts favourited by the logged in user
   getFavourites = () => {
-    const userKey = Firebase.auth().currentUser.uid;
-    //path reference for current user's favourite posts
+    //path reference for logged in user's favourite posts in favourites table
     const ref = Firebase.database().ref('favourites/' + userKey);
     ref.on('value', snapshot => {
       //obtain entire section of database specified in reference as one object
       const favObject = snapshot.val();
       if (!favObject) {
-        return console.warn('NO DATA FROM FIREBASE', Date(Date.now()));
+        return console.warn('NO DATA FROM FIREBASE:', Date(Date.now()));
       } else {
-        console.log('FAVOURITES RETRIEVED!', Date(Date.now()));
+        console.log('FAVOURITES RETRIEVED:', Date(Date.now()));
         const favArray = Object.values(favObject);
         //assign data to favList array
         this.setState({favList: favArray});
@@ -71,7 +39,7 @@ export default class SearchScreen extends Component {
     return (
       <View>
         <FlatList
-          keyExtractor={post => post.heading}
+          keyExtractor={post => post.id}
           //inserts data to be rendered as the array of favourite posts
           data={this.state.favList.sort(a => a.createdAt.localeCompare())}
           //each item in the array is identified as 'post'
@@ -84,7 +52,13 @@ export default class SearchScreen extends Component {
               location={post.location}
               createdAt={post.createdAt}
               createdBy={post.createdBy}
-              image={post.image && {uri: post.image}}
+              uri={{uri: post.uri}}
+              onPress={() => {
+                const postKey = post.id;
+                Firebase.database()
+                  .ref('favourites/' + userKey + '/' + postKey)
+                  .remove();
+              }}
             />
           )}
         />
