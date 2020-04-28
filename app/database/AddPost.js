@@ -42,6 +42,7 @@ export default async function AddPost(values, addComplete) {
             (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
           ].join(':'),
         createdBy: Username,
+        uri: values.uri, //SIAN - ADDED THIS LINE HERE FOR DATABASE
       })
       .then(console.log('POST ADDED SUCCESSFULLY:', Date(Date.now())));
     Firebase.database()
@@ -60,6 +61,7 @@ export default async function AddPost(values, addComplete) {
             (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
           ].join(':'),
         createdBy: Username,
+        uri: values.uri, //SIAN - ADDED THIS LINE HERE FOR DATABASE
       });
     const snapshot = undefined;
     values.Id = snapshot.Id;

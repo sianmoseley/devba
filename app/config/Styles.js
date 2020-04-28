@@ -125,6 +125,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#2bb76e',
     borderRadius: 10,
     paddingVertical: 10,
+    marginVertical: 10,
   },
   inAppTouchText: {
     color: 'white',

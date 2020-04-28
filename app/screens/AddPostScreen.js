@@ -46,12 +46,22 @@ export default function AddPostScreen({navigation}) {
       //set of data in path read as an object
       const user = snapshot.val();
       //extract specific value of username
-      Username = user.username;
+      const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
 
   ///////////////// IMAGE PICKER CODE - SIAN
+
   const [Uri, setUri] = useState('');
+  const [Filename, setFilename] = useState('');
+
+  ////////////////  EXTRACTS FILE NAME FROM USER SELECTED IMAGE - SIAN
+
+  const createStorageReferenceToFile = response => {
+    const fileName = response.fileName;
+    setFilename(fileName);
+    return fileName;
+  };
 
   const selectImage = () => {
     const options = {
@@ -66,12 +76,17 @@ export default function AddPostScreen({navigation}) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = response.uri;
-        console.log(source);
         setUri(source);
+        console.log(
+          'My file storage reference is: ',
+          createStorageReferenceToFile(response),
+        );
       }
     });
   };
+
   //// FUNCTION TO DISPLAY USER SELECTED IMAGE
+
   function renderSelectedImage() {
     if (Uri === '') {
       return (
@@ -84,6 +99,7 @@ export default function AddPostScreen({navigation}) {
       return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
     }
   }
+
   /////////// END OF IMAGE PICKER CODE
 
   //state set for 'location' picker
@@ -193,7 +209,8 @@ export default function AddPostScreen({navigation}) {
                   <Picker.Item label="Woodville" value="Woodville" />
                 </Picker>
                 {/* renders activity indicator when button is pressed */}
-                <View style={globalStyles.submitButtonContainer}>
+                <View>
+                  {/* <View style={globalStyles.submitButtonContainer}> */}
                   {formikProps.isSubmitting ? (
                     <ActivityIndicator size="large" color="#2bb76e" />
                   ) : (
@@ -202,7 +219,7 @@ export default function AddPostScreen({navigation}) {
                         style={globalStyles.inAppButton}
                         onPress={selectImage}>
                         <Text style={globalStyles.inAppTouchText}>
-                          Select Photo
+                          Add your image
                         </Text>
                       </TouchableOpacity>
                       {renderSelectedImage()
