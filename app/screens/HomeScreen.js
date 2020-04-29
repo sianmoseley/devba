@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {FlatList, Image, RefreshControl, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Icon} from 'react-native-elements';
 // import * as Animatable from 'react-native-animatable';
 import {globalStyles} from '../config/Styles';
@@ -19,7 +26,6 @@ const Post = ({
   report,
 }) => (
   <View style={globalStyles.postContainer}>
-    <Image style={globalStyles.image} source={uri} />
     <Text style={globalStyles.postText}>
       {heading} @ {location}
       {'\n'}
@@ -29,11 +35,12 @@ const Post = ({
       {'\n'}
       {createdAt}
     </Text>
-    
+
     {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-
-    <Image style={{alignSelf: 'center', height: 150, width: 150}} source={uri}/>
-
+    <Image
+      style={{alignSelf: 'center', height: 150, width: 150}}
+      source={uri}
+    />
     <View style={globalStyles.iconMargin}>
       <Icon
         iconStyle={globalStyles.icon}
@@ -57,7 +64,7 @@ export default class HomeScreen extends Component {
     this.state = {
       //set value of postList variable as an empty array
       postList: [],
-      refreshing: false
+      refreshing: false,
       // liked: false, //auto set to false on page load, change to interact with firebase user 'fav'
     };
   }

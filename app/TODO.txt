@@ -9,11 +9,17 @@
         -- Seperate model code {
             - Change Username
             - Edit Post
-        } 
+            - Favourites ???
+            - Search ???
+        }
+
+        --Merge Stephs code
     }
 
 -- Maps: Pearl
+
 -- Images: Sian
+
 -- Notifications: Steph
 -- T&Cs: Steph
 
