@@ -13,11 +13,11 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/Variables';
 import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
+import {globalStyles} from '../config/Styles';
+import {CustomTextInput} from '../config/Variables';
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -39,6 +39,7 @@ const addPostSchema = yup.object().shape({
 export default function AddPostScreen({navigation}) {
   //current user ID
   const userKey = Firebase.auth().currentUser.uid;
+
   //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)
@@ -103,7 +104,7 @@ export default function AddPostScreen({navigation}) {
   /////////// END OF IMAGE PICKER CODE
 
   //state set for 'location' picker
-  const [selectedValue, setSelectedValue] = useState('Harmer');
+  const [selectedValue, setSelectedValue] = useState('Adsetts');
 
   //component displays Formik form designed to handle user inputs
   return (

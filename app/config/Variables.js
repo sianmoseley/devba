@@ -24,9 +24,9 @@ export const Post = ({
       <Text style={globalStyles.postText}>
         {heading} @ {location}
         {'\n'}
-        posted by {createdBy}
-        {'\n'}
         {description}
+        {'\n'}
+        posted by {createdBy}
         {'\n'}
         {createdAt}
       </Text>

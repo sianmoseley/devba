@@ -8,12 +8,13 @@ import {
   View,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-// import * as Animatable from 'react-native-animatable';
+import * as Animatable from 'react-native-animatable';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
 import 'firebase/database';
 
-// const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
+//animated favourite icon
+const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
 const Post = ({
   createdAt,
@@ -27,24 +28,32 @@ const Post = ({
 }) => (
   <View style={globalStyles.postContainer}>
     <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
+      {heading} @ <Text style={{fontWeight: 'bold'}}>{location}</Text>
       {'\n'}
       {description}
       {'\n'}
+      listed by <Text style={{fontWeight: 'bold'}}>{createdBy}</Text>
+      {'\n'}
       {createdAt}
     </Text>
-
     {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
     <Image
       style={{alignSelf: 'center', height: 150, width: 150}}
       source={uri}
     />
     <View style={globalStyles.iconMargin}>
+      {/* <AnimatedIcon
+        iconStyle={globalStyles.icon}
+        name={'favorite-border'}
+        // name={liked ? 'favorite' : 'favorite-border'}
+        type="material"
+        // ref={this.handleSmallAnimatedIconRef}
+        // onPress={this.handleOnPressLike}
+      /> */}
       <Icon
         iconStyle={globalStyles.icon}
         name="heart"
+        // size="26"
         type="feather"
         onPress={favourite}
       />
@@ -57,6 +66,14 @@ const Post = ({
     </View>
   </View>
 );
+
+//TODO
+//refresh
+function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -107,13 +124,6 @@ export default class HomeScreen extends Component {
     // const {liked} = this.state;
     return (
       <View>
-        {/* <AnimatedIcon
-          iconStyle={globalStyles.icon}
-          name={liked ? 'favorite' : 'favorite-border'}
-          type="material"
-          ref={this.handleSmallAnimatedIconRef}
-          onPress={this.handleOnPressLike}
-        /> */}
         <FlatList
           //data for list specified as the list of posts
           keyExtractor={post => post.id}
@@ -151,13 +161,6 @@ export default class HomeScreen extends Component {
                   });
                 }}
               />
-              {/* <AnimatedIcon
-                iconStyle={globalStyles.icon}
-                name={liked ? 'favorite' : 'favorite-border'}
-                type="material"
-                ref={this.handleSmallAnimatedIconRef}
-                onPress={this.handleOnPressLike}
-              /> */}
             </View>
           )}
         />

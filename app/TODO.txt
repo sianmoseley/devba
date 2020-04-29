@@ -9,8 +9,6 @@
         -- Seperate model code {
             - Change Username
             - Edit Post
-            - Favourites ???
-            - Search ???
         }
 
         --Merge Stephs code

@@ -31,7 +31,8 @@ export default class FavouritesScreen extends Component {
       //obtain entire section of database specified in reference as one object
       const favObject = snapshot.val();
       if (!favObject) {
-        return console.warn('NO DATA FROM FIREBASE:', Date(Date.now()));
+        console.log('NO DATA FROM FIREBASE:', Date(Date.now()));
+        this.setState({favList: null});
       } else {
         console.log('FAVOURITES RETRIEVED:', Date(Date.now()));
         const favArray = Object.values(favObject);
@@ -45,10 +46,10 @@ export default class FavouritesScreen extends Component {
     return (
       <View>
         {!this.state.favList ? (
-          <View>
+          <View style={{padding: 25}}>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={{width: '69%', height: '60%'}}
+                style={{width: 275, height: 238}}
                 source={require('../images/bigapp.png')}
               />
               <Text style={{fontSize: 16, marginTop: 90}}>

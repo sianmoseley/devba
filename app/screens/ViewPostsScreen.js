@@ -41,10 +41,10 @@ export default class ViewPostsScreen extends Component {
     return (
       <View>
         {!this.state.userPostList ? (
-          <View>
+          <View style={{padding: 25}}>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={{width: '69%', height: '60%'}}
+                style={{width: 275, height: 238}}
                 source={require('../images/bigapp.png')}
               />
               <Text style={{fontSize: 16, marginTop: 90}}>

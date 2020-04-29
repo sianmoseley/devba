@@ -47,7 +47,7 @@ export const authenticationStyles = StyleSheet.create({
 
 export const globalStyles = StyleSheet.create({
   aboutText: {
-    fontSize: 16,
+    fontSize: 20,
   },
   accountButton: {
     borderColor: '#2bb76e',
@@ -125,7 +125,16 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#2bb76e',
     borderRadius: 10,
     paddingVertical: 10,
-    marginBottom: 10 // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
+    marginVertical: 10, // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
+  },
+  inAppDeleteButton: {
+    // backgroundColor: '#2bb76e',
+    backgroundColor: 'crimson',
+    borderColor: 'red',
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingVertical: 10,
+    marginVertical: 10, // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
   },
   inAppTouchText: {
     color: 'white',
