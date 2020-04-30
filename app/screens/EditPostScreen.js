@@ -164,7 +164,8 @@ export default function EditPostScreen({navigation, route}) {
                         },
                         {
                           text: 'Cancel',
-                          onPress: () => console.log('DELETE CANCELLED'),
+                          onPress: () =>
+                            console.log('DELETE CANCELLED:', Date(Date.now())),
                         },
                       ],
                     );

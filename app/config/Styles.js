@@ -3,7 +3,6 @@ import {StyleSheet, Dimensions} from 'react-native';
 export const authenticationStyles = StyleSheet.create({
   authContainer: {
     backgroundColor: '#2bb76e',
-    // flex: 1,
     padding: 10,
     paddingBottom: 20,
     height: '100%',
@@ -18,18 +17,19 @@ export const authenticationStyles = StyleSheet.create({
     height: 40,
     backgroundColor: 'rgba(255,255,255,0.7)',
     marginBottom: 2,
-    color: 'black',
     paddingHorizontal: 10,
   },
   authLabel: {
-    marginBottom: 3,
     color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginHorizontal: 1,
+    marginBottom: 4,
   },
   authText: {
     color: 'white',
     fontFamily: 'Arial',
-    fontSize: 16,
-    //fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
   },
   loginButton: {
@@ -38,6 +38,7 @@ export const authenticationStyles = StyleSheet.create({
   },
   newUserButton: {
     backgroundColor: '#2B2EB7',
+    marginTop: 14,
     paddingVertical: 10,
   },
   forgotPassword: {
@@ -134,7 +135,7 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     paddingVertical: 10,
-    marginVertical: 10, // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
+    marginVertical: 10,
   },
   inAppTouchText: {
     color: 'white',
@@ -157,16 +158,13 @@ export const globalStyles = StyleSheet.create({
   },
   logoLoginContainer: {
     alignItems: 'center',
-    // backgroundColor: 'black',
     justifyContent: 'center',
     marginHorizontal: 68,
-    marginVertical: 0,
   },
   logoTag: {
-    // backgroundColor: 'red',
     color: 'white',
-    fontSize: 16,
-    marginTop: -7,
+    fontSize: 18,
+    marginBottom: 60,
     textAlign: 'center',
   },
   postContainer: {
