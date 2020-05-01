@@ -18,6 +18,7 @@ import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
 import {globalStyles} from '../config/Styles';
 import {CustomTextInput} from '../config/Variables';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -56,13 +57,6 @@ export default function AddPostScreen({navigation}) {
   const [Uri, setUri] = useState('');
   const [Filename, setFilename] = useState('');
 
-  ////////////////  EXTRACTS FILE NAME FROM USER SELECTED IMAGE - SIAN
-
-  const createStorageReferenceToFile = response => {
-    const fileName = response.fileName;
-    setFilename(fileName);
-    return fileName;
-  };
 
   const selectImage = () => {
     const options = {
@@ -78,17 +72,56 @@ export default function AddPostScreen({navigation}) {
       } else {
         const source = response.uri;
         setUri(source);
-        console.log(
-          'My file storage reference is: ',
-          createStorageReferenceToFile(response),
-        );
+        const fileName = response.fileName;
+        setFilename(fileName);
+        console.log(Filename);
       }
     });
   };
+ 
+  // Prepare Blob support
+  const Blob = RNFetchBlob.polyfill.Blob
+  const fs = RNFetchBlob.fs
+  window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+  window.Blob = Blob
 
-  //// FUNCTION TO DISPLAY USER SELECTED IMAGE
+  // Function to upload image to Firebase storage
 
-  function renderSelectedImage() {
+  function uploadImage(Uri, Filename, mime = 'image/jpeg') {
+    return new Promise((resolve, reject) => {
+      const uploadUri = Platform.OS === 'ios' ? Uri.replace('file://', '') : Uri
+      let uploadBlob = null
+
+      const imageRef = Firebase.storage().ref('images').child(Filename)
+
+      fs.readFile(uploadUri, 'base64')
+        .then((data) => {
+          return Blob.build(data, { type: `${mime};BASE64` })
+        })
+        .then((blob) => {
+          uploadBlob = blob
+          return imageRef.put(blob, { contentType: mime })
+        })
+        .then(() => {
+          uploadBlob.close()
+          return imageRef.getDownloadURL()
+        })
+        .then((url) => {
+          resolve(url)
+        })
+        .catch((error) => {
+          reject(error)
+        .then(Alert.alert('image uploaded successfully!'))
+        .catch(error => console.log(error))
+      })
+    })
+  }
+
+
+
+   //// FUNCTION TO DISPLAY USER SELECTED IMAGE
+
+   function renderSelectedImage() {
     if (Uri === '') {
       return (
         <Image
@@ -100,6 +133,7 @@ export default function AddPostScreen({navigation}) {
       return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
     }
   }
+
 
   /////////// END OF IMAGE PICKER CODE
 
@@ -121,25 +155,26 @@ export default function AddPostScreen({navigation}) {
           onSubmit={(values, actions) => {
             //code executes when the Submit button is pressed
             //alert confrims to user their post has been accepted and posted
-            Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
-              {
-                text: 'OK',
-                //navigation back to the home page
-                onPress: () => navigation.navigate('HomeScreen'),
-              },
-            ]);
+            // Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
+            //   {
+            //     text: 'OK',
+            //     //navigation back to the home page
+            //     onPress: () => navigation.navigate('HomeScreen'),
+            //   },
+            // ]);
             console.log({selectedValue, values});
             Keyboard.dismiss();
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
             //AddPost function called
-            AddPost({
-              heading: values.heading,
-              description: values.description,
-              location: selectedValue,
-              uri: Uri,
-            });
+            // AddPost({
+            //   heading: values.heading,
+            //   description: values.description,
+            //   location: selectedValue,
+            //   uri: Uri,
+            // });
+            uploadImage(Uri, Filename);
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
