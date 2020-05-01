@@ -8,13 +8,13 @@ import {
   View,
   Keyboard,
 } from 'react-native';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
-import {Formik} from 'formik';
-import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
-import {userKey} from '../config/Variables';
+import {CustomTextInput} from '../config/Variables';
 
 //client-side validation with yup
 // const changeUsernameSchema = yup.object().shape({});

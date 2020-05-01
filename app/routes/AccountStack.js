@@ -39,7 +39,7 @@ export default function AccountStack() {
       <Stack.Screen
         name="EditForm"
         component={EditPostScreen}
-        options={{title: 'Edit Posts', headerTitleAlign: 'center'}}
+        options={{title: 'Edit Post', headerTitleAlign: 'center'}}
       />
       <Stack.Screen
         name="ChangeUsername"

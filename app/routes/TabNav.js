@@ -30,7 +30,7 @@ export default function TabNav() {
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="home" type="feather" color={color} />
+            <Icon name="home" size={30} type="font-awesome" color={color} />
           ),
         }}
         name="Home"
@@ -39,7 +39,7 @@ export default function TabNav() {
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="search" type="feather" color={color} />
+            <Icon name="search" size={27} type="font-awesome" color={color} />
           ),
           unmountOnBlur: true,
         }}
@@ -49,7 +49,7 @@ export default function TabNav() {
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="map" type="feather" color={color} />
+            <Icon name="map" type="font-awesome" color={color} />
           ),
         }}
         name="Activity"
@@ -58,7 +58,7 @@ export default function TabNav() {
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="heart" type="feather" color={color} />
+            <Icon name="heart" type="font-awesome" color={color} />
           ),
         }}
         name="Favourites"
@@ -67,7 +67,7 @@ export default function TabNav() {
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="bell" type="feather" color={color} />
+            <Icon name="bell" type="font-awesome" color={color} />
           ),
         }}
         name="Notfications"

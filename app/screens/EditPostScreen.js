@@ -3,6 +3,7 @@ import {Picker} from '@react-native-community/picker';
 import {
   Alert,
   Image,
+  Keyboard,
   ScrollView,
   Text,
   TextInput,
@@ -14,14 +15,30 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import Firebase from 'firebase';
-import 'firebase/database';
 import ImagePicker from 'react-native-image-picker';
 import {globalStyles} from '../config/Styles';
+
+//client-side validation with yup
+const editPostSchema = yup.object().shape({
+  heading: yup
+    .string()
+    .label('Heading')
+    .required('This is a required field.')
+    .min(5, 'Field must contain a valid description')
+    .max(50, "Don't be daft"),
+  description: yup
+    .string()
+    .label('Description')
+    .required('This is a required field.')
+    .min(5, 'Field must contain a valid description')
+    .max(50, "Don't be daft"),
+});
 
 export default function EditPostScreen({navigation, route}) {
   //obtain id of post from last screen
   const post = route.params;
   const postKey = post.id;
+
   //obtain URL path reference in database for the chosen post
   const ref = Firebase.database().ref('posts/' + postKey);
 
@@ -127,12 +144,14 @@ export default function EditPostScreen({navigation, route}) {
               location: Location,
               uri: Uri,
             });
-          }}>
+          }}
+          // validationSchema={editPostSchema}
+        >
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
                 <TouchableOpacity
-                  style={globalStyles.inAppButton}
+                  style={globalStyles.inAppDeleteButton}
                   title={'delete'}
                   onPress={() => {
                     //alert is displayed to warn user
@@ -146,14 +165,13 @@ export default function EditPostScreen({navigation, route}) {
                         },
                         {
                           text: 'Cancel',
-                          onPress: () => console.log('DELETE CANCELLED'),
+                          onPress: () =>
+                            console.log('DELETE CANCELLED:', Date(Date.now())),
                         },
                       ],
                     );
                   }}>
-                  <Text style={globalStyles.inAppTouchText}>
-                    Delete this post
-                  </Text>
+                  <Text style={globalStyles.inAppTouchText}>DELETE POST</Text>
                 </TouchableOpacity>
                 <TextInput
                   style={globalStyles.inputBox}

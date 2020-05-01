@@ -2,60 +2,16 @@ import React, {Component} from 'react';
 import {
   ActivityIndicator,
   Keyboard,
-  Switch,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {authenticationStyles, globalStyles} from '../config/Styles';
 import SubmitRegister from '../database/Register';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={authenticationStyles.authLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  const inputStyles = {
-    height: 40,
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    marginBottom: 2,
-    color: 'black',
-    paddingHorizontal: 10,
-  };
-  if (formikProps.touched[formikKey] && formikProps.errors[formikKey]) {
-    inputStyles.borderColor = 'red';
-  }
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={inputStyles}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
-const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
-  <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-    <Switch
-      value={formikProps.values[formikKey]}
-      onValueChange={value => {
-        formikProps.setFieldValue(formikKey, value);
-      }}
-      {...rest}
-    />
-  </FieldWrapper>
-);
+import {authenticationStyles} from '../config/Styles';
+import {AuthInput, AuthSwitch} from '../config/Variables';
 
 const registerSchema = yup.object().shape({
   username: yup
@@ -120,34 +76,34 @@ export default class Register extends Component {
               {formikProps => (
                 <React.Fragment>
                   <View>
-                    <CustomTextInput
-                      label="Username"
+                    <AuthInput
+                      label="Username:"
                       formikProps={formikProps}
                       formikKey="username"
                       placeholder="Please enter a username"
                     />
-                    <CustomTextInput
-                      label="Email"
+                    <AuthInput
+                      label="Email:"
                       formikProps={formikProps}
                       formikKey="email"
                       placeholder="Please enter your email"
                     />
-                    <CustomTextInput
-                      label="Password"
+                    <AuthInput
+                      label="Password:"
                       formikProps={formikProps}
                       formikKey="password"
                       placeholder="Please enter a password"
                       secureTextEntry
                     />
-                    <CustomTextInput
-                      label="Confirm Password"
+                    <AuthInput
+                      label="Confirm Password:"
                       formikProps={formikProps}
                       formikKey="confirmPassword"
                       placeholder="Please confirm password"
                       secureTextEntry
                     />
-                    <CustomSwitch
-                      label="Agree to Terms"
+                    <AuthSwitch
+                      label="Agree to Terms:"
                       formikKey="agreeToTerms"
                       formikProps={formikProps}
                     />

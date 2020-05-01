@@ -42,17 +42,17 @@ export default function AccountScreen({navigation}) {
         <TouchableOpacity
           style={globalStyles.accountButton}
           onPress={() => {
-            //alerst user to confirm if they want to logout
+            //alerts user to confirm if they want to logout
             Alert.alert(
               'Are you sure you wish to log out?',
               'You can always log back in.',
               [
                 {
-                  text: 'No, go back.',
-                },
-                {
                   text: 'Yes, log out.',
                   onPress: () => LogOut(),
+                },
+                {
+                  text: 'No, go back.',
                 },
               ],
             );
