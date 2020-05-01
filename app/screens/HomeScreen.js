@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Animated,
   FlatList,
   Image,
   RefreshControl,
@@ -8,72 +9,17 @@ import {
   View,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import * as Animatable from 'react-native-animatable';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
 import 'firebase/database';
 
-//animated favourite icon
-const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
-
-const Post = ({
-  createdAt,
-  createdBy,
-  description,
-  favourite,
-  heading,
-  location,
-  uri,
-  report,
-}) => (
-  <View style={globalStyles.postContainer}>
-    <Text style={globalStyles.postText}>
-      {heading} @ <Text style={{fontWeight: 'bold'}}>{location}</Text>
-      {'\n'}
-      {description}
-      {'\n'}
-      listed by <Text style={{fontWeight: 'bold'}}>{createdBy}</Text>
-      {'\n'}
-      {createdAt}
-    </Text>
-    {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-    <Image
-      style={{alignSelf: 'center', height: 150, width: 150}}
-      source={uri}
-    />
-    <View style={globalStyles.iconMargin}>
-      {/* <AnimatedIcon
-        iconStyle={globalStyles.icon}
-        name={'favorite-border'}
-        // name={liked ? 'favorite' : 'favorite-border'}
-        type="material"
-        // ref={this.handleSmallAnimatedIconRef}
-        // onPress={this.handleOnPressLike}
-      /> */}
-      <Icon
-        iconStyle={globalStyles.icon}
-        name="heart"
-        // size="26"
-        type="feather"
-        onPress={favourite}
-      />
-      <Icon
-        iconStyle={globalStyles.icon}
-        name="flag"
-        type="feather"
-        onPress={report}
-      />
-    </View>
-  </View>
-);
-
 //TODO
 //refresh
-function wait(timeout) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
+// function wait(timeout) {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, timeout);
+//   });
+// }
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -81,20 +27,10 @@ export default class HomeScreen extends Component {
     this.state = {
       //set value of postList variable as an empty array
       postList: [],
-      refreshing: false,
-      // liked: false, //auto set to false on page load, change to interact with firebase user 'fav'
+      // refreshing: false,
+      liked: false,
     };
   }
-
-  // handleSmallAnimatedIconRef = ref => {
-  //   this.smallAnimatedIcon = ref;
-  // };
-  // handleOnPressLike = () => {
-  //   /* This is a separate function for liking the photo,
-  //   it activates only smart heart animation and it's invoked by pressing small icon */
-  //   this.smallAnimatedIcon.bounceIn();
-  //   this.setState(prevState => ({liked: !prevState.liked}));
-  // };
 
   componentDidMount() {
     //function runs as soon as the component 'HomeScreen' is loaded
@@ -121,50 +57,75 @@ export default class HomeScreen extends Component {
   };
 
   render() {
-    // const {liked} = this.state;
     return (
-      <View>
-        <FlatList
-          //data for list specified as the list of posts
-          keyExtractor={post => post.id}
-          //posts sorted by newest to oldest
-          data={this.state.postList.sort(a => a.createdAt.localeCompare())}
-          // data={this.state.postList}
-          renderItem={({item: post}) => (
-            <View>
-              <Post
-                key={post.heading}
-                heading={post.heading}
-                description={post.description}
-                location={post.location}
-                createdAt={post.createdAt}
-                createdBy={post.createdBy}
-                uri={{uri: post.uri}}
-                //when report icon pressed, navigates user to ReportPostScreen
-                report={() =>
-                  this.props.navigation.navigate('ReportPostScreen', post)
-                }
-                //when the favourite icon pressed, function executes
-                favourite={() => {
+      <FlatList
+        //data for list specified as the list of posts
+        keyExtractor={post => post.id}
+        //posts sorted by newest first
+        // data={this.state.postList.sort(a => a.createdAt.localeCompare())}
+        data={this.state.postList}
+        renderItem={({item: post}) => (
+          <View style={globalStyles.postContainer}>
+            <Text style={globalStyles.postText}>
+              {post.heading}
+              {'\n'}@ <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
+              {'\n'}
+              {post.description}
+              {'\n'}
+              listed by{' '}
+              <Text style={{fontWeight: 'bold'}}>{post.createdBy}</Text>
+              {'\n'}
+              on <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
+            </Text>
+            {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
+            {/* <Image
+                  style={{alignSelf: 'center', height: 150, width: 150}}
+                  source={post.uri}
+                /> */}
+            <View style={globalStyles.iconMargin}>
+              <Icon
+                raised
+                iconStyle={globalStyles.icon}
+                name={this.state.liked ? 'heart' : 'heart-o'}
+                size={28}
+                type="font-awesome"
+                onPress={() => {
+                  // this.pressLike();
                   const userKey = Firebase.auth().currentUser.uid;
                   const postKey = post.id;
                   const favRef = Firebase.database().ref(
                     'favourites/' + userKey + '/' + postKey,
                   );
-                  favRef.set({
-                    id: postKey,
-                    heading: post.heading,
-                    description: post.description,
-                    location: post.location,
-                    createdAt: post.createdAt,
-                    createdBy: post.createdBy,
-                  });
+                  if (this.state.liked === false) {
+                    favRef.set({
+                      id: postKey,
+                      heading: post.heading,
+                      description: post.description,
+                      location: post.location,
+                      createdAt: post.createdAt,
+                      createdBy: post.createdBy,
+                    });
+                    this.setState({liked: true});
+                  } else {
+                    favRef.remove();
+                    this.setState({liked: false});
+                  }
                 }}
               />
+              <Icon
+                raised
+                iconStyle={globalStyles.icon}
+                name="flag-o"
+                size={28}
+                type="font-awesome"
+                onPress={() =>
+                  this.props.navigation.navigate('ReportPostScreen', post)
+                }
+              />
             </View>
-          )}
-        />
-      </View>
+          </View>
+        )}
+      />
     );
   }
 }

@@ -9,12 +9,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput, CustomSwitch} from '../config/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ReportPost from '../database/ReportPost';
 import Firebase from 'firebase';
+import {globalStyles} from '../config/Styles';
+import {CustomTextInput, CustomSwitch} from '../config/Variables';
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({

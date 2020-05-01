@@ -46,7 +46,10 @@ export default class FavouritesScreen extends Component {
     return (
       <View>
         {!this.state.favList ? (
-          <View style={{padding: 25}}>
+          <View
+            style={{
+              paddingTop: 100,
+            }}>
             <View style={globalStyles.logoContainer}>
               <Image
                 style={{width: 275, height: 238}}

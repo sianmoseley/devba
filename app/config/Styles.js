@@ -111,8 +111,9 @@ export const globalStyles = StyleSheet.create({
     padding: 5,
   },
   iconMargin: {
-    marginHorizontal: 165,
+    alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   iconRight: {
     right: 12,
@@ -152,7 +153,7 @@ export const globalStyles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'space-evenly',
     flexGrow: 1,
     padding: 10,
   },
