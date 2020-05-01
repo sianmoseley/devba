@@ -23,7 +23,7 @@ const Post = ({
   favourite,
   heading,
   location,
-  uri,
+  //uri,
   report,
 }) => (
   <View style={globalStyles.postContainer}>
@@ -37,10 +37,10 @@ const Post = ({
       {createdAt}
     </Text>
     {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-    <Image
+    {/* <Image
       style={{alignSelf: 'center', height: 150, width: 150}}
       source={uri}
-    />
+    /> */}
     <View style={globalStyles.iconMargin}>
       {/* <AnimatedIcon
         iconStyle={globalStyles.icon}

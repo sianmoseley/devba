@@ -157,14 +157,15 @@ export default function AddPostScreen({navigation}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
+            console.log(Filename);
             //AddPost function called
             AddPost({
               heading: values.heading,
               description: values.description,
               location: selectedValue,
               uri: Uri,
+              filename: Filename,
             });
-            console.log(Filename);
             uploadImage(Uri, Filename, userKey);
              Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
               {
