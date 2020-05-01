@@ -105,6 +105,9 @@ export default function AddPostScreen({navigation}) {
           uploadBlob.close()
           return imageRef.getDownloadURL()
         })
+        .then(function(downloadURL){
+          console.log('File available at', downloadURL)
+        })
         .then((url) => {
           resolve(url)
         })
