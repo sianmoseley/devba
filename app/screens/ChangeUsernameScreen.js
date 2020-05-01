@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Keyboard,
 } from 'react-native';
 import Firebase from 'firebase';
 import 'firebase/database';
@@ -13,16 +14,15 @@ import 'firebase/auth';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {globalStyles} from '../config/Styles';
+import {userKey} from '../config/Variables';
 
 //client-side validation with yup
 // const changeUsernameSchema = yup.object().shape({});
 
 export default function ChangeUsernameScreen({navigation}) {
-  //current user ID
-  const userKey = Firebase.auth().currentUser.uid;
   //obtain the user and username of logged in user as objects
   const user = Firebase.auth().currentUser;
-  const currentUsername = Firebase.auth().currentUser.displayName;
+  const currentUsername = user.displayName;
 
   //set username variable that will be changed as the existing username
   const [Username, setUsername] = useState(currentUsername);

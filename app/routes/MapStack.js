@@ -14,7 +14,7 @@ export default function MapStack() {
       screenOptions={({navigation}) => {
         return {
           headerTitle: () => (
-            <CustomHeader navigation={navigation} title="Activity" />
+            <CustomHeader navigation={navigation} title="Map" />
           ),
           headerTitleAlign: 'center',
         };

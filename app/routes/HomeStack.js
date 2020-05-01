@@ -4,6 +4,7 @@ import HomeHeader from '../custom/HomeHeader';
 import HomeScreen from '../screens/HomeScreen';
 import ReportPostScreen from '../screens/ReportPostScreen';
 import AddPostScreen from '../screens/AddPostScreen';
+import LocatePostScreen from '../screens/LocatePostScreen';
 
 //stack that holds screens for main page
 //user sees HomeScreen upon successful login
@@ -42,6 +43,11 @@ export default function HomeNavigator({navigation, route}) {
         name="AddPostScreen"
         component={AddPostScreen}
         options={{title: 'Share your leftovers!', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
+        name="LocatePostScreen"
+        component={LocatePostScreen}
+        options={{title: 'Locate your leftovers', headerTitleAlign: 'center'}}
       />
     </Stack.Navigator>
   );

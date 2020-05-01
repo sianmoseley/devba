@@ -20,8 +20,8 @@ export default class ViewPostsScreen extends Component {
 
   getUserPosts = () => {
     const userKey = Firebase.auth().currentUser.uid;
-    const ref = Firebase.database().ref('user_posts/' + userKey);
-    ref.on('value', snapshot => {
+    const userPostRef = Firebase.database().ref('user_posts/' + userKey);
+    userPostRef.on('value', snapshot => {
       //obtain entire section of database specified in reference as one object
       const postObject = snapshot.val();
       if (!postObject) {

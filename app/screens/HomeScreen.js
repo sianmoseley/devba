@@ -4,6 +4,7 @@ import {
   Image,
   RefreshControl,
   Text,
+  ToolbarAndroidComponent,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -24,38 +25,36 @@ const Post = ({
   location,
   uri,
   report,
+  onPress,
 }) => (
-  <View style={globalStyles.postContainer}>
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-      {'\n'}
-      {createdAt}
-    </Text>
-
-    {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-    <Image
-      style={{alignSelf: 'center', height: 150, width: 150}}
-      source={uri}
-    />
-    <View style={globalStyles.iconMargin}>
-      <Icon
-        iconStyle={globalStyles.icon}
-        name="heart"
-        type="feather"
-        onPress={favourite}
-      />
-      <Icon
-        iconStyle={globalStyles.icon}
-        name="flag"
-        type="feather"
-        onPress={report}
-      />
+  <TouchableOpacity onPress={onPress}>
+    <View style={globalStyles.postContainer}>
+      <Image style={globalStyles.image} source={uri} />
+      <Text style={globalStyles.postText}>
+        {heading} @ {location}
+        {'\n'}
+        posted by {createdBy}
+        {'\n'}
+        {description}
+        {'\n'}
+        {createdAt}
+      </Text>
+      <View style={globalStyles.iconMargin}>
+        <Icon
+          iconStyle={globalStyles.icon}
+          name="heart"
+          type="feather"
+          onPress={favourite}
+        />
+        <Icon
+          iconStyle={globalStyles.icon}
+          name="flag"
+          type="feather"
+          onPress={report}
+        />
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 export default class HomeScreen extends Component {
@@ -130,14 +129,19 @@ export default class HomeScreen extends Component {
                 createdAt={post.createdAt}
                 createdBy={post.createdBy}
                 uri={{uri: post.uri}}
+                onPress={() =>
+                  this.props.navigation.navigate('LocatePostScreen', {
+                    location: post.location,
+                  })
+                }
                 //when report icon pressed, navigates user to ReportPostScreen
                 report={() =>
                   this.props.navigation.navigate('ReportPostScreen', post)
                 }
                 //when the favourite icon pressed, function executes
                 favourite={() => {
-                  const userKey = Firebase.auth().currentUser.uid;
                   const postKey = post.id;
+                  const userKey = Firebase.auth().currentUser.uid;
                   const favRef = Firebase.database().ref(
                     'favourites/' + userKey + '/' + postKey,
                   );

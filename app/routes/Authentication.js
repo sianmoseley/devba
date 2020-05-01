@@ -10,9 +10,6 @@ import LogOutStack from './LogoutStack';
 const AuthContext = createContext(null);
 
 export default function AuthNavigator() {
-  // !Firebase.apps.length
-  //   ? Firebase.initializeApp(firebaseConfig)
-  //   : Firebase.app();
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 

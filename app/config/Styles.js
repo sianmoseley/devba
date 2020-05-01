@@ -117,15 +117,15 @@ export const globalStyles = StyleSheet.create({
     right: 12,
   },
   image: {
-    flexDirection: 'row',
     height: 150,
     width: 150,
+    alignSelf: 'center',
   },
   inAppButton: {
     backgroundColor: '#2bb76e',
     borderRadius: 10,
     paddingVertical: 10,
-    marginBottom: 10 // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
+    marginBottom: 10, // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
   },
   inAppTouchText: {
     color: 'white',
@@ -159,6 +159,10 @@ export const globalStyles = StyleSheet.create({
     fontSize: 16,
     marginTop: -7,
     textAlign: 'center',
+  },
+  map: {
+    height: '100%',
+    width: '100%',
   },
   postContainer: {
     borderColor: '#2bb76e',

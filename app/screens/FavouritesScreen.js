@@ -23,7 +23,7 @@ export default class FavouritesScreen extends Component {
 
   //function to obtain list of posts favourited by the logged in user
   getFavourites = () => {
-    //current user ID
+    //current user unique id
     userKey = Firebase.auth().currentUser.uid;
     //path reference for logged in user's favourite posts in favourites table
     const ref = Firebase.database().ref('favourites/' + userKey);

@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {globalStyles} from './Styles';
+import Firebase from 'firebase';
 
 //constant component for posts
 export const Post = ({
@@ -21,6 +22,7 @@ export const Post = ({
 }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={globalStyles.postContainer}>
+      <Image style={globalStyles.image} source={uri} />
       <Text style={globalStyles.postText}>
         {heading} @ {location}
         {'\n'}
@@ -30,10 +32,6 @@ export const Post = ({
         {'\n'}
         {createdAt}
       </Text>
-      <Image
-        style={{alignSelf: 'center', height: 150, width: 150}}
-        source={uri}
-      />
     </View>
   </TouchableOpacity>
 );
