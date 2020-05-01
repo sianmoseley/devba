@@ -54,7 +54,7 @@ export default function AddPostScreen({navigation}) {
 
   ///////////////// IMAGE PICKER CODE - SIAN
 
-  const [Uri, setUri] = useState('');
+  const [Uri, setUri] = useState('https://avatars0.githubusercontent.com/u/12028011?v=3&s=200');
   const [Filename, setFilename] = useState('');
 
 
@@ -166,7 +166,7 @@ export default function AddPostScreen({navigation}) {
             });
             console.log(Filename);
             uploadImage(Uri, Filename, userKey);
-            Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
+             Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
               {
                 text: 'OK',
                 //navigation back to the home page
