@@ -5,6 +5,7 @@ import {
   Image,
   RefreshControl,
   Text,
+  ToolbarAndroidComponent,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -20,6 +21,7 @@ import 'firebase/database';
 //     setTimeout(resolve, timeout);
 //   });
 // }
+
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -65,6 +67,10 @@ export default class HomeScreen extends Component {
         // data={this.state.postList.sort(a => a.createdAt.localeCompare())}
         data={this.state.postList}
         renderItem={({item: post}) => (
+          <TouchableOpacity onPress={() =>
+                  this.props.navigation.navigate('LocatePostScreen', {
+                    location: post.location,
+                  })}>
           <View style={globalStyles.postContainer}>
             <Text style={globalStyles.postText}>
               {post.heading}
@@ -93,6 +99,7 @@ export default class HomeScreen extends Component {
                   // this.pressLike();
                   const userKey = Firebase.auth().currentUser.uid;
                   const postKey = post.id;
+                  const userKey = Firebase.auth().currentUser.uid;
                   const favRef = Firebase.database().ref(
                     'favourites/' + userKey + '/' + postKey,
                   );
@@ -124,6 +131,7 @@ export default class HomeScreen extends Component {
               />
             </View>
           </View>
+          </TouchableOpacity>
         )}
       />
     );

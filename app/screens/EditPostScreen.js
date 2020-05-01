@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Keyboard,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -209,7 +210,7 @@ export default function EditPostScreen({navigation, route}) {
                     label="Heart of Campus"
                     value="Heart of Campus"
                   />
-                  <Picker.Item label="Howard/Surrey" value="Howard/Surrey" />
+                  <Picker.Item label="Howard/Surrey" value="Howard_Surrey" />
                   <Picker.Item label="Library" value="Library" />
                   <Picker.Item label="Main Building" value="Main Building" />
                   <Picker.Item label="The Mews" value="The Mews" />
@@ -226,7 +227,7 @@ export default function EditPostScreen({navigation, route}) {
                   />
                   <Picker.Item
                     label="Sheffield Institute of Arts"
-                    value="Sheffield Institute of Arts"
+                    value="SIA"
                   />
                   <Picker.Item label="Sheaf" value="Sheaf" />
                   <Picker.Item label="Stoddart" value="Stoddart" />

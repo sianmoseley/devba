@@ -119,9 +119,9 @@ export const globalStyles = StyleSheet.create({
     right: 12,
   },
   image: {
-    flexDirection: 'row',
     height: 150,
     width: 150,
+    alignSelf: 'center',
   },
   inAppButton: {
     backgroundColor: '#2bb76e',
@@ -137,6 +137,7 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 10,
     marginVertical: 10,
+
   },
   inAppTouchText: {
     color: 'white',
@@ -167,6 +168,10 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 60,
     textAlign: 'center',
+  },
+  map: {
+    height: '100%',
+    width: '100%',
   },
   postContainer: {
     borderColor: '#2bb76e',
