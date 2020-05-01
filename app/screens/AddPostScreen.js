@@ -87,12 +87,12 @@ export default function AddPostScreen({navigation}) {
 
   // Function to upload image to Firebase storage
 
-  function uploadImage(Uri, Filename, mime = 'image/jpeg') {
+  function uploadImage(Uri, Filename, userKey, mime = 'image/jpeg') {
     return new Promise((resolve, reject) => {
       const uploadUri = Platform.OS === 'ios' ? Uri.replace('file://', '') : Uri
       let uploadBlob = null
 
-      const imageRef = Firebase.storage().ref('images').child(Filename)
+      const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename)
 
       fs.readFile(uploadUri, 'base64')
         .then((data) => {
@@ -111,8 +111,6 @@ export default function AddPostScreen({navigation}) {
         })
         .catch((error) => {
           reject(error)
-        .then(Alert.alert('image uploaded successfully!'))
-        .catch(error => console.log(error))
       })
     })
   }
@@ -174,7 +172,7 @@ export default function AddPostScreen({navigation}) {
             //   location: selectedValue,
             //   uri: Uri,
             // });
-            uploadImage(Uri, Filename);
+            uploadImage(Uri, Filename, userKey);
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
