@@ -1,74 +1,91 @@
-import React, {Component, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import React, {Component} from 'react';
+import {Image, FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
+import {Post} from '../config/Variables';
 
-const Post = ({heading, description, location, createdBy, onPress}) => (
-  <View style={globalStyles.postContainer}>
-    {/* <TouchableOpacity> */}
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-    </Text>
-    {/* <View style={globalStyles.iconFlagMargin}>
-        <Icon
-          iconStyle={globalStyles.iconFlag}
-          name="flag"
-          type="entypo"
-          onPress={onPress}
-        />
-      </View> */}
-    {/* </TouchableOpacity> */}
-  </View>
-);
+//global variable enables interaction with onPress
+let userKey = '';
 
-export default class SearchScreen extends Component {
+export default class FavouritesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //set value of favList as empty array
       favList: [],
     };
   }
 
+  componentDidMount() {
+    //executes on page load
+    this.getFavourites();
+  }
+
+  //function to obtain list of posts favourited by the logged in user
   getFavourites = () => {
-    const userKey = Firebase.auth().currentUser.uid;
+    //current user unique id
+    userKey = Firebase.auth().currentUser.uid;
+    //path reference for logged in user's favourite posts in favourites table
     const ref = Firebase.database().ref('favourites/' + userKey);
     ref.on('value', snapshot => {
+      //obtain entire section of database specified in reference as one object
       const favObject = snapshot.val();
       if (!favObject) {
-        return console.warn('No data from firebase');
+        console.log('NO DATA FROM FIREBASE:', Date(Date.now()));
+        this.setState({favList: null});
       } else {
-        console.log('Favourites retrieved!');
+        console.log('FAVOURITES RETRIEVED:', Date(Date.now()));
         const favArray = Object.values(favObject);
+        //assign data to favList array
         this.setState({favList: favArray});
       }
     });
   };
 
-  componentDidMount() {
-    this.getFavourites();
-  }
-
   render() {
     return (
       <View>
-        <FlatList
-          keyExtractor={post => post.heading}
-          data={this.state.favList}
-          renderItem={({item: post}) => (
-            <Post
-              key={post.id}
-              heading={post.heading}
-              description={post.description}
-              location={post.location}
-              createdBy={post.createdBy}
-              image={post.image && {uri: post.image}}
-            />
-          )}
-        />
+        {!this.state.favList ? (
+          <View
+            style={{
+              paddingTop: 100,
+            }}>
+            <View style={globalStyles.logoContainer}>
+              <Image
+                style={{width: 275, height: 238}}
+                source={require('../images/bigapp.png')}
+              />
+              <Text style={{fontSize: 16, marginTop: 90}}>
+                You've not 'hearted' any posts yet!
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <FlatList
+            keyExtractor={post => post.id}
+            //inserts data to be rendered as the array of favourite posts
+            data={this.state.favList.sort(a => a.createdAt.localeCompare())}
+            //each item in the array is identified as 'post'
+            renderItem={({item: post}) => (
+              <Post
+                //specified Post component rendered as item in list with fields from database rendered in their designated sections
+                key={post.id}
+                heading={post.heading}
+                description={post.description}
+                location={post.location}
+                createdAt={post.createdAt}
+                createdBy={post.createdBy}
+                uri={{uri: post.uri}}
+                onPress={() => {
+                  const postKey = post.id;
+                  Firebase.database()
+                    .ref('favourites/' + userKey + '/' + postKey)
+                    .remove();
+                }}
+              />
+            )}
+          />
+        )}
       </View>
     );
   }

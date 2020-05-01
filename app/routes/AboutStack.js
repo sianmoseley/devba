@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import CustomHeader from '../custom/CustomHeader';
 import AboutScreen from '../screens/AboutScreen';
 
+//plugs into RootStack
+//directs to AboutScreen
+
 const Stack = createStackNavigator();
 
 export default function AboutStack() {

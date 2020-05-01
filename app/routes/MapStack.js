@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MapScreen from '../screens/MapScreen';
 import CustomHeader from '../custom/CustomHeader';
 
+//plugs into TabNav
+//directs to MapScreen
+
 const Stack = createStackNavigator();
 
 export default function MapStack() {
@@ -11,7 +14,7 @@ export default function MapStack() {
       screenOptions={({navigation}) => {
         return {
           headerTitle: () => (
-            <CustomHeader navigation={navigation} title="Activity" />
+            <CustomHeader navigation={navigation} title="Map" />
           ),
           headerTitleAlign: 'center',
         };

@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ReportBugScreen from '../screens/ReportBugScreen';
 import CustomHeader from '../custom/CustomHeader';
 
+//plugs into RootStack
+//directs to ReportBugScreen
+
 const Stack = createStackNavigator();
 
 export default function ReportBugNavigator() {

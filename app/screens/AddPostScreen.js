@@ -1,41 +1,23 @@
 import React, {useState} from 'react';
+import {Picker} from '@react-native-community/picker';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Keyboard,
-  Picker,
+  ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {globalStyles} from '../config/Styles';
+import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={globalStyles.formLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={globalStyles.inputBox}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
+import ImagePicker from 'react-native-image-picker';
+import {globalStyles} from '../config/Styles';
+import {CustomTextInput} from '../config/Variables';
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -53,67 +35,95 @@ const addPostSchema = yup.object().shape({
     .max(50, "Don't be daft"),
 });
 
-//so username is global
-let Username = '';
-
+//AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
   const userKey = Firebase.auth().currentUser.uid;
+
+  //used for logging, can remove
   Firebase.database()
     .ref('users/' + userKey)
     .on('value', snapshot => {
+      //set of data in path read as an object
       const user = snapshot.val();
-      Username = user.username;
+      //extract specific value of username
+      const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
-  async function AddPost(values, addComplete) {
-    const key = Firebase.database()
-      .ref('posts')
-      .push().key;
-    try {
-      await Firebase.database()
-        .ref('posts/' + key)
-        .set({
-          id: key,
-          heading: values.heading,
-          description: values.description,
-          location: values.location,
-          createdAt: Date(Date.now()),
-          createdBy: Username,
-        })
-        .then(console.log('POST ADDED SUCCESSFULLY', Date(Date.now())));
-      Firebase.database()
-        .ref('user_posts/' + userKey + '/' + key)
-        .set({
-          id: key,
-          heading: values.heading,
-          description: values.description,
-          location: values.location,
-          createdAt: Date(Date.now()),
-          createdBy: Username,
-        });
-      const snapshot = undefined;
-      values.Id = snapshot.Id;
-      snapshot.set(values);
-      return addComplete(values);
-    } catch (error) {
-      return console.log(error);
+
+  ///////////////// IMAGE PICKER CODE - SIAN
+
+  const [Uri, setUri] = useState('');
+  const [Filename, setFilename] = useState('');
+
+  ////////////////  EXTRACTS FILE NAME FROM USER SELECTED IMAGE - SIAN
+
+  const createStorageReferenceToFile = response => {
+    const fileName = response.fileName;
+    setFilename(fileName);
+    return fileName;
+  };
+
+  const selectImage = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = response.uri;
+        setUri(source);
+        console.log(
+          'My file storage reference is: ',
+          createStorageReferenceToFile(response),
+        );
+      }
+    });
+  };
+
+  //// FUNCTION TO DISPLAY USER SELECTED IMAGE
+
+  function renderSelectedImage() {
+    if (Uri === '') {
+      return (
+        <Image
+          source={require('../images/gallery.png')}
+          style={{width: '100%', height: 300}}
+        />
+      );
+    } else {
+      return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
     }
   }
 
-  const [selectedValue, setSelectedValue] = useState('Harmer');
+  /////////// END OF IMAGE PICKER CODE
+
+  //state set for 'location' picker
+  const [selectedValue, setSelectedValue] = useState('Adsetts');
+
+  //component displays Formik form designed to handle user inputs
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled={true}
+      //dismisses keyboard when pressing on screen
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <View>
+      {/* flex forces content to fit to size of screen */}
+      <ScrollView style={{flex: 1}}>
         <Formik
           initialValues={{heading: '', description: ''}}
           onSubmit={(values, actions) => {
+            //code executes when the Submit button is pressed
+            //alert confrims to user their post has been accepted and posted
             Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
               {
                 text: 'OK',
+                //navigation back to the home page
                 onPress: () => navigation.navigate('HomeScreen'),
               },
             ]);
@@ -122,17 +132,21 @@ export default function AddPostScreen({navigation}) {
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
+            //AddPost function called
             AddPost({
               heading: values.heading,
               description: values.description,
               location: selectedValue,
+              uri: Uri,
             });
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
+                {/* custom inputs */}
                 <CustomTextInput
+                  //textboxes for each field
                   label="Heading:"
                   formikProps={formikProps}
                   formikKey="heading"
@@ -147,6 +161,7 @@ export default function AddPostScreen({navigation}) {
                 />
                 <Text style={globalStyles.formLabel}>Select Location:</Text>
                 <Picker
+                  //dropdown menu of set locations (all Sheffield Hallam University buildings)
                   style={globalStyles.formPicker}
                   mode="dialog"
                   prompt="Where can we find your food?"
@@ -169,7 +184,7 @@ export default function AddPostScreen({navigation}) {
                     label="Heart of Campus"
                     value="Heart of Campus"
                   />
-                  <Picker.Item label="Howard/Surrey" value="Howard/Surrey" />
+                  <Picker.Item label="Howard/Surrey" value="Howard_Surrey" />
                   <Picker.Item label="Library" value="Library" />
                   <Picker.Item label="Main Building" value="Main Building" />
                   <Picker.Item label="The Mews" value="The Mews" />
@@ -186,21 +201,36 @@ export default function AddPostScreen({navigation}) {
                   />
                   <Picker.Item
                     label="Sheffield Institute of Arts"
-                    value="Sheffield Institute of Arts"
+                    value="SIA"
                   />
                   <Picker.Item label="Sheaf" value="Sheaf" />
                   <Picker.Item label="Stoddart" value="Stoddart" />
                   <Picker.Item label="Willow Court" value="Willow Court" />
                   <Picker.Item label="Woodville" value="Woodville" />
                 </Picker>
-                <View style={globalStyles.submitButtonContainer}>
+                {/* renders activity indicator when button is pressed */}
+                <View>
+                  {/* <View style={globalStyles.submitButtonContainer}> */}
                   {formikProps.isSubmitting ? (
                     <ActivityIndicator size="large" color="#2bb76e" />
                   ) : (
                     <View>
                       <TouchableOpacity
                         style={globalStyles.inAppButton}
-                        onPress={formikProps.handleSubmit}>
+                        onPress={selectImage}>
+                        <Text style={globalStyles.inAppTouchText}>
+                          Add your image
+                        </Text>
+                      </TouchableOpacity>
+                      {renderSelectedImage()
+                      //selected image rendered here so user can inspect photo before uploading it
+                      }
+                      <TouchableOpacity
+                        style={globalStyles.inAppButton}
+                        onPress={
+                          formikProps.handleSubmit
+                          //this component identified as the submit button through the props.handleSubmit function
+                        }>
                         <Text style={globalStyles.inAppTouchText}>
                           Post your leftovers!
                         </Text>
@@ -212,7 +242,7 @@ export default function AddPostScreen({navigation}) {
             </React.Fragment>
           )}
         </Formik>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }

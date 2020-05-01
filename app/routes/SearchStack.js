@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SearchScreen from '../screens/SearchScreen';
 import CustomHeader from '../custom/CustomHeader';
 
+//plugs into TabNav
+//directs to SearchScreen
+
 const Stack = createStackNavigator();
 
 export default function SearchStack() {

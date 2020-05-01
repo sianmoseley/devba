@@ -3,48 +3,15 @@ import {
   ActivityIndicator,
   Keyboard,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {authenticationStyles, globalStyles} from '../config/Styles';
-import Firebase from 'firebase';
-// import {CustomTextInput} from '../custom/CustomFormik';
-
-const FieldWrapper = ({children, label, formikProps, formikKey}) => (
-  <View>
-    <Text style={authenticationStyles.authLabel}>{label}</Text>
-    {children}
-    <Text style={globalStyles.error}>
-      {formikProps.touched[formikKey] && formikProps.errors[formikKey]}
-    </Text>
-  </View>
-);
-const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
-  const inputStyles = {
-    height: 40,
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    marginBottom: 2,
-    color: 'black',
-    paddingHorizontal: 10,
-  };
-  if (formikProps.touched[formikKey] && formikProps.errors[formikKey]) {
-    inputStyles.borderColor = 'red';
-  }
-  return (
-    <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
-      <TextInput
-        style={inputStyles}
-        onChangeText={formikProps.handleChange(formikKey)}
-        onBlur={formikProps.handleBlur(formikKey)}
-        {...rest}
-      />
-    </FieldWrapper>
-  );
-};
+import ResetPassword from '../database/ForgotPassword';
+import {authenticationStyles} from '../config/Styles';
+import {AuthInput} from '../config/Variables';
 
 const passwordSchema = yup.object().shape({
   email: yup
@@ -53,23 +20,6 @@ const passwordSchema = yup.object().shape({
     .email('Enter a valid email')
     .required('Please enter a registered email'),
 });
-
-ResetPassword = (values, navigation) => {
-  Firebase.auth()
-    .sendPasswordResetEmail(values.email)
-    .then(() => navigation.navigate('Login'))
-    .catch(function(error) {
-      //handle errors here
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (errorCode == 'auth/invalid-email') {
-        alert('Email address is not valid');
-      } else {
-        alert(errorMessage);
-      }
-      console.log(error);
-    });
-};
 
 export default class ForgotPassword extends Component {
   render() {
@@ -92,8 +42,8 @@ export default class ForgotPassword extends Component {
             {formikProps => (
               <React.Fragment>
                 <View>
-                  <CustomTextInput
-                    label="Email"
+                  <AuthInput
+                    label="Email:"
                     formikProps={formikProps}
                     formikKey="email"
                     placeholder="Please enter your email"

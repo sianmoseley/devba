@@ -3,6 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import CustomHeader from '../custom/CustomHeader';
 import TCScreen from '../screens/TCScreen';
 
+//plugs into RootStack
+//directs to TCScreen
+
 const Stack = createStackNavigator();
 
 export default function TCStack() {
