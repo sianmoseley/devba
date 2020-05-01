@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Keyboard,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';

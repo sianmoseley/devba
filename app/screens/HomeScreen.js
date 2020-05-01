@@ -22,7 +22,6 @@ import 'firebase/database';
 //   });
 // }
 
-
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -67,70 +66,71 @@ export default class HomeScreen extends Component {
         // data={this.state.postList.sort(a => a.createdAt.localeCompare())}
         data={this.state.postList}
         renderItem={({item: post}) => (
-          <TouchableOpacity onPress={() =>
-                  this.props.navigation.navigate('LocatePostScreen', {
-                    location: post.location,
-                  })}>
-          <View style={globalStyles.postContainer}>
-            <Text style={globalStyles.postText}>
-              {post.heading}
-              {'\n'}@ <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
-              {'\n'}
-              {post.description}
-              {'\n'}
-              listed by{' '}
-              <Text style={{fontWeight: 'bold'}}>{post.createdBy}</Text>
-              {'\n'}
-              on <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
-            </Text>
-            {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-            {/* <Image
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('LocatePostScreen', {
+                location: post.location,
+              })
+            }>
+            <View style={globalStyles.postContainer}>
+              <Text style={globalStyles.postText}>
+                {post.heading}
+                {'\n'}@{' '}
+                <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
+                {'\n'}
+                {post.description}
+                {'\n'}
+                listed by{' '}
+                <Text style={{fontWeight: 'bold'}}>{post.createdBy}</Text>
+                {'\n'}
+                on <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
+              </Text>
+              {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
+              {/* <Image
                   style={{alignSelf: 'center', height: 150, width: 150}}
                   source={post.uri}
                 /> */}
-            <View style={globalStyles.iconMargin}>
-              <Icon
-                raised
-                iconStyle={globalStyles.icon}
-                name={this.state.liked ? 'heart' : 'heart-o'}
-                size={28}
-                type="font-awesome"
-                onPress={() => {
-                  // this.pressLike();
-                  const userKey = Firebase.auth().currentUser.uid;
-                  const postKey = post.id;
-                  const userKey = Firebase.auth().currentUser.uid;
-                  const favRef = Firebase.database().ref(
-                    'favourites/' + userKey + '/' + postKey,
-                  );
-                  if (this.state.liked === false) {
-                    favRef.set({
-                      id: postKey,
-                      heading: post.heading,
-                      description: post.description,
-                      location: post.location,
-                      createdAt: post.createdAt,
-                      createdBy: post.createdBy,
-                    });
-                    this.setState({liked: true});
-                  } else {
-                    favRef.remove();
-                    this.setState({liked: false});
+              <View style={globalStyles.iconMargin}>
+                <Icon
+                  raised
+                  iconStyle={globalStyles.icon}
+                  name={this.state.liked ? 'heart' : 'heart-o'}
+                  size={28}
+                  type="font-awesome"
+                  onPress={() => {
+                    const userKey = Firebase.auth().currentUser.uid;
+                    const postKey = post.id;
+                    const favRef = Firebase.database().ref(
+                      'favourites/' + userKey + '/' + postKey,
+                    );
+                    if (this.state.liked === false) {
+                      favRef.set({
+                        id: postKey,
+                        heading: post.heading,
+                        description: post.description,
+                        location: post.location,
+                        createdAt: post.createdAt,
+                        createdBy: post.createdBy,
+                      });
+                      this.setState({liked: true});
+                    } else {
+                      favRef.remove();
+                      this.setState({liked: false});
+                    }
+                  }}
+                />
+                <Icon
+                  raised
+                  iconStyle={globalStyles.icon}
+                  name="flag-o"
+                  size={28}
+                  type="font-awesome"
+                  onPress={() =>
+                    this.props.navigation.navigate('ReportPostScreen', post)
                   }
-                }}
-              />
-              <Icon
-                raised
-                iconStyle={globalStyles.icon}
-                name="flag-o"
-                size={28}
-                type="font-awesome"
-                onPress={() =>
-                  this.props.navigation.navigate('ReportPostScreen', post)
-                }
-              />
+                />
+              </View>
             </View>
-          </View>
           </TouchableOpacity>
         )}
       />
