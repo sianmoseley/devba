@@ -74,7 +74,6 @@ export default function AddPostScreen({navigation}) {
         setUri(source);
         const fileName = response.fileName;
         setFilename(fileName);
-        console.log(Filename);
       }
     });
   };
@@ -153,26 +152,27 @@ export default function AddPostScreen({navigation}) {
           onSubmit={(values, actions) => {
             //code executes when the Submit button is pressed
             //alert confrims to user their post has been accepted and posted
-            // Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
-            //   {
-            //     text: 'OK',
-            //     //navigation back to the home page
-            //     onPress: () => navigation.navigate('HomeScreen'),
-            //   },
-            // ]);
             console.log({selectedValue, values});
             Keyboard.dismiss();
             setTimeout(() => {
               actions.setSubmitting(false);
             }, 2000);
             //AddPost function called
-            // AddPost({
-            //   heading: values.heading,
-            //   description: values.description,
-            //   location: selectedValue,
-            //   uri: Uri,
-            // });
+            AddPost({
+              heading: values.heading,
+              description: values.description,
+              location: selectedValue,
+              uri: Uri,
+            });
+            console.log(Filename);
             uploadImage(Uri, Filename, userKey);
+            Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
+              {
+                text: 'OK',
+                //navigation back to the home page
+                onPress: () => navigation.navigate('HomeScreen'),
+              },
+            ]);
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
