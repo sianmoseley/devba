@@ -162,6 +162,7 @@ export default function AddPostScreen({navigation}) {
               actions.setSubmitting(false);
             }, 2000);
             console.log(Filename);
+            //console.log(userKey);
             //AddPost function called
             AddPost({
               heading: values.heading,
@@ -169,6 +170,7 @@ export default function AddPostScreen({navigation}) {
               location: selectedValue,
               uri: Uri,
               filename: Filename,
+              userkey: userKey,
             });
             uploadImage(Uri, Filename, userKey);
              Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [

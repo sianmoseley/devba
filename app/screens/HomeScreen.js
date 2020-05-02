@@ -16,6 +16,10 @@ import 'firebase/database';
 //animated favourite icon
 const AnimatedIcon = Animatable.createAnimatableComponent(Icon);
 
+
+// const ref = Firebase.storage().ref('images/' + userkey + '/' + filename);
+// const url = ref.getDownloadURL();
+
 const Post = ({
   createdAt,
   createdBy,
@@ -23,9 +27,12 @@ const Post = ({
   favourite,
   heading,
   location,
-  //uri,
+  uri,
+  filename,
+  userkey,
   report,
-}) => (
+}) => 
+(
   <View style={globalStyles.postContainer}>
     <Text style={globalStyles.postText}>
       {heading} @ <Text style={{fontWeight: 'bold'}}>{location}</Text>
@@ -39,7 +46,7 @@ const Post = ({
     {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
     {/* <Image
       style={{alignSelf: 'center', height: 150, width: 150}}
-      source={uri}
+      source={{uri: url}}
     /> */}
     <View style={globalStyles.iconMargin}>
       {/* <AnimatedIcon
@@ -74,6 +81,8 @@ function wait(timeout) {
     setTimeout(resolve, timeout);
   });
 }
+
+
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -120,6 +129,7 @@ export default class HomeScreen extends Component {
     });
   };
 
+  
   render() {
     // const {liked} = this.state;
     return (
