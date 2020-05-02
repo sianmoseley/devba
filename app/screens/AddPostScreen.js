@@ -74,6 +74,7 @@ export default function AddPostScreen({navigation}) {
         setUri(source);
         const fileName = response.fileName;
         setFilename(fileName);
+        
       }
     });
   };
