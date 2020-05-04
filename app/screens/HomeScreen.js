@@ -41,18 +41,24 @@ export default class HomeScreen extends Component {
   }
 
   newPostNotification = () => {
+    let first = true;
     const ref = Firebase.database().ref('/posts');
 
-    ref.on("child_added", function(snapshot, prevChildKey) {
-      let newPost = snapshot.val();
-      console.log("Heading: " + newPost.heading);
-      console.log("Description: " + newPost.description);
-      console.log("Location: " + newPost.location);
-      LocalPushController(newPost.heading, newPost.description, newPost.location);
-    });
-  };
+    ref.limitToLast(1).on("child_added", function(snapshot, prevChildKey) {
+      if (first) {
+        first = false;
+      }
+      else {
+        let newPost = snapshot.val();
+        console.log("Heading: " + newPost.heading);
+        console.log("Description: " + newPost.description);
+        console.log("Location: " + newPost.location);
+        LocalPushController(newPost.heading, newPost.description, newPost.location);
 
-  
+      }
+      
+    });
+  };  
 
  
 
