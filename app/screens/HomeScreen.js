@@ -40,16 +40,6 @@ export default class HomeScreen extends Component {
     this.newPostNotification();
   }
 
-  // newPostNotification = () => {
-  //   const ref = Firebase.database().ref('/posts');
-
-  //   ref.limitToLast(1).on('child_added', function(childSnapshot) {
-  //     console.log('I hear a new post!');
-  //     console.log(childSnapshot + ' is the new post');
-  //     LocalPushController();
-  //   });
-  // };
-
   newPostNotification = () => {
     const ref = Firebase.database().ref('/posts');
 
@@ -58,7 +48,7 @@ export default class HomeScreen extends Component {
       console.log("Heading: " + newPost.heading);
       console.log("Description: " + newPost.description);
       console.log("Location: " + newPost.location);
-      LocalPushController();
+      LocalPushController(newPost.heading, newPost.description, newPost.location);
     });
   };
 
