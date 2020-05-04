@@ -13,6 +13,7 @@ import {Icon} from 'react-native-elements';
 import {globalStyles} from '../config/Styles';
 import Firebase from 'firebase';
 import 'firebase/database';
+import LocalPushController from '../services/LocalPushController';
 
 //TODO
 //refresh
@@ -36,7 +37,34 @@ export default class HomeScreen extends Component {
   componentDidMount() {
     //function runs as soon as the component 'HomeScreen' is loaded
     this.getPostData();
+    this.newPostNotification();
   }
+
+  // newPostNotification = () => {
+  //   const ref = Firebase.database().ref('/posts');
+
+  //   ref.limitToLast(1).on('child_added', function(childSnapshot) {
+  //     console.log('I hear a new post!');
+  //     console.log(childSnapshot + ' is the new post');
+  //     LocalPushController();
+  //   });
+  // };
+
+  newPostNotification = () => {
+    const ref = Firebase.database().ref('/posts');
+
+    ref.on("child_added", function(snapshot, prevChildKey) {
+      let newPost = snapshot.val();
+      console.log("Heading: " + newPost.heading);
+      console.log("Description: " + newPost.description);
+      console.log("Location: " + newPost.location);
+      LocalPushController();
+    });
+  };
+
+  
+
+ 
 
   //function to get post data from firebase database
   getPostData = () => {
