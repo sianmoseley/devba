@@ -44,6 +44,9 @@ const registerSchema = yup.object().shape({
       'Must agree to terms to continue',
       value => value === true,
     ),
+    notifications: yup
+    .boolean()
+    .label('Notifications'),
 });
 
 export default class Register extends Component {
@@ -63,6 +66,7 @@ export default class Register extends Component {
                 password: '',
                 confirmPassword: '',
                 agreeToTerms: false,
+                notifications: false,
               }}
               onSubmit={(values, actions) => {
                 console.log(values);
