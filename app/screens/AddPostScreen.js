@@ -45,6 +45,7 @@ export default function AddPostScreen({navigation}) {
     .on('value', snapshot => {
       //set of data in path read as an object
       const user = snapshot.val();
+      console.log(user);
       //extract specific value of username
       const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));

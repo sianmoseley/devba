@@ -27,11 +27,12 @@ export default class FavouritesScreen extends Component {
     userKey = Firebase.auth().currentUser.uid;
     //path reference for logged in user's favourite posts in favourites table
     const ref = Firebase.database().ref('favourites/' + userKey);
+
     ref.on('value', snapshot => {
       //obtain entire section of database specified in reference as one object
       const favObject = snapshot.val();
       if (!favObject) {
-        console.log('NO DATA FROM FIREBASE:', Date(Date.now()));
+        console.log('NO FAVOURITES DATA FROM FIREBASE:', Date(Date.now()));
         this.setState({favList: null});
       } else {
         console.log('FAVOURITES RETRIEVED:', Date(Date.now()));
