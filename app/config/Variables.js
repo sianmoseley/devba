@@ -18,6 +18,7 @@ export const Post = ({
   location,
   onPress,
   uri,
+  url
 }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={globalStyles.postContainer}>
@@ -32,7 +33,7 @@ export const Post = ({
       </Text>
       <Image
         style={{alignSelf: 'center', height: 150, width: 150}}
-        source={uri}
+        source={{uri: url}}
       />
     </View>
   </TouchableOpacity>

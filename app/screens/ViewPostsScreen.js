@@ -67,7 +67,7 @@ export default class ViewPostsScreen extends Component {
                 location={post.location}
                 createdAt={post.createdAt}
                 createdBy={post.createdBy}
-                uri={{uri: post.uri}}
+                url={post.url}
                 onPress={() => this.props.navigation.navigate('EditForm', post)}
               />
             )}
