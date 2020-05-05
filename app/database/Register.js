@@ -11,7 +11,14 @@ export default async function SubmitRegister(values) {
           uid: res.user.uid,
           username: values.username,
           email: values.email,
-        });
+        })
+        .then(
+          Firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              user.updateProfile({displayName: values.username});
+            }
+          }),
+        );
     })
     .catch(function(error) {
       //handle errors here
