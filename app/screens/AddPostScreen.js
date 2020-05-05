@@ -56,6 +56,8 @@ export default function AddPostScreen({navigation}) {
 
   const [Uri, setUri] = useState('https://avatars0.githubusercontent.com/u/12028011?v=3&s=200');
   const [Filename, setFilename] = useState('');
+  const [DownloadURL, setDownloadURL] = useState('');
+
 
 
   const selectImage = () => {
@@ -87,7 +89,7 @@ export default function AddPostScreen({navigation}) {
 
   // Function to upload image to Firebase storage
 
-  function uploadImage(Uri, Filename, userKey, mime = 'image/jpeg') {
+  function uploadImage(values, Uri, Filename, userKey, mime = 'image/jpeg') {
     return new Promise((resolve, reject) => {
       const uploadUri = Platform.OS === 'ios' ? Uri.replace('file://', '') : Uri
       let uploadBlob = null
@@ -107,17 +109,28 @@ export default function AddPostScreen({navigation}) {
           return imageRef.getDownloadURL()
         })
         .then(function(downloadURL){
-          console.log('File available at', downloadURL)
+          console.log('File available at', downloadURL);
+          url = downloadURL;
+
+          AddPost({
+            heading: values.heading,
+            description: values.description,
+            location: selectedValue,
+            uri: Uri,
+            filename: Filename,
+            userkey: userKey,
+            url: url
+          });
+
         })
         .then((url) => {
-          resolve(url)
+          resolve(url);
         })
         .catch((error) => {
           reject(error)
       })
     })
   }
-
 
 
    //// FUNCTION TO DISPLAY USER SELECTED IMAGE
@@ -162,17 +175,7 @@ export default function AddPostScreen({navigation}) {
               actions.setSubmitting(false);
             }, 2000);
             console.log(Filename);
-            //console.log(userKey);
-            //AddPost function called
-            AddPost({
-              heading: values.heading,
-              description: values.description,
-              location: selectedValue,
-              uri: Uri,
-              filename: Filename,
-              userkey: userKey,
-            });
-            uploadImage(Uri, Filename, userKey);
+            uploadImage(values, Uri, Filename, userKey);
              Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
               {
                 text: 'OK',

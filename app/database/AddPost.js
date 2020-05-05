@@ -45,6 +45,7 @@ export default async function AddPost(values, addComplete) {
         uri: values.uri, //SIAN - ADDED THIS LINE HERE FOR DATABASE
         filename: values.filename,
         userkey: values.userkey,
+        url: values.url
       })
       .then(console.log('POST ADDED SUCCESSFULLY:', Date(Date.now())));
     Firebase.database()
@@ -66,6 +67,7 @@ export default async function AddPost(values, addComplete) {
         uri: values.uri, //SIAN - ADDED THIS LINE HERE FOR DATABASE
         filename: values.filename,
         userkey: values.userkey,
+        url: values.url
       });
     const snapshot = undefined;
     values.Id = snapshot.Id;
