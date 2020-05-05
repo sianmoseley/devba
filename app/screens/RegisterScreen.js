@@ -107,6 +107,11 @@ export default class Register extends Component {
                       formikKey="agreeToTerms"
                       formikProps={formikProps}
                     />
+                    <AuthSwitch
+                      label="Opt in to new post notifications?"
+                      formikKey="notifications"
+                      formikProps={formikProps}
+                    />
                     {formikProps.isSubmitting ? (
                       <ActivityIndicator size="large" color="white" />
                     ) : (

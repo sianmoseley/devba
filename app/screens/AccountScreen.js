@@ -10,10 +10,10 @@ export default function AccountScreen({navigation}) {
   function LogOut() {
     try {
       Firebase.auth().signOut();
+      console.log('USER LOGGED OUT SUCCESSFULLY:', Date(Date.now()));          
     } catch (e) {
       console.error(e);
-    }
-    console.log('USER LOGGED OUT SUCCESSFULLY:', Date(Date.now()));
+    }    
   }
 
   return (
@@ -58,6 +58,28 @@ export default function AccountScreen({navigation}) {
             );
           }}>
           <Text style={globalStyles.accountButtonText}>Logout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.accountButton}
+          onPress={() => {
+            //alerts user to confirm notification settings
+            Alert.alert(
+              'Notification options',
+              'Would you like to receive notifications for new posts?',
+              [
+                {
+                  text: 'Yes',
+                  onPress: () => console.log("yes to notifications"),
+                },
+                {
+                  text: 'No',
+                  onPress: () => console.log("no to notifications"),
+                },
+              ],
+            );
+          }}
+          >
+          <Text style={globalStyles.accountButtonText}>Notification settings</Text>
         </TouchableOpacity>
       </View>
     </View>
