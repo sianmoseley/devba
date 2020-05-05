@@ -68,6 +68,11 @@ export default class HomeScreen extends Component {
         const likedObject = snapshot.val();
         if (!likedObject) {
           console.log('USER HAS NO LIKES:', Date(Date.now()));
+          //solves bug if user unlikes post from fav screen
+          //but heart of last post to be unliked is still filled in
+          this.setState({
+            likedPosts: [],
+          });
         } else {
           console.log('LIKES RETRIEVED:', Date(Date.now()));
           //stores id of ALL posts user has liked
