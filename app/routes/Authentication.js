@@ -38,6 +38,7 @@ export default function AuthNavigator() {
     <AuthContext.Provider value={user}>
       <LogInStack />
       <Notifications />
+      
     </AuthContext.Provider>
   ) : (
     <LogOutStack />
