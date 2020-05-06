@@ -35,6 +35,7 @@ export default class HomeScreen extends Component {
     //function runs as soon as 'HomeScreen' is rendered
     this.getPostData();
   }
+ 
 
   // componentWillUnmount() {
   //   this.getPostData();

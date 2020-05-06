@@ -44,6 +44,9 @@ const registerSchema = yup.object().shape({
       'Must agree to terms to continue',
       value => value === true,
     ),
+    notifications: yup
+    .boolean()
+    .label('Notifications'),
 });
 
 export default class Register extends Component {
@@ -63,6 +66,7 @@ export default class Register extends Component {
                 password: '',
                 confirmPassword: '',
                 agreeToTerms: false,
+                notifications: false,
               }}
               onSubmit={(values, actions) => {
                 console.log(values);
@@ -105,6 +109,11 @@ export default class Register extends Component {
                     <AuthSwitch
                       label="Agree to Terms:"
                       formikKey="agreeToTerms"
+                      formikProps={formikProps}
+                    />
+                    <AuthSwitch
+                      label="Opt in to new post notifications?"
+                      formikKey="notifications"
                       formikProps={formikProps}
                     />
                     {formikProps.isSubmitting ? (

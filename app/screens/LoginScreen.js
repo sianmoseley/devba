@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -30,6 +31,7 @@ const loginSchema = yup.object().shape({
 export default class Login extends Component {
   render() {
     return (
+      <ScrollView>
       <View style={{flex: 1}}>
         <TouchableWithoutFeedback
           touchSoundDisabled={true}
@@ -113,6 +115,7 @@ export default class Login extends Component {
           </View>
         </TouchableWithoutFeedback>
       </View>
+      </ScrollView>
     );
   }
 }
