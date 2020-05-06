@@ -38,7 +38,6 @@ const addPostSchema = yup.object().shape({
 
 //AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
-  //current user ID
   const userKey = Firebase.auth().currentUser.uid;
 
   //used for logging, can remove
@@ -47,6 +46,7 @@ export default function AddPostScreen({navigation}) {
     .on('value', snapshot => {
       //set of data in path read as an object
       const user = snapshot.val();
+      console.log(user);
       //extract specific value of username
       const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
@@ -228,7 +228,7 @@ export default function AddPostScreen({navigation}) {
                     label="Heart of Campus"
                     value="Heart of Campus"
                   />
-                  <Picker.Item label="Howard/Surrey" value="Howard/Surrey" />
+                  <Picker.Item label="Howard/Surrey" value="Howard_Surrey" />
                   <Picker.Item label="Library" value="Library" />
                   <Picker.Item label="Main Building" value="Main Building" />
                   <Picker.Item label="The Mews" value="The Mews" />
@@ -245,7 +245,7 @@ export default function AddPostScreen({navigation}) {
                   />
                   <Picker.Item
                     label="Sheffield Institute of Arts"
-                    value="Sheffield Institute of Arts"
+                    value="SIA"
                   />
                   <Picker.Item label="Sheaf" value="Sheaf" />
                   <Picker.Item label="Stoddart" value="Stoddart" />

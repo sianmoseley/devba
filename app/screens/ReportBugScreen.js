@@ -9,11 +9,11 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {globalStyles} from '../config/Styles';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ReportBug from '../database/ReportBug';
 import Firebase from 'firebase';
+import {globalStyles} from '../config/Styles';
 import {CustomTextInput, CustomSwitch} from '../config/Variables';
 
 //client-side validation with yup
@@ -30,9 +30,6 @@ const reportSchema = yup.object().shape({
     .test('is-true', 'Terms must be agreed upon', value => value === true),
 });
 
-//so username is global
-let Username = '';
-
 export default function ReportBugScreen({navigation}) {
   //current user ID
   const userKey = Firebase.auth().currentUser.uid;
@@ -42,7 +39,7 @@ export default function ReportBugScreen({navigation}) {
     .ref('users/' + userKey)
     .on('value', snapshot => {
       const user = snapshot.val();
-      Username = user.username;
+      const Username = user.username;
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
 

@@ -8,11 +8,12 @@ export default async function SubmitRegister(values) {
     .createUserWithEmailAndPassword(values.email, values.password)
     .then(res => {
       Firebase.database()
-        .ref('users/' + res.user.uid)
+        .ref('users/' + res.user.uid + res.user.notifications)
         .set({
           uid: res.user.uid,
           username: values.username,
           email: values.email,
+          notifications: values.notifications,
         });
       Firebase.database()
       .ref('usernames/' + values.username)

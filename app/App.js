@@ -1,11 +1,15 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {Component} from 'react';
 import {YellowBox} from 'react-native';
 import AuthNavigator from './routes/Authentication';
+import 'firebase/database';
 
-//plugs into index.js
+export default class devba extends Component {
+  
 
-export default function devba() {
-  YellowBox.ignoreWarnings(['Setting a timer']);
-  return <AuthNavigator />;
+  render() {
+    //plugs into index.js
+    YellowBox.ignoreWarnings(['Setting a timer']);
+    return <AuthNavigator />;
+  }
 }

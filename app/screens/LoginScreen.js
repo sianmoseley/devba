@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {authenticationStyles, globalStyles} from '../config/Styles';
-import {AuthInput} from '../config/CustomAuthForm';
 import SubmitLogin from '../database/Login';
+import {authenticationStyles, globalStyles} from '../config/Styles';
+import {AuthInput} from '../config/Variables';
 
 //client-side validation via yup
 const loginSchema = yup.object().shape({
@@ -30,7 +31,8 @@ const loginSchema = yup.object().shape({
 export default class Login extends Component {
   render() {
     return (
-      <View>
+      <ScrollView>
+      <View style={{flex: 1}}>
         <TouchableWithoutFeedback
           touchSoundDisabled={true}
           onPress={() => {
@@ -39,7 +41,7 @@ export default class Login extends Component {
           <View style={authenticationStyles.authContainer}>
             <View style={globalStyles.logoLoginContainer}>
               <Image
-                style={{width: '90%', height: '55%'}}
+                style={{width: 275, height: 238, marginTop: 80}}
                 source={require('../images/bigapp.png')}
               />
               <Text style={globalStyles.logoTag}>An app for leftovers.</Text>
@@ -61,11 +63,13 @@ export default class Login extends Component {
                     <AuthInput
                       formikProps={formikProps}
                       formikKey="email"
+                      label="Email:"
                       placeholder="Email"
                     />
                     <AuthInput
                       formikProps={formikProps}
                       formikKey="password"
+                      label="Password:"
                       placeholder="Password"
                       secureTextEntry
                     />
@@ -82,9 +86,9 @@ export default class Login extends Component {
                         </TouchableOpacity>
                       </View>
                     )}
-                    <Text style={authenticationStyles.authError}>
+                    {/* <Text style={authenticationStyles.authError}>
                       {formikProps.errors.general}
-                    </Text>
+                    </Text> */}
                     <TouchableOpacity
                       style={authenticationStyles.newUserButton}
                       onPress={() =>
@@ -111,6 +115,7 @@ export default class Login extends Component {
           </View>
         </TouchableWithoutFeedback>
       </View>
+      </ScrollView>
     );
   }
 }

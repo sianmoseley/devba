@@ -3,22 +3,6 @@
         -- componentDidUnmount
     }
 
-    Me {
-        -- Replace hollow heart icon with a filled in heart once favourite clicked
-
-        -- Seperate model code {
-            - Change Username
-            - Edit Post
-        }
-
-        --Merge Stephs code
+    Heart icon {
+        -- link 'liking' to firebase
     }
-
--- Maps: Pearl
-
--- Images: Sian
-
--- Notifications: Steph
--- T&Cs: Steph
-
-Look at removing posts table and getting HomeScreen to look at user_posts. This will make it so that firebase uses less data, allows for efficient code and make for fewer deletes from DeleteUser
