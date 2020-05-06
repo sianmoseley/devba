@@ -10,8 +10,7 @@ export default function Notifications() {
     useEffect(() => {
         let first = true;
         const ref = Firebase.database().ref('/posts');
-
-        ref.limitToLast(1).on("child_added", function(snapshot, prevChildKey) {
+        const onValueChange = function(snapshot, prevChildKey) {
             if (first) {
                 first = false;
             } else {
@@ -20,9 +19,15 @@ export default function Notifications() {
                 console.log("Description: " + newPost.description);
                 console.log("Location: " + newPost.location);
                 LocalPushController(newPost.heading, newPost.description, newPost.location);    
-            }
-    });  
+            }};  
+
+        ref.limitToLast(1).on("child_added", onValueChange);
+
+        return function cleanup() {
+            ref.off("child_added", onValueChange);
+        };
 });    
 
       return (null);
+
 }
