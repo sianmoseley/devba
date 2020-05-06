@@ -59,7 +59,7 @@ export default function AccountScreen({navigation}) {
           }}>
           <Text style={globalStyles.accountButtonText}>Logout</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={globalStyles.accountButton}
           onPress={() => {
             //alerts user to confirm notification settings
@@ -70,16 +70,23 @@ export default function AccountScreen({navigation}) {
                 {
                   text: 'Yes',
                   onPress: () => console.log("yes to notifications"),
+                  //update in db
                 },
                 {
                   text: 'No',
                   onPress: () => console.log("no to notifications"),
+                  //update in db
                 },
               ],
             );
           }}
           >
           <Text style={globalStyles.accountButtonText}>Notification settings</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          style={globalStyles.accountButton}
+          onPress={() => navigation.navigate('ChangeNotifications')}>
+          <Text style={globalStyles.accountButtonText}>Change Notification Settings</Text>
         </TouchableOpacity>
       </View>
     </View>
