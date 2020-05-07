@@ -91,7 +91,7 @@ export default function AddPostScreen({navigation}) {
 
   function uploadImage(values, Uri, Filename, userKey, mime = 'image/jpeg') {
     return new Promise((resolve, reject) => {
-      const uploadUri = Platform.OS === 'ios' ? Uri.replace('file://', '') : Uri
+      const uploadUri = Uri
       let uploadBlob = null
 
       const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename)
@@ -110,7 +110,7 @@ export default function AddPostScreen({navigation}) {
         })
         .then(function(downloadURL){
           console.log('File available at', downloadURL);
-          url = downloadURL;
+          const url = downloadURL;
 
           AddPost({
             heading: values.heading,
