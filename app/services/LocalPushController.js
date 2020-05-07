@@ -1,7 +1,7 @@
 import PushNotification from 'react-native-push-notification';
 
-//configuration for local notification
 PushNotification.configure({
+  // (required) Called when a remote or local notification is opened or received
   onNotification: function(notification) {
     console.log('LOCAL NOTIFICATION ==>', notification);
   },
@@ -9,11 +9,11 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-//function setting the contents of the notification
 export default function LocalNotification(heading, description, location) {
   PushNotification.localNotification({
     autoCancel: true,
     bigText: (heading + '\nDescription: ' + description + '\nLocation: ' + location),
+    // subText: 'Local Notification Demo',
     title: 'New post in Big APPetite',
     message: (heading + '\nDescription: ' + description + '\nLocation: ' + location),
     vibrate: true,

@@ -13,32 +13,35 @@ const Post = ({
   createdBy,
   report,
   favourite,
+  onPress,
 }) => (
-  <View style={globalStyles.postContainer}>
-    <Text style={globalStyles.postText}>
-      {heading} @ {location}
-      {'\n'}
-      posted by {createdBy}
-      {'\n'}
-      {description}
-      {'\n'}
-      {createdAt}
-    </Text>
-    <View style={globalStyles.iconMargin}>
-      <Icon
-        iconStyle={globalStyles.icon}
-        name="heart"
-        type="feather"
-        onPress={favourite}
-      />
-      <Icon
-        iconStyle={globalStyles.icon}
-        name="flag"
-        type="feather"
-        onPress={report}
-      />
+  <TouchableOpacity onPress={onPress}>
+    <View style={globalStyles.postContainer}>
+      <Text style={globalStyles.postText}>
+        {heading} @ {location}
+        {'\n'}
+        posted by {createdBy}
+        {'\n'}
+        {description}
+        {'\n'}
+        {createdAt}
+      </Text>
+      <View style={globalStyles.iconMargin}>
+        <Icon
+          iconStyle={globalStyles.icon}
+          name="heart"
+          type="feather"
+          onPress={favourite}
+        />
+        <Icon
+          iconStyle={globalStyles.icon}
+          name="flag"
+          type="feather"
+          onPress={report}
+        />
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 export default class SearchScreen extends Component {
@@ -142,6 +145,11 @@ export default class SearchScreen extends Component {
                 location={post.location}
                 createdAt={post.createdAt}
                 createdBy={post.createdBy}
+                onPress={() =>
+                  this.props.navigation.navigate('LocatePostScreen', {
+                    location: post.location,
+                  })
+                }
                 report={() =>
                   this.props.navigation.navigate('ReportPostScreen', post)
                 }

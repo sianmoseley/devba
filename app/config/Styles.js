@@ -195,10 +195,4 @@ export const globalStyles = StyleSheet.create({
   submitButtonContainer: {
     marginHorizontal: 100,
   },
-  notificationsText: {
-    color: '#2bb76e',
-    fontSize: 18,
-    margin: 20,
-    fontWeight: 'bold',
-  },
 });
