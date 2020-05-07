@@ -25,7 +25,6 @@ export default function ChangeNotificationsScreen({navigation}) {
     let currentUsername = user.displayName;
 
 function ChangeNotifications(uid, yesno) {
-    console.log('uid: ', uid, 'notifications preference: ', yesno);
     //update notification preferences in the db
     Firebase.database().ref('users/' + uid).update({
         notifications: yesno,

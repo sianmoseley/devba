@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Firebase from 'firebase';
 import 'firebase/database';
 import LocalPushController from '../services/LocalPushController';
@@ -6,13 +6,22 @@ import LocalPushController from '../services/LocalPushController';
 
 
 export default function Notifications() {
+    const [notificationPreferences, setNotificationPreferences] = useState(false);
+    //get user from authentication
     let user = Firebase.auth().currentUser;
-    let uid = user.uid;
-    let dbuser = Firebase.database().ref('users/' + uid);
-    //need to change this so it's actually reading user preferences from the db
-    let notificationPreferences = true;
+    //set path to user's attributes
+    let dbuser = Firebase.database().ref('users/' + user.uid);     
 
     useEffect(() => {
+        dbuser.on('value', snapshot => {
+            const userObject = snapshot.val();
+            console.log(userObject);
+            setNotificationPreferences(userObject.notifications);
+            //assumes notification preferences are false if a preference hasn't been set yet
+            setNotificationPreferences(userObject.notifications);
+            console.log(notificationPreferences);
+          });
+        
 
         if (notificationPreferences === true) {
             let first = true;
