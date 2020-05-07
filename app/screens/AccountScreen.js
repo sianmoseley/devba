@@ -10,10 +10,10 @@ export default function AccountScreen({navigation}) {
   function LogOut() {
     try {
       Firebase.auth().signOut();
-      console.log('USER LOGGED OUT SUCCESSFULLY:', Date(Date.now()));          
+      console.log('USER LOGGED OUT SUCCESSFULLY:', Date(Date.now()));
     } catch (e) {
       console.error(e);
-    }    
+    }
   }
 
   return (
@@ -33,6 +33,13 @@ export default function AccountScreen({navigation}) {
           style={globalStyles.accountButton}
           onPress={() => navigation.navigate('ChangePassword')}>
           <Text style={globalStyles.accountButtonText}>Change Password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.accountButton}
+          onPress={() => navigation.navigate('ChangeNotifications')}>
+          <Text style={globalStyles.accountButtonText}>
+            Change Notification Settings
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={globalStyles.accountButton}
@@ -83,11 +90,6 @@ export default function AccountScreen({navigation}) {
           >
           <Text style={globalStyles.accountButtonText}>Notification settings</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity
-          style={globalStyles.accountButton}
-          onPress={() => navigation.navigate('ChangeNotifications')}>
-          <Text style={globalStyles.accountButtonText}>Change Notification Settings</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );

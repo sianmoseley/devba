@@ -58,11 +58,11 @@ export default class DeleteAccountScreen extends Component {
   }
 
   deletePosts() {
-    const currentUsername = Firebase.auth().currentUser.displayName;
+    const currentUID = Firebase.auth().currentUser.uid;
     this.state.posts.forEach(post => {
-      const Username = post.createdBy;
+      const UID = post.userkey;
       const postKey = post.id;
-      if (Username === currentUsername) {
+      if (UID === currentUID) {
         Firebase.database()
           .ref('posts/' + postKey)
           .remove();
