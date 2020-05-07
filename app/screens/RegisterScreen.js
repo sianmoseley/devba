@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -44,101 +45,101 @@ const registerSchema = yup.object().shape({
       'Must agree to terms to continue',
       value => value === true,
     ),
-    notifications: yup
-    .boolean()
-    .label('Notifications'),
+  notifications: yup.boolean().label('Notifications'),
 });
 
 export default class Register extends Component {
   render() {
     return (
-      <TouchableWithoutFeedback
-        touchSoundDisabled={true}
-        onPress={() => {
-          Keyboard.dismiss();
-        }}>
-        <View style={authenticationStyles.authContainer}>
-          <View>
-            <Formik
-              initialValues={{
-                username: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-                agreeToTerms: false,
-                notifications: false,
-              }}
-              onSubmit={(values, actions) => {
-                console.log(values);
-                Keyboard.dismiss();
-                setTimeout(() => {
-                  actions.setSubmitting(false);
-                }, 1000);
-                SubmitRegister(values, this.props.navigation);
-              }}
-              validationSchema={registerSchema}>
-              {formikProps => (
-                <React.Fragment>
-                  <View>
-                    <AuthInput
-                      label="Username:"
-                      formikProps={formikProps}
-                      formikKey="username"
-                      placeholder="Please enter a username"
-                    />
-                    <AuthInput
-                      label="Email:"
-                      formikProps={formikProps}
-                      formikKey="email"
-                      placeholder="Please enter your email"
-                    />
-                    <AuthInput
-                      label="Password:"
-                      formikProps={formikProps}
-                      formikKey="password"
-                      placeholder="Please enter a password"
-                      secureTextEntry
-                    />
-                    <AuthInput
-                      label="Confirm Password:"
-                      formikProps={formikProps}
-                      formikKey="confirmPassword"
-                      placeholder="Please confirm password"
-                      secureTextEntry
-                    />
-                    <AuthSwitch
-                      label="Agree to Terms:"
-                      formikKey="agreeToTerms"
-                      formikProps={formikProps}
-                    />
-                    <AuthSwitch
-                      label="Opt in to new post notifications?"
-                      formikKey="notifications"
-                      formikProps={formikProps}
-                    />
-                    {formikProps.isSubmitting ? (
-                      <ActivityIndicator size="large" color="white" />
-                    ) : (
-                      <View>
-                        <TouchableOpacity
-                          style={authenticationStyles.newUserButton}
-                          onPress={formikProps.handleSubmit}>
-                          <Text style={authenticationStyles.authText}>
-                            Register your account!
+      <ScrollView>
+        <TouchableWithoutFeedback
+          touchSoundDisabled={true}
+          onPress={() => {
+            Keyboard.dismiss();
+          }}>
+          <View style={authenticationStyles.authContainer}>
+            <View>
+              <Formik
+                initialValues={{
+                  username: '',
+                  email: '',
+                  password: '',
+                  confirmPassword: '',
+                  agreeToTerms: false,
+                  notifications: false,
+                }}
+                onSubmit={(values, actions) => {
+                  console.log(values);
+                  Keyboard.dismiss();
+                  setTimeout(() => {
+                    actions.setSubmitting(false);
+                  }, 1000);
+                  SubmitRegister(values, this.props.navigation);
+                }}
+                validationSchema={registerSchema}>
+                {formikProps => (
+                  <React.Fragment>
+                    <View>
+                      <AuthInput
+                        label="Username:"
+                        formikProps={formikProps}
+                        formikKey="username"
+                        placeholder="Please enter a username"
+                      />
+                      <AuthInput
+                        label="Email:"
+                        formikProps={formikProps}
+                        formikKey="email"
+                        placeholder="Please enter your email"
+                      />
+                      <AuthInput
+                        label="Password:"
+                        formikProps={formikProps}
+                        formikKey="password"
+                        placeholder="Please enter a password"
+                        secureTextEntry
+                      />
+                      <AuthInput
+                        label="Confirm Password:"
+                        formikProps={formikProps}
+                        formikKey="confirmPassword"
+                        placeholder="Please confirm password"
+                        secureTextEntry
+                      />
+                      <AuthSwitch
+                        label="Agree to Terms:"
+                        formikKey="agreeToTerms"
+                        formikProps={formikProps}
+                      />
+                      <AuthSwitch
+                        label="Opt in to new post notifications?"
+                        formikKey="notifications"
+                        formikProps={formikProps}
+                      />
+                      {formikProps.isSubmitting ? (
+                        <ActivityIndicator size="large" color="white" />
+                      ) : (
+                        <View>
+                          <TouchableOpacity
+                            style={authenticationStyles.newUserButton}
+                            onPress={formikProps.handleSubmit}>
+                            <Text style={authenticationStyles.authText}>
+                              Register your account!
+                            </Text>
+                          </TouchableOpacity>
+                          <Text style={authenticationStyles.authError}>
+                            {formikProps.errors.general}
                           </Text>
-                        </TouchableOpacity>
-                        <Text style={authenticationStyles.authError}>
-                          {formikProps.errors.general}
-                        </Text>
-                      </View>
-                    )}
-                  </View>
-                </React.Fragment>
-              )}
-            </Formik>
+                        </View>
+                      )}
+                    </View>
+                  </React.Fragment>
+                )}
+              </Formik>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </ScrollView>
     );
   }
 }

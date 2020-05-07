@@ -103,6 +103,12 @@ export const globalStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 26,
   },
+  heading: {
+    color: '#2bb76e',
+    fontSize: 20,
+    alignSelf: 'center',
+    fontWeight: 'bold',
+  },
   iconLeft: {
     left: 12,
   },
@@ -137,7 +143,6 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 10,
     marginVertical: 10,
-
   },
   inAppTouchText: {
     color: 'white',
