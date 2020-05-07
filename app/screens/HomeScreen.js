@@ -57,11 +57,21 @@ export default class HomeScreen extends Component {
       if (!postsObject) {
         console.log('NO HOMESCREEN DATA:', Date(Date.now()));
       } else {
-        console.log('HOMESCREEN FIREBASE DATA RETRIEVED:', Date(Date.now()));
+        console.log('HOMESCREEN FIREBASE DATA RETRIEVED:', Date(Date.now()));        
         //object with all post data converted into an array of posts
         const postsArray = Object.values(postsObject);
-        //set value of postList to the array of posts
-        this.setState({postList: postsArray});
+
+        //get list of posts created today
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        let yesterdayFormatted = ([yesterday.getDate(), yesterday.getMonth() + 1, yesterday.getFullYear()].join('/') +' ' +
+                [yesterday.getHours(),(yesterday.getMinutes() < 10 ? '0' : '') + yesterday.getMinutes(),].join(':')); 
+        console.log('postList: ', postsArray);
+        const recentPosts = postsArray.filter(post => post.createdAt.substring(0,8).localeCompare(yesterdayFormatted.substring(0,8)) == 0);
+        console.log('Posts within last 24 hours: ', recentPosts);
+
+        //set value of postList to the filtered array of posts
+        this.setState({postList: recentPosts});
       }
     });
 
