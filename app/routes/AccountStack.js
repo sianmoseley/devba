@@ -7,6 +7,7 @@ import EditPostScreen from '../screens/EditPostScreen';
 import ChangeUsernameScreen from '../screens/ChangeUsernameScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen';
+import ChangeNotificationsScreen from '../screens/ChangeNotificationsScreen';
 
 //plugs into RootStack
 //directs to AccountScreen
@@ -45,7 +46,7 @@ export default function AccountStack() {
         name="ChangeUsername"
         component={ChangeUsernameScreen}
         options={{title: 'Change Username', headerTitleAlign: 'center'}}
-      />
+      />      
       <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
@@ -55,6 +56,11 @@ export default function AccountStack() {
         name="DeleteAccount"
         component={DeleteAccountScreen}
         options={{title: 'Delete Account', headerTitleAlign: 'center'}}
+      />
+      <Stack.Screen
+        name="ChangeNotifications"
+        component={ChangeNotificationsScreen}
+        options={{title: 'Change Notification Settings', headerTitleAlign: 'center'}}
       />
     </Stack.Navigator>
   );

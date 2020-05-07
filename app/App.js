@@ -2,24 +2,10 @@ import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {YellowBox} from 'react-native';
 import AuthNavigator from './routes/Authentication';
-import LocalPushController from './services/LocalPushController.js';
-import Firebase from 'firebase';
 import 'firebase/database';
 
 export default class devba extends Component {
-  newPostNotification = () => {
-    const ref = Firebase.database().ref('/posts');
-
-    ref.limitToLast(1).on('child_added', function(childSnapshot) {
-      console.log('I hear a new post!');
-      console.log(childSnapshot + ' is the new post');
-      LocalPushController();
-    });
-  };
-
-  componentDidMount() {
-    this.newPostNotification();
-  }
+  
 
   render() {
     //plugs into index.js
