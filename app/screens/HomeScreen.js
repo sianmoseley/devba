@@ -62,12 +62,14 @@ export default class HomeScreen extends Component {
         const postsArray = Object.values(postsObject);
 
         //get list of posts created today
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        let yesterdayFormatted = ([yesterday.getDate(), yesterday.getMonth() + 1, yesterday.getFullYear()].join('/') +' ' +
-                [yesterday.getHours(),(yesterday.getMinutes() < 10 ? '0' : '') + yesterday.getMinutes(),].join(':')); 
+        const date = new Date();
+        let now = ([date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +' ' +
+                [date.getHours(),(date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),].join(':'));  
         console.log('postList: ', postsArray);
-        const recentPosts = postsArray.filter(post => post.createdAt.substring(0,8).localeCompare(yesterdayFormatted.substring(0,8)) == 0);
+        function todaysPosts(post) {
+          return post.createdAt.substring(0,6) === now.substring(0,6);
+        }
+        const recentPosts = postsArray.filter(todaysPosts);
         console.log('Posts within last 24 hours: ', recentPosts);
 
         //set value of postList to the filtered array of posts
