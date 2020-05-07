@@ -103,7 +103,7 @@ export default class SearchScreen extends Component {
             <Picker.Item label="Eric Mensforth" value="Eric Mensforth" />
             <Picker.Item label="Harmer" value="Harmer" />
             <Picker.Item label="Heart of Campus" value="Heart of Campus" />
-            <Picker.Item label="Howard/Surrey" value="Howard/Surrey" />
+            <Picker.Item label="Howard/Surrey" value="Howard_Surrey" />
             <Picker.Item label="Library" value="Library" />
             <Picker.Item label="Main Building" value="Main Building" />
             <Picker.Item label="The Mews" value="The Mews" />

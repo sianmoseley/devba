@@ -3,8 +3,7 @@ import {Alert} from 'react-native';
 
 //replicates model aspect of MVC architecture
 export default async function SubmitRegister(values) {
-
-    Firebase.auth()
+  Firebase.auth()
     .createUserWithEmailAndPassword(values.email, values.password)
     .then(res => {
       Firebase.database()
@@ -14,12 +13,14 @@ export default async function SubmitRegister(values) {
           username: values.username,
           email: values.email,
           notifications: values.notifications,
-        });
-      Firebase.database()
-      .ref('usernames/' + values.username)
-      .set({
-        uid: res.user.uid,
-      })
+        })
+        .then(
+          Firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              user.updateProfile({displayName: values.username});
+            }
+          }),
+        );
     })
     .catch(function(error) {
       //handle errors here

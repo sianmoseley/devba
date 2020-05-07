@@ -31,8 +31,7 @@ const loginSchema = yup.object().shape({
 export default class Login extends Component {
   render() {
     return (
-      <ScrollView>
-      <View style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
         <TouchableWithoutFeedback
           touchSoundDisabled={true}
           onPress={() => {
@@ -114,7 +113,6 @@ export default class Login extends Component {
             </Formik>
           </View>
         </TouchableWithoutFeedback>
-      </View>
       </ScrollView>
     );
   }

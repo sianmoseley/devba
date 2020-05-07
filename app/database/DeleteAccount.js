@@ -1,4 +1,5 @@
 import Firebase from 'firebase';
+import {Alert} from 'react-native';
 
 function reauthenticate(password) {
   const user = Firebase.auth().currentUser;
@@ -6,15 +7,20 @@ function reauthenticate(password) {
   return user.reauthenticateWithCredential(cred);
 }
 
-export default async function DeleteUser(values) {
-  //current user ID
+export default function DeleteUser(values) {
   const userKey = Firebase.auth().currentUser.uid;
-
   reauthenticate(values.password)
     .then(() => {
       const user = Firebase.auth().currentUser;
-      user
-        .delete()
+      Firebase.database()
+        .ref('users/' + userKey)
+        .remove()
+        .then(() => {
+          Firebase.database()
+            .ref('user_posts/' + userKey)
+            .remove();
+        })
+        .then(() => user.delete())
         .then(() => {
           console.log('ACCOUNT DELETED SUCCESSFULLY:', Date(Date.now()));
         })
@@ -25,18 +31,4 @@ export default async function DeleteUser(values) {
     .catch(error => {
       Alert.alert(error.message);
     });
-
-  //deletes user from users table
-  Firebase.database()
-    .ref('users/' + userKey)
-    .remove();
-  //NEEDS TESTING
-
-  //delete user posts from posts table
-  // Firebase.database().ref('posts/');
-
-  //deletes user posts from user_posts table
-  Firebase.database()
-    .ref('user_posts/' + userKey)
-    .remove();
 }
