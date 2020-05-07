@@ -1,4 +1,5 @@
 import Firebase from 'firebase';
+import {Alert} from 'react-native';
 
 //replicates model aspect of MVC architecture
 export default async function SubmitRegister(values) {
@@ -11,6 +12,7 @@ export default async function SubmitRegister(values) {
           uid: res.user.uid,
           username: values.username,
           email: values.email,
+          notifications: values.notifications,
         })
         .then(
           Firebase.auth().onAuthStateChanged(user => {
@@ -34,3 +36,8 @@ export default async function SubmitRegister(values) {
   //NEEDS FIX, LOGS EVEN IF UNSUCCESSFUL
   console.log('USER REGISTERED SUCCESSFULLY:', Date(Date.now()), values);
 }
+
+
+
+
+  

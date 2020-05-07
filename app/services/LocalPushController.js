@@ -9,13 +9,13 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-export default function LocalNotification() {
+export default function LocalNotification(heading, description, location) {
   PushNotification.localNotification({
     autoCancel: true,
-    bigText: 'Someone has added a new post to Big APPetite!',
+    bigText: (heading + '\nDescription: ' + description + '\nLocation: ' + location),
     // subText: 'Local Notification Demo',
     title: 'New post in Big APPetite',
-    message: 'put the details of the post here',
+    message: (heading + '\nDescription: ' + description + '\nLocation: ' + location),
     vibrate: true,
     vibration: 300,
     playSound: true,
