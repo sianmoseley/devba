@@ -191,6 +191,7 @@ export const globalStyles = StyleSheet.create({
     paddingBottom: 3,
     paddingTop: 5,
     textAlign: 'center',
+    fontFamily: 'arial',
   },
   submitButtonContainer: {
     marginHorizontal: 100,
