@@ -34,6 +34,10 @@ const addPostSchema = yup.object().shape({
     .required('This is a required field.')
     .min(5, 'Field must contain a valid description')
     .max(50, "Don't be daft"),
+  // filename: yup
+  //   .string()
+  //   .label('Filename')
+  //   .required('This is a required field.'),
 });
 
 //AuthNavigator recognises if a user is logged in and remembers the account
@@ -167,22 +171,30 @@ export default function AddPostScreen({navigation}) {
         <Formik
           initialValues={{heading: '', description: ''}}
           onSubmit={(values, actions) => {
-            //code executes when the Submit button is pressed
-            //alert confrims to user their post has been accepted and posted
-            console.log({selectedValue, values});
-            Keyboard.dismiss();
-            setTimeout(() => {
-              actions.setSubmitting(false);
-            }, 2000);
-            console.log(Filename);
-            uploadImage(values, Uri, Filename, userKey);
-             Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
-              {
-                text: 'OK',
-                //navigation back to the home page
-                onPress: () => navigation.navigate('HomeScreen'),
-              },
-            ]);
+            //code executes when the Submit button is pressed, if the user has included an image
+            //alert confirms to user their post has been accepted and posted
+            if (Filename) {
+                console.log({selectedValue, values});
+                Keyboard.dismiss();
+                setTimeout(() => {
+                  actions.setSubmitting(false);
+                }, 2000);
+                console.log(Filename);
+                uploadImage(values, Uri, Filename, userKey);
+                Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
+                  {
+                    text: 'OK',
+                    //navigation back to the home page
+                    onPress: () => navigation.navigate('HomeScreen'),
+                  },
+                ]);
+            } else {
+              Alert.alert('Image required', 'You must include an image with your post', [
+                {
+                  text: 'OK',
+                },
+              ]);
+            }
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
@@ -255,9 +267,9 @@ export default function AddPostScreen({navigation}) {
                 {/* renders activity indicator when button is pressed */}
                 <View>
                   {/* <View style={globalStyles.submitButtonContainer}> */}
-                  {formikProps.isSubmitting ? (
+                  {/* {formikProps.isSubmitting ? (
                     <ActivityIndicator size="large" color="#2bb76e" />
-                  ) : (
+                  ) : ( */}
                     <View>
                       <TouchableOpacity
                         style={globalStyles.inAppButton}
@@ -280,7 +292,7 @@ export default function AddPostScreen({navigation}) {
                         </Text>
                       </TouchableOpacity>
                     </View>
-                  )}
+                  {/* )} */}
                 </View>
               </View>
             </React.Fragment>
