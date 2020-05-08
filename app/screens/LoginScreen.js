@@ -64,12 +64,14 @@ export default class Login extends Component {
                       formikKey="email"
                       label="Email:"
                       placeholder="Email"
+                      style={globalStyles.formPlaceholder}
                     />
                     <AuthInput
                       formikProps={formikProps}
                       formikKey="password"
                       label="Password:"
                       placeholder="Password"
+                      style={globalStyles.formPlaceholder}
                       secureTextEntry
                     />
                     {formikProps.isSubmitting ? (

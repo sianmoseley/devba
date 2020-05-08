@@ -12,6 +12,7 @@ import * as yup from 'yup';
 import ResetPassword from '../database/ForgotPassword';
 import {authenticationStyles} from '../config/Styles';
 import {AuthInput} from '../config/Variables';
+import {globalStyles} from '../config/Styles';
 
 const passwordSchema = yup.object().shape({
   email: yup
@@ -47,6 +48,7 @@ export default class ForgotPassword extends Component {
                     formikProps={formikProps}
                     formikKey="email"
                     placeholder="Please enter your email"
+                    style={globalStyles.formPlaceholder}
                   />
                   {formikProps.isSubmitting ? (
                     <ActivityIndicator size="large" color="white" />

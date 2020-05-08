@@ -175,16 +175,18 @@ export default function EditPostScreen({navigation, route}) {
                 <TextInput
                   style={globalStyles.inputBox}
                   placeholder={'Give your post a title'}
+                  style={globalStyles.formPlaceholder}
                   onChangeText={text => setHeading(text)}
                   value={Heading}
                 />
                 <TextInput
                   style={globalStyles.inputBox}
                   placeholder={'Tell us about your leftovers...'}
+                  style={globalStyles.formPlaceholder}
                   onChangeText={text => setDescription(text)}
                   value={Description}
                 />
-                <Text style={{fontSize: 16}}>
+                <Text style={globalStyles.aboutText}>
                   {/* displays static existing value for location from nav props */}
                   Is your food still at {post.location} ?
                 </Text>

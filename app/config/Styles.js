@@ -21,10 +21,11 @@ export const authenticationStyles = StyleSheet.create({
   },
   authLabel: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginHorizontal: 1,
     marginBottom: 4,
+    fontFamily: 'arial',
   },
   authText: {
     color: 'white',
@@ -49,6 +50,7 @@ export const authenticationStyles = StyleSheet.create({
 export const globalStyles = StyleSheet.create({
   aboutText: {
     fontSize: 20,
+    fontFamily: 'arial',
   },
   accountButton: {
     borderColor: '#28A966',
@@ -62,17 +64,20 @@ export const globalStyles = StyleSheet.create({
     color: '#28A966',
     fontSize: 18,
     textAlign: 'center',
+    fontFamily: 'arial',
   },
   accountContainer: {
     alignItems: 'center',
     paddingVertical: 25,
   },
   error: {
-    color: 'red',
+    color: 'black+',
     fontWeight: 'bold',
     marginBottom: 8,
     marginTop: 3,
     textAlign: 'center',
+    fontSize: 18,
+    fontFamily: 'arial',
   },
   formField: {
     marginHorizontal: 10,
@@ -80,15 +85,28 @@ export const globalStyles = StyleSheet.create({
   },
   formLabel: {
     color: '#28A966',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginHorizontal: 1,
     marginBottom: 4,
+    fontFamily: 'arial',
   },
   formPicker: {
     marginBottom: 5,
-    marginHorizontal: -6,
-    marginTop: -10,
+    marginLeft: 70,
+    width: '70%',
+    transform: [
+      { scaleX: 1.5 }, 
+      { scaleY: 1.5 },
+   ],
+  },
+  formPlaceholder: {
+    fontSize: 18,
+    fontFamily: 'arial',
+    fontWeight: 'bold',
+    borderBottomColor: '#28A966',
+    borderBottomWidth: 2,
+    backgroundColor: 'white',
   },
   header: {
     alignItems: 'center',
@@ -148,6 +166,7 @@ export const globalStyles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     textAlign: 'center',
+    fontFamily: 'arial',
   },
   inputBox: {
     borderColor: '#28A966',
@@ -172,6 +191,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 60,
     textAlign: 'center',
+    fontFamily: 'arial',
   },
   map: {
     height: '100%',

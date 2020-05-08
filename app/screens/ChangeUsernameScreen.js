@@ -66,6 +66,7 @@ export default function ChangeUsernameScreen({navigation}) {
                   //variable Username will be set to whatever is typed into this text input
                   onChangeText={text => setUsername(text)}
                   value={Username}
+                  style={globalStyles.formPlaceholder}
                 />
                 <TouchableOpacity
                   style={globalStyles.inAppButton}

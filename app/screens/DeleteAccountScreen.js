@@ -103,17 +103,19 @@ export default class DeleteAccountScreen extends Component {
                     formikProps={formikProps}
                     formikKey="email"
                     placeholder="Please enter your email"
+                    style={globalStyles.formPlaceholder}
                   />
                   <CustomTextInput
                     label="Please enter your password:"
                     formikProps={formikProps}
                     formikKey="password"
                     placeholder="Please enter your password"
+                    style={globalStyles.formPlaceholder}
                     secureTextEntry
                   />
                   <View style={globalStyles.submitButtonContainer}>
                     {formikProps.isSubmitting ? (
-                      <ActivityIndicator size="large" color="#2bb76e" />
+                      <ActivityIndicator size="large" color="#28A966" />
                     ) : (
                       <View>
                         <TouchableOpacity

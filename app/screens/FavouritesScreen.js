@@ -56,7 +56,7 @@ export default class FavouritesScreen extends Component {
                 style={{width: 275, height: 238}}
                 source={require('../images/bigapp.png')}
               />
-              <Text style={{fontSize: 16, marginTop: 90}}>
+              <Text style={{fontSize: 18, marginTop: 90, fontFamily: 'arial'}}>
                 You've not 'hearted' any posts yet!
               </Text>
             </View>

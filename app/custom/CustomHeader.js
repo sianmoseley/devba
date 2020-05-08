@@ -11,7 +11,7 @@ export default function DrawerHeader({navigation, title}) {
     <View style={globalStyles.header}>
       <View style={globalStyles.iconLeft}>
         <Icon
-          iconStyle={{color: 'white'}}
+          iconStyle={{color: 'white', fontSize:48}}
           name="more-vertical"
           type="feather"
           onPress={() => navigation.toggleDrawer()}
@@ -20,7 +20,7 @@ export default function DrawerHeader({navigation, title}) {
       <Text style={globalStyles.headerText}>{title}</Text>
       <View>
         {/* Icon is invisible and has no onPress, but is needed so that the header is aligned in the middle */}
-        <Icon iconStyle={{color: '#2bb76e'}} name="plus" type="feather" />
+        <Icon iconStyle={{color: '#28A966'}} name="plus" type="feather" />
       </View>
     </View>
   );
