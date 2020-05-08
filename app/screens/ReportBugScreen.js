@@ -109,6 +109,7 @@ export default function ReportBugScreen({navigation}) {
                   formikProps={formikProps}
                   formikKey="bugDescription"
                   placeholder="App crashes when trying to list post..."
+                  style={globalStyles.formPlaceholder}
                   multiline
                 />
                 <CustomSwitch
@@ -118,7 +119,7 @@ export default function ReportBugScreen({navigation}) {
                 />
                 <View style={globalStyles.submitButtonContainer}>
                   {formikProps.isSubmitting ? (
-                    <ActivityIndicator size="large" color="#2bb76e" />
+                    <ActivityIndicator size="large" color="#28A966" />
                   ) : (
                     <View>
                       <TouchableOpacity

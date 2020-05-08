@@ -11,7 +11,7 @@ export default function HomeHeader({navigation, title}) {
     <View style={globalStyles.header}>
       <View style={globalStyles.iconLeft}>
         <Icon
-          iconStyle={{color: 'white'}}
+          iconStyle={{color: 'white', fontSize:48}}
           name="more-vertical"
           type="feather"
           onPress={() => navigation.toggleDrawer()}
@@ -20,7 +20,7 @@ export default function HomeHeader({navigation, title}) {
       <Text style={globalStyles.headerText}>{title}</Text>
       <View style={globalStyles.iconRight}>
         <Icon
-          iconStyle={{color: 'white'}}
+          iconStyle={{color: 'white', fontSize:48}}
           name="squared-plus"
           type="entypo"
           onPress={() => navigation.navigate('AddPostScreen')}

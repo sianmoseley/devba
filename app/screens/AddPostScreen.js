@@ -34,10 +34,6 @@ const addPostSchema = yup.object().shape({
     .required('This is a required field.')
     .min(5, 'Field must contain a valid description')
     .max(50, "Don't be daft"),
-  // filename: yup
-  //   .string()
-  //   .label('Filename')
-  //   .required('This is a required field.'),
 });
 
 //AuthNavigator recognises if a user is logged in and remembers the account
@@ -207,6 +203,7 @@ export default function AddPostScreen({navigation}) {
                   formikProps={formikProps}
                   formikKey="heading"
                   placeholder="Give your post a title..."
+                  style={globalStyles.formPlaceholder}
                 />
                 <CustomTextInput
                   label="Description:"
@@ -214,6 +211,7 @@ export default function AddPostScreen({navigation}) {
                   formikKey="description"
                   placeholder="Tell us about your leftovers..."
                   multiline
+                  style={globalStyles.formPlaceholder}
                 />
                 <Text style={globalStyles.formLabel}>Select Location:</Text>
                 <Picker
@@ -268,7 +266,7 @@ export default function AddPostScreen({navigation}) {
                 <View>
                   {/* <View style={globalStyles.submitButtonContainer}> */}
                   {/* {formikProps.isSubmitting ? (
-                    <ActivityIndicator size="large" color="#2bb76e" />
+                    <ActivityIndicator size="large" color="#28A966" />
                   ) : ( */}
                     <View>
                       <TouchableOpacity

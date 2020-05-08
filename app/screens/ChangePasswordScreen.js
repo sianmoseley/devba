@@ -78,6 +78,7 @@ export default class ChangePasswordScreen extends Component {
                     formikProps={formikProps}
                     formikKey="currentPassword"
                     placeholder="Please enter your current password"
+                    style={globalStyles.formPlaceholder}
                     secureTextEntry
                   />
                   <CustomTextInput
@@ -85,6 +86,7 @@ export default class ChangePasswordScreen extends Component {
                     formikProps={formikProps}
                     formikKey="newPassword"
                     placeholder="Please enter a new password"
+                    style={globalStyles.formPlaceholder}
                     secureTextEntry
                   />
                   <CustomTextInput
@@ -92,12 +94,13 @@ export default class ChangePasswordScreen extends Component {
                     formikProps={formikProps}
                     formikKey="confirmPassword"
                     placeholder="Please confirm your new password"
+                    style={globalStyles.formPlaceholder}
                     secureTextEntry
                   />
 
                   <View style={globalStyles.submitButtonContainer}>
                     {formikProps.isSubmitting ? (
-                      <ActivityIndicator size="large" color="#2bb76e" />
+                      <ActivityIndicator size="large" color="#28A966" />
                     ) : (
                       <View>
                         <TouchableOpacity

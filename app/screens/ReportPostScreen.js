@@ -117,6 +117,7 @@ export default function ReportPostScreen({navigation, route}) {
                   formikProps={formikProps}
                   formikKey="reportDescription"
                   placeholder="Post has been listed multiple times..."
+                  style={globalStyles.formPlaceholder}
                   multiline
                 />
                 <CustomSwitch
@@ -126,7 +127,7 @@ export default function ReportPostScreen({navigation, route}) {
                 />
                 <View style={globalStyles.submitButtonContainer}>
                   {formikProps.isSubmitting ? (
-                    <ActivityIndicator size="large" color="#2bb76e" />
+                    <ActivityIndicator size="large" color="#28A966" />
                   ) : (
                     <View>
                       <TouchableOpacity
