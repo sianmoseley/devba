@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 export const authenticationStyles = StyleSheet.create({
   authContainer: {
-    backgroundColor: '#2bb76e',
+    backgroundColor: '#28A966',
     padding: 10,
     paddingBottom: 20,
     height: '100%',
@@ -51,7 +51,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 20,
   },
   accountButton: {
-    borderColor: '#2bb76e',
+    borderColor: '#28A966',
     borderRadius: 10,
     borderWidth: 2,
     margin: 10,
@@ -59,7 +59,7 @@ export const globalStyles = StyleSheet.create({
     width: '60%',
   },
   accountButtonText: {
-    color: '#2bb76e',
+    color: '#28A966',
     fontSize: 18,
     textAlign: 'center',
   },
@@ -79,7 +79,7 @@ export const globalStyles = StyleSheet.create({
     marginTop: 12,
   },
   formLabel: {
-    color: '#2bb76e',
+    color: '#28A966',
     fontSize: 16,
     fontWeight: 'bold',
     marginHorizontal: 1,
@@ -92,7 +92,7 @@ export const globalStyles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    backgroundColor: '#2bb76e',
+    backgroundColor: '#28A966',
     flexDirection: 'row',
     height: '100%',
     justifyContent: 'space-between',
@@ -102,9 +102,10 @@ export const globalStyles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 26,
+    fontFamily: 'arial',
   },
   heading: {
-    color: '#2bb76e',
+    color: '#28A966',
     fontSize: 20,
     alignSelf: 'center',
     fontWeight: 'bold',
@@ -113,7 +114,7 @@ export const globalStyles = StyleSheet.create({
     left: 12,
   },
   icon: {
-    color: '#2bb76e',
+    color: '#28A966',
     padding: 5,
   },
   iconMargin: {
@@ -130,13 +131,12 @@ export const globalStyles = StyleSheet.create({
     alignSelf: 'center',
   },
   inAppButton: {
-    backgroundColor: '#2bb76e',
+    backgroundColor: '#28A966',
     borderRadius: 10,
     paddingVertical: 10,
     marginVertical: 10, // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
   },
   inAppDeleteButton: {
-    // backgroundColor: '#2bb76e',
     backgroundColor: 'crimson',
     borderColor: 'red',
     borderRadius: 10,
@@ -146,12 +146,11 @@ export const globalStyles = StyleSheet.create({
   },
   inAppTouchText: {
     color: 'white',
-    // fontFamily: 'Arial',
     fontSize: 20,
     textAlign: 'center',
   },
   inputBox: {
-    borderColor: '#2bb76e',
+    borderColor: '#28A966',
     borderBottomWidth: 1,
     marginBottom: 5,
     padding: 5,
@@ -179,7 +178,7 @@ export const globalStyles = StyleSheet.create({
     width: '100%',
   },
   postContainer: {
-    borderColor: '#2bb76e',
+    borderColor: '#28A966',
     borderBottomWidth: 2,
     marginHorizontal: 12,
     marginBottom: 4,
@@ -197,7 +196,7 @@ export const globalStyles = StyleSheet.create({
     marginHorizontal: 100,
   },
   notificationsText: {
-    color: '#2bb76e',
+    color: '#28A966',
     fontSize: 18,
     margin: 20,
     fontWeight: 'bold',
