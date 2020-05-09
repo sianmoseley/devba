@@ -1,5 +1,6 @@
 import Firebase from 'firebase';
 
+// reauthenticates user against existing records in database
 function reauthenticate(currentPassword) {
   const user = Firebase.auth().currentUser;
   const cred = Firebase.auth.EmailAuthProvider.credential(
@@ -9,6 +10,7 @@ function reauthenticate(currentPassword) {
   return user.reauthenticateWithCredential(cred);
 }
 
+// function to change user password 
 export default async function ChangePassword(values) {
   reauthenticate(values.currentPassword)
     .then(() => {

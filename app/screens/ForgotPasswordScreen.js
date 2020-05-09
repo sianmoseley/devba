@@ -14,6 +14,7 @@ import {authenticationStyles} from '../config/Styles';
 import {AuthInput} from '../config/Variables';
 import {globalStyles} from '../config/Styles';
 
+// client side validation with yup
 const passwordSchema = yup.object().shape({
   email: yup
     .string()

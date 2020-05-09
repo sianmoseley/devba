@@ -198,6 +198,7 @@ export default class HomeScreen extends Component {
                             location: post.location,
                             createdAt: post.createdAt,
                             createdBy: post.createdBy,
+                            url: post.url
                           });
                         } else {
                           favRef.remove();

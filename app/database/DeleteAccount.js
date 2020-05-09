@@ -1,12 +1,14 @@
 import Firebase from 'firebase';
 import {Alert} from 'react-native';
 
+// reauthenticates user against existing records in database
 function reauthenticate(password) {
   const user = Firebase.auth().currentUser;
   const cred = Firebase.auth.EmailAuthProvider.credential(user.email, password);
   return user.reauthenticateWithCredential(cred);
 }
 
+// function to delete user from auth area of firebase, from user table and deletes all posts by user
 export default function DeleteUser(values) {
   const userKey = Firebase.auth().currentUser.uid;
   reauthenticate(values.password)

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Picker} from '@react-native-community/picker';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View, Image} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
+
 
 const Post = ({
   heading,
@@ -13,6 +14,7 @@ const Post = ({
   createdBy,
   report,
   favourite,
+  url
 }) => (
   <View style={globalStyles.postContainer}>
     <Text style={globalStyles.postText}>
@@ -24,6 +26,10 @@ const Post = ({
       {'\n'}
       {createdAt}
     </Text>
+    <Image
+        style={{alignSelf: 'center', height: 150, width: 150}}
+        source={{uri: url}}
+      />
     <View style={globalStyles.iconMargin}>
       <Icon
         iconStyle={globalStyles.icon}
@@ -85,7 +91,7 @@ export default class SearchScreen extends Component {
     return (
       //added paddingBottom so last post doesn't get clipped
       <View style={{paddingBottom: 25}}>
-        <View style={globalStyles.formField}>
+        <View style={globalStyles.searchFormField}>
           <Picker
             style={globalStyles.formPicker}
             mode="dialog"
@@ -142,6 +148,7 @@ export default class SearchScreen extends Component {
                 location={post.location}
                 createdAt={post.createdAt}
                 createdBy={post.createdBy}
+                url={post.url}
                 report={() =>
                   this.props.navigation.navigate('ReportPostScreen', post)
                 }
@@ -158,6 +165,7 @@ export default class SearchScreen extends Component {
                     location: post.location,
                     createdAt: post.createdAt,
                     createdBy: post.createdBy,
+                    url: post.url
                   });
                 }}
               />
