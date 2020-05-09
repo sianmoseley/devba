@@ -48,6 +48,7 @@ export default function EditPostScreen({navigation, route}) {
   const [Location, setLocation] = useState(post.location);
   const [Uri, setUri] = useState(post.uri);
   const [Filename, setFilename] = useState(post.filename);
+  const [Url, setUrl] = useState(post.url);
 
   //reference of current user posts
   const userKey = Firebase.auth().currentUser.uid;
@@ -66,7 +67,6 @@ export default function EditPostScreen({navigation, route}) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = response.uri;
-        console.log(source);
         setUri(source);
         const fileName = response.fileName;
         setFilename(fileName);
@@ -113,7 +113,6 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
           userkey: userKey,
           url: url
         });
-        
 
       })
       .then((url) => {
@@ -135,7 +134,7 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
         uri: Uri,
         filename: Filename,
         userkey: userKey, 
-        url: url
+        url: values.url
       })
       .then(() => {
         //simultaneously updates same fields in user_posts table
@@ -148,7 +147,7 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
             uri: Uri,
             filename: Filename,
             userkey: userKey, 
-            url: url
+            url: values.url
           });
       });
   }
@@ -175,7 +174,6 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
       touchSoundDisabled={true}
       onPress={() => {
         Keyboard.dismiss();
-        editPost(Heading, Description, Location, Uri, Filename, userKey);
       }}>
       <ScrollView>
         <Formik
@@ -192,6 +190,14 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
           enableReinitialize={true}
           onSubmit={values => {
             console.log(values);
+            editPost(Heading, Description, Location, Uri, Filename, userKey);
+            Alert.alert('Your post has been updated', 'Thank you!', [
+          {
+            text: 'OK',
+            //navigation back to the view post screen
+            onPress: () => navigation.navigate('ViewPosts'),
+          },
+        ]);
           }}
           // validationSchema={editPostSchema}
         >
@@ -293,7 +299,7 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
                 
                 <Image 
                   style={{width: '100%', height: 300}} 
-                  source={{uri: post.url}} />
+                  source={{uri: Uri}} />
 
                 <TouchableOpacity
                   style={globalStyles.inAppButton}
