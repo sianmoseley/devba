@@ -8,7 +8,7 @@ import {
   ToolbarAndroidComponent,
   TouchableOpacity,
   View,
-  Button
+  Button,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {globalStyles} from '../config/Styles';
@@ -30,10 +30,7 @@ export default class HomeScreen extends Component {
       //set value of postList variable as an empty array
       postList: [],
       // refreshing: false,
-
-      liked: false,
       likedPosts: [],
-
     };
   }
 
@@ -41,7 +38,6 @@ export default class HomeScreen extends Component {
     //function runs as soon as 'HomeScreen' is rendered
     this.getPostData();
   }
- 
 
   // componentWillUnmount() {
   //   this.getPostData();
@@ -92,11 +88,7 @@ export default class HomeScreen extends Component {
       });
   };
 
-
-
-
   render() {
-
     //log all of current users liked posts
     console.log('likedPosts:', this.state.likedPosts);
     return (
@@ -112,12 +104,11 @@ export default class HomeScreen extends Component {
               this.props.navigation.navigate('LocatePostScreen', {
                 location: post.location,
               })
-            }>   
+            }>
             <View style={globalStyles.postContainer}>
               <Text style={globalStyles.postText}>
                 {post.heading}
                 {'\n'}@{' '}
-
                 <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
                 {'\n'}
                 {post.description}
@@ -127,19 +118,18 @@ export default class HomeScreen extends Component {
                 {'\n'}
                 on <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
               </Text>
-              
+
               {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-            
+
               <Image
-                  style={{alignSelf: 'center', height: 150, width: 150}}
-                  source={{uri: post.url}}
-                />
+                style={{alignSelf: 'center', height: 150, width: 150}}
+                source={{uri: post.url}}
+              />
 
               <View style={globalStyles.iconMargin}>
                 <Icon
                   raised
                   iconStyle={globalStyles.icon}
-
                   name={
                     this.state.likedPosts.indexOf(post.id) > -1
                       ? 'heart'
