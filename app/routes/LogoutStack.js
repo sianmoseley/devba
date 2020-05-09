@@ -18,7 +18,7 @@ export default function LogOutStack() {
         screenOptions={{
           headerTitleAlign: 'center',
           headerStyle: {
-            backgroundColor: '#2bb76e',
+            backgroundColor: '#28A966',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

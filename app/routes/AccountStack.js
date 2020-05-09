@@ -20,7 +20,7 @@ export default function AccountStack() {
       initialRouteName="Account"
       screenOptions={() => ({
         headerTintColor: 'white',
-        headerStyle: {backgroundColor: '#2bb76e'},
+        headerStyle: {backgroundColor: '#28A966'},
       })}>
       <Stack.Screen
         name="Account"

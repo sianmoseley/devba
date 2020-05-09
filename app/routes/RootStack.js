@@ -20,9 +20,13 @@ export default function RootStack() {
       drawerContentOptions={{
         //options for colour when drawer is open
         activeTintColor: 'white',
-        inactiveTintColor: '#2bb76e',
-        activeBackgroundColor: '#2bb76e',
+        inactiveTintColor: '#28A966',
+        activeBackgroundColor: '#28A966',
         inactiveBackgroundColor: 'white',
+        labelStyle: {
+          fontSize: 20,
+          fontFamily: 'arial',
+        },
       }}>
       <Drawer.Screen
         name="HomeStack"

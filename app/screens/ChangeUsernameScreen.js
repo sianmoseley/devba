@@ -9,20 +9,16 @@ import {
   Keyboard,
 } from 'react-native';
 import {Formik} from 'formik';
-import * as yup from 'yup';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/Variables';
-
-//client-side validation with yup
-// const changeUsernameSchema = yup.object().shape({});
 
 export default function ChangeUsernameScreen({navigation}) {
   //obtain the user and username of logged in user as objects
   const user = Firebase.auth().currentUser;
   const currentUsername = user.displayName;
+  const userKey = user.uid;
 
   //set username variable that will be changed as the existing username
   const [Username, setUsername] = useState(currentUsername);
@@ -60,9 +56,7 @@ export default function ChangeUsernameScreen({navigation}) {
               },
             ]);
             console.log(Username);
-          }}
-          // validationSchema={changeUsernameSchema}
-        >
+          }}>
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
@@ -72,6 +66,7 @@ export default function ChangeUsernameScreen({navigation}) {
                   //variable Username will be set to whatever is typed into this text input
                   onChangeText={text => setUsername(text)}
                   value={Username}
+                  style={globalStyles.formPlaceholder}
                 />
                 <TouchableOpacity
                   style={globalStyles.inAppButton}

@@ -13,6 +13,7 @@ import {CustomTextInput} from '../config/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import DeleteUser from '../database/DeleteAccount';
+import Firebase from 'firebase';
 
 //client-side validation with yup
 const deleteAccountSchema = yup.object().shape({
@@ -27,7 +28,48 @@ const deleteAccountSchema = yup.object().shape({
     .required('Please enter your current password'),
 });
 
-export default class ChangePasswordScreen extends Component {
+export default class DeleteAccountScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getPostData();
+  }
+
+  getPostData() {
+    const ref = Firebase.database().ref('/posts');
+    ref.on('value', snapshot => {
+      //all data for all posts set as one object
+      const postsObject = snapshot.val();
+      if (!postsObject) {
+        console.log('NO DATA IN FIREBASE:', Date(Date.now()));
+      } else {
+        console.log('HOMESCREEN FIREBASE DATA RETRIEVED:', Date(Date.now()));
+        //object with all post data converted into an array of posts
+        const postsArray = Object.values(postsObject);
+        //set value of postList to the array of posts
+        this.setState({posts: postsArray});
+      }
+    });
+  }
+
+  deletePosts() {
+    const currentUID = Firebase.auth().currentUser.uid;
+    this.state.posts.forEach(post => {
+      const UID = post.userkey;
+      const postKey = post.id;
+      if (UID === currentUID) {
+        Firebase.database()
+          .ref('posts/' + postKey)
+          .remove();
+      }
+    });
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback
@@ -40,6 +82,7 @@ export default class ChangePasswordScreen extends Component {
             initialValues={{email: '', password: ''}}
             onSubmit={(values, actions) => {
               console.log(values);
+              this.deletePosts();
               DeleteUser(values);
               setTimeout(() => {
                 actions.setSubmitting(false);
@@ -60,17 +103,19 @@ export default class ChangePasswordScreen extends Component {
                     formikProps={formikProps}
                     formikKey="email"
                     placeholder="Please enter your email"
+                    style={globalStyles.formPlaceholder}
                   />
                   <CustomTextInput
                     label="Please enter your password:"
                     formikProps={formikProps}
                     formikKey="password"
                     placeholder="Please enter your password"
+                    style={globalStyles.formPlaceholder}
                     secureTextEntry
                   />
                   <View style={globalStyles.submitButtonContainer}>
                     {formikProps.isSubmitting ? (
-                      <ActivityIndicator size="large" color="#2bb76e" />
+                      <ActivityIndicator size="large" color="#28A966" />
                     ) : (
                       <View>
                         <TouchableOpacity

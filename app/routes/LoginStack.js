@@ -12,15 +12,6 @@ const Stack = createStackNavigator();
 
 export default function LogInStack() {  
 
-        useEffect(() => {
-          const ref = Firebase.database().ref('/posts');   
-            ref.limitToLast(1).on('child_added', function(childSnapshot) {
-              console.log('I hear a new post!');
-              console.log(childSnapshot + ' is the new post');
-              LocalPushController();
-            })   
-        }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">

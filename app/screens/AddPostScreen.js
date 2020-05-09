@@ -91,7 +91,7 @@ export default function AddPostScreen({navigation}) {
 
   function uploadImage(values, Uri, Filename, userKey, mime = 'image/jpeg') {
     return new Promise((resolve, reject) => {
-      const uploadUri = Platform.OS === 'ios' ? Uri.replace('file://', '') : Uri
+      const uploadUri = Uri
       let uploadBlob = null
 
       const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename)
@@ -110,7 +110,7 @@ export default function AddPostScreen({navigation}) {
         })
         .then(function(downloadURL){
           console.log('File available at', downloadURL);
-          url = downloadURL;
+          const url = downloadURL;
 
           AddPost({
             heading: values.heading,
@@ -167,22 +167,30 @@ export default function AddPostScreen({navigation}) {
         <Formik
           initialValues={{heading: '', description: ''}}
           onSubmit={(values, actions) => {
-            //code executes when the Submit button is pressed
-            //alert confrims to user their post has been accepted and posted
-            console.log({selectedValue, values});
-            Keyboard.dismiss();
-            setTimeout(() => {
-              actions.setSubmitting(false);
-            }, 2000);
-            console.log(Filename);
-            uploadImage(values, Uri, Filename, userKey);
-             Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
-              {
-                text: 'OK',
-                //navigation back to the home page
-                onPress: () => navigation.navigate('HomeScreen'),
-              },
-            ]);
+            //code executes when the Submit button is pressed, if the user has included an image
+            //alert confirms to user their post has been accepted and posted
+            if (Filename) {
+                console.log({selectedValue, values});
+                Keyboard.dismiss();
+                setTimeout(() => {
+                  actions.setSubmitting(false);
+                }, 2000);
+                console.log(Filename);
+                uploadImage(values, Uri, Filename, userKey);
+                Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
+                  {
+                    text: 'OK',
+                    //navigation back to the home page
+                    onPress: () => navigation.navigate('HomeScreen'),
+                  },
+                ]);
+            } else {
+              Alert.alert('Image required', 'You must include an image with your post', [
+                {
+                  text: 'OK',
+                },
+              ]);
+            }
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
@@ -195,6 +203,7 @@ export default function AddPostScreen({navigation}) {
                   formikProps={formikProps}
                   formikKey="heading"
                   placeholder="Give your post a title..."
+                  style={globalStyles.formPlaceholder}
                 />
                 <CustomTextInput
                   label="Description:"
@@ -202,6 +211,7 @@ export default function AddPostScreen({navigation}) {
                   formikKey="description"
                   placeholder="Tell us about your leftovers..."
                   multiline
+                  style={globalStyles.formPlaceholder}
                 />
                 <Text style={globalStyles.formLabel}>Select Location:</Text>
                 <Picker
@@ -255,9 +265,9 @@ export default function AddPostScreen({navigation}) {
                 {/* renders activity indicator when button is pressed */}
                 <View>
                   {/* <View style={globalStyles.submitButtonContainer}> */}
-                  {formikProps.isSubmitting ? (
-                    <ActivityIndicator size="large" color="#2bb76e" />
-                  ) : (
+                  {/* {formikProps.isSubmitting ? (
+                    <ActivityIndicator size="large" color="#28A966" />
+                  ) : ( */}
                     <View>
                       <TouchableOpacity
                         style={globalStyles.inAppButton}
@@ -280,7 +290,7 @@ export default function AddPostScreen({navigation}) {
                         </Text>
                       </TouchableOpacity>
                     </View>
-                  )}
+                  {/* )} */}
                 </View>
               </View>
             </React.Fragment>

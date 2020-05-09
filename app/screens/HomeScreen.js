@@ -56,8 +56,23 @@ export default class HomeScreen extends Component {
         console.log('HOMESCREEN FIREBASE DATA RETRIEVED:', Date(Date.now()));
         //object with all post data converted into an array of posts
         const postsArray = Object.values(postsObject);
-        //set value of postList to the array of posts
-        this.setState({postList: postsArray});
+
+        //get list of posts created today by filtering postsArray
+        const date = new Date();
+        let now =
+          [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
+          ' ' +
+          [
+            date.getHours(),
+            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+          ].join(':');
+        function todaysPosts(post) {
+          return post.createdAt.substring(0, 6) === now.substring(0, 6);
+        }
+        const recentPosts = postsArray.filter(todaysPosts);
+
+        //set value of postList to the filtered array of posts
+        this.setState({postList: recentPosts});
       }
     });
 
@@ -122,7 +137,7 @@ export default class HomeScreen extends Component {
               {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
 
               <Image
-                style={{alignSelf: 'center', height: 150, width: 150}}
+                style={{alignSelf: 'center', height: 200, width: 200}}
                 source={{uri: post.url}}
               />
 
