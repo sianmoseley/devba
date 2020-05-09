@@ -153,7 +153,7 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
       });
   }
 
-  //removes post from database
+  //removes post from database and firebase storage location
   function DeletePost() {
     ref.remove().then(() => {
       Firebase.database()
