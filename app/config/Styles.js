@@ -101,10 +101,7 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 70,
     width: '70%',
-    transform: [
-      { scaleX: 1.5 }, 
-      { scaleY: 1.5 },
-   ],
+    transform: [{scaleX: 1.5}, {scaleY: 1.5}],
   },
   formPlaceholder: {
     fontSize: 18,
