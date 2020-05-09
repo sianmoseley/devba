@@ -3,7 +3,6 @@ import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Firebase from 'firebase';
 import {globalStyles} from '../config/Styles';
-import {Post} from '../config/Variables';
 
 //global variable enables interaction with onPress
 let userKey = '';
