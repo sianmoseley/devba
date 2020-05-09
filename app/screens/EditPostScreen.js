@@ -86,7 +86,7 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
     const uploadUri = Uri
     let uploadBlob = null
 
-    const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename + 'update')
+    const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename)
 
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
@@ -159,6 +159,14 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
       Firebase.database()
         .ref('user_posts/' + userKey + '/' + postKey)
         .remove();
+    });
+
+    const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename);
+    imageRef.delete().then(function(){
+      console.log('Image deleted from firebase storage')
+    })
+    .catch(function(error) {
+      console.log("Remove failed: " + error.message)
     });
   }
 
