@@ -15,6 +15,7 @@ import {authenticationStyles} from '../config/Styles';
 import {AuthInput, AuthSwitch} from '../config/Variables';
 import {globalStyles} from '../config/Styles';
 
+//client side validation via yup
 const registerSchema = yup.object().shape({
   username: yup
     .string()
@@ -49,6 +50,7 @@ const registerSchema = yup.object().shape({
   notifications: yup.boolean().label('Notifications'),
 });
 
+// register form view
 export default class Register extends Component {
   render() {
     return (

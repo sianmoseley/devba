@@ -28,6 +28,7 @@ const loginSchema = yup.object().shape({
     .required('Please enter your password.'),
 });
 
+// login form view
 export default class Login extends Component {
   render() {
     return (

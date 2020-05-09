@@ -8,12 +8,15 @@ import Notifications from '../services/Notifications'
 //plugs into App.js
 //initializes firebase database on app start
 
+// expose user data to LogInStack ONLY when the user succesfully logs in
 const AuthContext = createContext(null);
 
 export default function AuthNavigator() {
+  // initializing state variable keeps track of changes in authentication state
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
 
+  // Handle user state change and subscribe to auth changes when component is mounted
   useEffect(() => {
     const authSubscriber = Firebase.auth().onAuthStateChanged(result => {
       setUser(result);
