@@ -71,7 +71,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 25,
   },
   error: {
-    color: 'black+',
+    color: 'black',
     fontWeight: 'bold',
     marginBottom: 8,
     marginTop: 3,
@@ -82,6 +82,12 @@ export const globalStyles = StyleSheet.create({
   formField: {
     marginHorizontal: 10,
     marginTop: 12,
+  },
+  // added search formfield so that flatlist scrolled all the way to bottom of last post
+  searchFormField: {
+    marginHorizontal: 10,
+    marginTop: 12,
+    marginBottom: 220
   },
   formLabel: {
     color: '#28A966',

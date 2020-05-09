@@ -130,14 +130,10 @@ export default class HomeScreen extends Component {
                 {'\n'}
                 on <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
               </Text>
-
-              {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-
               <Image
                 style={{alignSelf: 'center', height: 200, width: 200}}
                 source={{uri: post.url}}
               />
-
               <View style={globalStyles.iconMargin}>
                 <Icon
                   raised
@@ -165,6 +161,7 @@ export default class HomeScreen extends Component {
                         location: post.location,
                         createdAt: post.createdAt,
                         createdBy: post.createdBy,
+                        url: post.url
                       });
                     } else {
                       favRef.remove();

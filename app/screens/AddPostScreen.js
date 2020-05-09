@@ -52,14 +52,12 @@ export default function AddPostScreen({navigation}) {
       console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
     });
 
-  ///////////////// IMAGE PICKER CODE - SIAN
 
   const [Uri, setUri] = useState('https://avatars0.githubusercontent.com/u/12028011?v=3&s=200');
   const [Filename, setFilename] = useState('');
-  const [DownloadURL, setDownloadURL] = useState('');
+  
 
-
-
+  // Select image from user camera or gallery
   const selectImage = () => {
     const options = {
       noData: true,
@@ -76,7 +74,6 @@ export default function AddPostScreen({navigation}) {
         setUri(source);
         const fileName = response.fileName;
         setFilename(fileName);
-        
       }
     });
   };
@@ -87,8 +84,7 @@ export default function AddPostScreen({navigation}) {
   window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
   window.Blob = Blob
 
-  // Function to upload image to Firebase storage
-
+  // Function to upload image to Firebase storage and post details to Firebase realtime database
   function uploadImage(values, Uri, Filename, userKey, mime = 'image/jpeg') {
     return new Promise((resolve, reject) => {
       const uploadUri = Uri
@@ -131,25 +127,6 @@ export default function AddPostScreen({navigation}) {
       })
     })
   }
-
-
-   //// FUNCTION TO DISPLAY USER SELECTED IMAGE
-
-   function renderSelectedImage() {
-    if (Uri === '') {
-      return (
-        <Image
-          source={require('../images/gallery.png')}
-          style={{width: '100%', height: 300}}
-        />
-      );
-    } else {
-      return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
-    }
-  }
-
-
-  /////////// END OF IMAGE PICKER CODE
 
   //state set for 'location' picker
   const [selectedValue, setSelectedValue] = useState('Adsetts');
@@ -276,9 +253,9 @@ export default function AddPostScreen({navigation}) {
                           Add your image
                         </Text>
                       </TouchableOpacity>
-                      {renderSelectedImage()
-                      //selected image rendered here so user can inspect photo before uploading it
-                      }
+                      <Image 
+                        style={{width: '100%', height: 300}} 
+                        source={{uri: Uri}} />
                       <TouchableOpacity
                         style={globalStyles.inAppButton}
                         onPress={

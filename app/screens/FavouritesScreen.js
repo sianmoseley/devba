@@ -76,7 +76,7 @@ export default class FavouritesScreen extends Component {
                 location={post.location}
                 createdAt={post.createdAt}
                 createdBy={post.createdBy}
-                uri={{uri: post.uri}}
+                url={post.url}
                 onPress={() => {
                   const postKey = post.id;
                   Firebase.database()
