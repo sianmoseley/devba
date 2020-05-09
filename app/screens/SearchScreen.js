@@ -80,7 +80,7 @@ export default class SearchScreen extends Component {
     return (
       //added paddingBottom so last post doesn't get clipped
       <View style={{paddingBottom: 25}}>
-        <View style={globalStyles.formField}>
+        <View style={globalStyles.searchFormField}>
           <Picker
             style={globalStyles.formPicker}
             mode="dialog"

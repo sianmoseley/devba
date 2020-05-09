@@ -35,7 +35,6 @@ export const Post = ({
         style={{alignSelf: 'center', height: 150, width: 150}}
         source={{uri: url}}
       />
-
     </View>
   </TouchableOpacity>
 );

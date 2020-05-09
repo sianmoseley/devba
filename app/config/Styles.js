@@ -83,6 +83,12 @@ export const globalStyles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 12,
   },
+  // added search formfield so that flatlist scrolled all the way to bottom of last post
+  searchFormField: {
+    marginHorizontal: 10,
+    marginTop: 12,
+    marginBottom: 220
+  },
   formLabel: {
     color: '#28A966',
     fontSize: 18,
