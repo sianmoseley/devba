@@ -57,12 +57,12 @@ export default function AddPostScreen({navigation}) {
   const [Filename, setFilename] = useState('');
   
 
-  // Select image from user camera or gallery
+  //function to allow user to take a photo or select existing image
   const selectImage = () => {
     const options = {
       noData: true,
     };
-    ImagePicker.launchImageLibrary(options, response => {
+    ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {

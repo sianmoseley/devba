@@ -16,6 +16,7 @@ import * as yup from 'yup';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
 import {globalStyles} from '../config/Styles';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 //client-side validation with yup
 const editPostSchema = yup.object().shape({
@@ -46,16 +47,17 @@ export default function EditPostScreen({navigation, route}) {
   const [Description, setDescription] = useState(post.description);
   const [Location, setLocation] = useState(post.location);
   const [Uri, setUri] = useState(post.uri);
+  const [Filename, setFilename] = useState(post.filename);
 
   //reference of current user posts
   const userKey = Firebase.auth().currentUser.uid;
 
-  //function to get image details from device gallery
+  //function to allow user to take a photo or select existing image
   const selectImage = () => {
     const options = {
       noData: true,
     };
-    ImagePicker.launchImageLibrary(options, response => {
+    ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -66,24 +68,62 @@ export default function EditPostScreen({navigation, route}) {
         const source = response.uri;
         console.log(source);
         setUri(source);
+        const fileName = response.fileName;
+        setFilename(fileName);
       }
     });
   };
 
-  //function to display selected image
-  function renderSelectedImage() {
-    if (Uri === '') {
-      //if no photo has been selected return default gallery image
-      return (
-        <Image
-          source={require('../images/gallery.png')}
-          style={{width: '100%', height: 300}}
-        />
-      );
-    } else {
-      return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
-    }
-  }
+  // Prepare Blob support
+  const Blob = RNFetchBlob.polyfill.Blob
+  const fs = RNFetchBlob.fs
+  window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+  window.Blob = Blob
+
+// Function to upload image to Firebase storage and post details to Firebase realtime database
+function editPost(Heading, Description, Location, Uri, Filename, userKey, mime = 'image/jpeg') {
+  return new Promise((resolve, reject) => {
+    const uploadUri = Uri
+    let uploadBlob = null
+
+    const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename + 'update')
+
+    fs.readFile(uploadUri, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+      })
+      .then((blob) => {
+        uploadBlob = blob
+        return imageRef.put(blob, { contentType: mime })
+      })
+      .then(() => {
+        uploadBlob.close()
+        return imageRef.getDownloadURL()
+      })
+      .then(function(downloadURL){
+        console.log('File available at', downloadURL);
+        const url = downloadURL;
+
+        updatePost({
+          heading: Heading,
+          description: Description,
+          location: Location,
+          uri: Uri,
+          filename: Filename,
+          userkey: userKey,
+          url: url
+        });
+        
+
+      })
+      .then((url) => {
+        resolve(url);
+      })
+      .catch((error) => {
+        reject(error)
+    })
+  })
+}
 
   //updates specified fields in specified path in database
   function updatePost(values) {
@@ -93,6 +133,9 @@ export default function EditPostScreen({navigation, route}) {
         description: values.description,
         location: values.location,
         uri: Uri,
+        filename: Filename,
+        userkey: userKey, 
+        url: url
       })
       .then(() => {
         //simultaneously updates same fields in user_posts table
@@ -103,6 +146,9 @@ export default function EditPostScreen({navigation, route}) {
             description: values.description,
             location: values.location,
             uri: Uri,
+            filename: Filename,
+            userkey: userKey, 
+            url: url
           });
       });
   }
@@ -121,6 +167,7 @@ export default function EditPostScreen({navigation, route}) {
       touchSoundDisabled={true}
       onPress={() => {
         Keyboard.dismiss();
+        editPost(Heading, Description, Location, Uri, Filename, userKey);
       }}>
       <ScrollView>
         <Formik
@@ -137,12 +184,6 @@ export default function EditPostScreen({navigation, route}) {
           enableReinitialize={true}
           onSubmit={values => {
             console.log(values);
-            updatePost({
-              heading: Heading,
-              description: Description,
-              location: Location,
-              uri: Uri,
-            });
           }}
           // validationSchema={editPostSchema}
         >
@@ -241,8 +282,10 @@ export default function EditPostScreen({navigation, route}) {
                   onPress={selectImage}>
                   <Text style={globalStyles.inAppTouchText}>Select Photo</Text>
                 </TouchableOpacity>
-
-                {renderSelectedImage()}
+                
+                <Image 
+                  style={{width: '100%', height: 300}} 
+                  source={{uri: post.url}} />
 
                 <TouchableOpacity
                   style={globalStyles.inAppButton}
