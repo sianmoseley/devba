@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 
 //basic page with About info
 
@@ -9,7 +9,7 @@ export default function AboutScreen() {
     <View style={{padding: 25}}>
       <View style={globalStyles.logoContainer}>
         <Image
-          style={{width: 275, height: 238}}
+          style={globalStyles.logoSize}
           source={require('../images/bigapp.png')}
         />
       </View>

@@ -1,35 +1,16 @@
 import React, {Component} from 'react';
-import {
-  Animated,
-  FlatList,
-  Image,
-  RefreshControl,
-  Text,
-  ToolbarAndroidComponent,
-  TouchableOpacity,
-  View,
-  Button,
-} from 'react-native';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
+import today from '../custom/Variables';
 import Firebase from 'firebase';
 import 'firebase/database';
-
-//TODO
-//refresh
-// function wait(timeout) {
-//   return new Promise(resolve => {
-//     setTimeout(resolve, timeout);
-//   });
-// }
 
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //set value of postList variable as an empty array
       postList: [],
-      // refreshing: false,
       likedPosts: [],
     };
   }
@@ -38,10 +19,6 @@ export default class HomeScreen extends Component {
     //function runs as soon as 'HomeScreen' is rendered
     this.getPostData();
   }
-
-  // componentWillUnmount() {
-  //   this.getPostData();
-  // }
 
   //function to get post data from firebase database
   getPostData = () => {
@@ -52,13 +29,13 @@ export default class HomeScreen extends Component {
       const postsObject = snapshot.val();
       if (!postsObject) {
         console.log('NO HOMESCREEN DATA:', Date(Date.now()));
-        // this.setState({postList: null});
       } else {
         console.log('HOMESCREEN FIREBASE DATA RETRIEVED:', Date(Date.now()));
         //object with all post data converted into an array of posts
         const postsArray = Object.values(postsObject);
         //get list of posts created today by filtering postsArray
         const date = new Date();
+        //not abstracted, causes error
         let now =
           [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
           ' ' +
@@ -72,6 +49,7 @@ export default class HomeScreen extends Component {
         const recentPosts = postsArray.filter(todaysPosts);
         console.log('recentPosts:', recentPosts);
         //checks that recentPosts is an array and is empty
+        //shows message to user if no posts exist in past 12 hours
         if (Array.isArray(recentPosts) && recentPosts.length === 0) {
           this.setState({postList: null});
         } else {
@@ -121,16 +99,10 @@ export default class HomeScreen extends Component {
             }}>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={{width: 275, height: 238}}
+                style={globalStyles.logoSize}
                 source={require('../images/bigapp.png')}
               />
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginHorizontal: 30,
-                  marginTop: 90,
-                  fontFamily: 'arial',
-                }}>
+              <Text style={globalStyles.noPostText}>
                 There haven't been any posts made in the last 12 hours... sorry!
               </Text>
             </View>
@@ -142,6 +114,7 @@ export default class HomeScreen extends Component {
             //posts sorted by newest first
             // data={this.state.postList.sort(a => a.createdAt.localeCompare())}
             data={this.state.postList}
+            // inverted={true}
             renderItem={({item: post}) => (
               <TouchableOpacity
                 onPress={() =>
@@ -151,8 +124,7 @@ export default class HomeScreen extends Component {
                 }>
                 <View style={globalStyles.postContainer}>
                   <Text style={globalStyles.postText}>
-                    {post.heading}
-                    {'\n'}@{' '}
+                    <Text style={{fontWeight: 'bold'}}>{post.heading}</Text> @{' '}
                     <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
                     {'\n'}
                     {post.description}
@@ -163,14 +135,7 @@ export default class HomeScreen extends Component {
                     on{' '}
                     <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
                   </Text>
-
-                  {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-
-                  <Image
-                    style={{alignSelf: 'center', height: 200, width: 200}}
-                    source={{uri: post.url}}
-                  />
-
+                  <Image style={globalStyles.image} source={{uri: post.url}} />
                   <View style={globalStyles.iconMargin}>
                     <Icon
                       raised
@@ -198,7 +163,7 @@ export default class HomeScreen extends Component {
                             location: post.location,
                             createdAt: post.createdAt,
                             createdBy: post.createdBy,
-                            url: post.url
+                            url: post.url,
                           });
                         } else {
                           favRef.remove();

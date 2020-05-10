@@ -10,9 +10,8 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ResetPassword from '../database/ForgotPassword';
-import {authenticationStyles} from '../config/Styles';
-import {AuthInput} from '../config/Variables';
-import {globalStyles} from '../config/Styles';
+import {AuthInput} from '../custom/Variables';
+import {authenticationStyles, globalStyles} from '../style/Styles';
 
 // client side validation with yup
 const passwordSchema = yup.object().shape({

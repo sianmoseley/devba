@@ -1,11 +1,10 @@
 import Firebase from 'firebase';
+import today from '../custom/Variables';
 
 //so username is global
 let Username = '';
 
 export default async function ReportPost(values, submitComplete) {
-  //reads today's date in default Javascript
-  const date = new Date();
   //current user ID
   const userKey = Firebase.auth().currentUser.uid;
 
@@ -30,14 +29,7 @@ export default async function ReportPost(values, submitComplete) {
         postId: values.postId,
         reportDescription: values.reportDescription,
         reportId: key,
-        //date formatted: DD/MM/YYYY hh:mm
-        reportTimeStamp:
-          [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
-          ' ' +
-          [
-            date.getHours(),
-            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-          ].join(':'),
+        reportTimeStamp: today,
         reportType: values.reportType,
         submittedBy: Username,
       })

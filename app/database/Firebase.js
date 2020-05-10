@@ -1,7 +1,6 @@
 import Firebase from 'firebase';
 
 //credentials from Firebase project to allow access to all features within bigAPPetite project
-
 export const firebaseConfig = {
   apiKey: 'AIzaSyBkUl4xLIrmxDgZwN51X0HmAZOOD-cAKkM',
   authDomain: 'big-appetite-96416.firebaseapp.com',

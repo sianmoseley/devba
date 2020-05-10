@@ -1,5 +1,4 @@
 import Firebase from 'firebase';
-import {Alert} from 'react-native';
 
 //replicates model aspect of MVC architecture
 export default async function SubmitRegister(values) {
@@ -36,10 +35,4 @@ export default async function SubmitRegister(values) {
       }
       console.log(error);
     });
-  
 }
-
-
-
-
-  

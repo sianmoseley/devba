@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Picker} from '@react-native-community/picker';
 import {
-  ActivityIndicator,
   Alert,
   Image,
   Keyboard,
@@ -16,8 +15,8 @@ import * as yup from 'yup';
 import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/Variables';
+import {globalStyles} from '../style/Styles';
+import {CustomTextInput} from '../custom/Variables';
 import RNFetchBlob from 'react-native-fetch-blob';
 
 //client-side validation with yup
@@ -26,38 +25,24 @@ const addPostSchema = yup.object().shape({
     .string()
     .label('Heading')
     .required('This is a required field.')
-    .min(5, 'Field must contain a valid description')
-    .max(50, "Don't be daft"),
+    .min(5, 'Field must contain a valid description.')
+    .max(30, 'Heading too long.'),
   description: yup
     .string()
     .label('Description')
     .required('This is a required field.')
-    .min(5, 'Field must contain a valid description')
-    .max(50, "Don't be daft"),
+    .min(5, 'Field must contain a valid description.')
+    .max(100, 'Description too long.'),
 });
 
 //AuthNavigator recognises if a user is logged in and remembers the account
 export default function AddPostScreen({navigation}) {
   const userKey = Firebase.auth().currentUser.uid;
 
-  //used for logging, can remove
-  Firebase.database()
-    .ref('users/' + userKey)
-    .on('value', snapshot => {
-      //set of data in path read as an object
-      const user = snapshot.val();
-      console.log(user);
-      //extract specific value of username
-      const Username = user.username;
-      console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
-    });
-
-
   const [Uri, setUri] = useState(
     'https://avatars0.githubusercontent.com/u/12028011?v=3&s=200',
   );
   const [Filename, setFilename] = useState('');
-  const [DownloadURL, setDownloadURL] = useState('');
 
   //function to allow user to take a photo or select existing image
   const selectImage = () => {
@@ -131,23 +116,6 @@ export default function AddPostScreen({navigation}) {
     });
   }
 
-  //// FUNCTION TO DISPLAY USER SELECTED IMAGE
-
-  function renderSelectedImage() {
-    if (Uri === '') {
-      return (
-        <Image
-          source={require('../images/gallery.png')}
-          style={{width: '100%', height: 300}}
-        />
-      );
-    } else {
-      return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
-    }
-  }
-
-  /////////// END OF IMAGE PICKER CODE
-  
   //state set for 'location' picker
   const [selectedValue, setSelectedValue] = useState('Adsetts');
 
@@ -159,7 +127,6 @@ export default function AddPostScreen({navigation}) {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      {/* flex forces content to fit to size of screen */}
       <ScrollView style={{flex: 1}}>
         <Formik
           initialValues={{heading: '', description: ''}}
@@ -167,40 +134,45 @@ export default function AddPostScreen({navigation}) {
             //code executes when the Submit button is pressed, if the user has included an image
             //alert confirms to user their post has been accepted and posted
             if (Filename) {
-                console.log({selectedValue, values});
-                Keyboard.dismiss();
-                setTimeout(() => {
-                  actions.setSubmitting(false);
-                }, 2000);
-                console.log(Filename);
-                uploadImage(values, Uri, Filename, userKey);
-                Alert.alert('Your leftovers are now up for grabs.', 'Thank you!', [
+              console.log({selectedValue, values});
+              Keyboard.dismiss();
+              setTimeout(() => {
+                actions.setSubmitting(false);
+              }, 2000);
+              console.log(Filename);
+              uploadImage(values, Uri, Filename, userKey);
+              Alert.alert(
+                'Your leftovers are now up for grabs.',
+                'Thank you!',
+                [
                   {
                     text: 'OK',
-                    //navigation back to the home page
                     onPress: () => navigation.navigate('HomeScreen'),
                   },
-                ]);
+                ],
+              );
             } else {
-              Alert.alert('Image required', 'You must include an image with your post', [
-                {
-                  text: 'OK',
-                },
-              ]);
+              Alert.alert(
+                'Image required',
+                'You must include an image with your post',
+                [
+                  {
+                    text: 'OK',
+                  },
+                ],
+              );
             }
           }}
           validationSchema={addPostSchema}>
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
-                {/* custom inputs */}
                 <CustomTextInput
                   //textboxes for each field
                   label="Heading:"
                   formikProps={formikProps}
                   formikKey="heading"
                   placeholder="Give your post a title..."
-                  style={globalStyles.formPlaceholder}
                 />
                 <CustomTextInput
                   label="Description:"
@@ -208,7 +180,6 @@ export default function AddPostScreen({navigation}) {
                   formikKey="description"
                   placeholder="Tell us about your leftovers..."
                   multiline
-                  style={globalStyles.formPlaceholder}
                 />
                 <Text style={globalStyles.formLabel}>Select Location:</Text>
                 <Picker
@@ -259,35 +230,28 @@ export default function AddPostScreen({navigation}) {
                   <Picker.Item label="Willow Court" value="Willow Court" />
                   <Picker.Item label="Woodville" value="Woodville" />
                 </Picker>
-                {/* renders activity indicator when button is pressed */}
                 <View>
-                  {/* <View style={globalStyles.submitButtonContainer}> */}
-                  {/* {formikProps.isSubmitting ? (
-                    <ActivityIndicator size="large" color="#28A966" />
-                  ) : ( */}
-                    <View>
-                      <TouchableOpacity
-                        style={globalStyles.inAppButton}
-                        onPress={selectImage}>
-                        <Text style={globalStyles.inAppTouchText}>
-                          Add your image
-                        </Text>
-                      </TouchableOpacity>
-                      <Image 
-                        style={{width: '100%', height: 300}} 
-                        source={{uri: Uri}} />
-                      <TouchableOpacity
-                        style={globalStyles.inAppButton}
-                        onPress={
-                          formikProps.handleSubmit
-                          //this component identified as the submit button through the props.handleSubmit function
-                        }>
-                        <Text style={globalStyles.inAppTouchText}>
-                          Post your leftovers!
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  {/* )} */}
+                  <TouchableOpacity
+                    style={globalStyles.inAppButton}
+                    onPress={selectImage}>
+                    <Text style={globalStyles.inAppTouchText}>
+                      Add your image
+                    </Text>
+                  </TouchableOpacity>
+                  <Image
+                    style={{width: '100%', height: 300}}
+                    source={{uri: Uri}}
+                  />
+                  <TouchableOpacity
+                    style={globalStyles.inAppButton}
+                    onPress={
+                      formikProps.handleSubmit
+                      //this component identified as the submit button through the props.handleSubmit function
+                    }>
+                    <Text style={globalStyles.inAppTouchText}>
+                      Post your leftovers!
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </React.Fragment>

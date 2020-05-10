@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Firebase from 'firebase';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 
 //global variable enables interaction with onPress
 let userKey = '';
@@ -53,8 +53,6 @@ export default class FavouritesScreen extends Component {
         const likedObject = snapshot.val();
         if (!likedObject) {
           console.log('USER HAS NO LIKES:', Date(Date.now()));
-          //solves bug if user unlikes post from fav screen
-          //but heart of last post to be unliked is still filled in
           this.setState({
             likedPosts: [],
           });
@@ -80,10 +78,10 @@ export default class FavouritesScreen extends Component {
             }}>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={{width: 275, height: 238}}
+                style={globalStyles.logoSize}
                 source={require('../images/bigapp.png')}
               />
-              <Text style={{fontSize: 18, marginTop: 90, fontFamily: 'arial'}}>
+              <Text style={globalStyles.noPostText}>
                 You've not 'hearted' any posts yet!
               </Text>
             </View>
@@ -104,8 +102,7 @@ export default class FavouritesScreen extends Component {
                 }>
                 <View style={globalStyles.postContainer}>
                   <Text style={globalStyles.postText}>
-                    {post.heading}
-                    {'\n'}@{' '}
+                    <Text style={{fontWeight: 'bold'}}>{post.heading}</Text> @{' '}
                     <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
                     {'\n'}
                     {post.description}
@@ -116,14 +113,7 @@ export default class FavouritesScreen extends Component {
                     on{' '}
                     <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
                   </Text>
-
-                  {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-
-                  <Image
-                    style={{alignSelf: 'center', height: 200, width: 200}}
-                    source={{uri: post.url}}
-                  />
-
+                  <Image style={globalStyles.image} source={{uri: post.url}} />
                   <View style={globalStyles.iconMargin}>
                     <Icon
                       raised

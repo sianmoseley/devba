@@ -5,10 +5,10 @@ import AuthNavigator from './routes/Authentication';
 import 'firebase/database';
 
 export default class devba extends Component {
-  
-
   render() {
     //plugs into index.js
+    //removes warning from screen
+    //no solution for this warning can be found online
     YellowBox.ignoreWarnings(['Setting a timer']);
     return <AuthNavigator />;
   }

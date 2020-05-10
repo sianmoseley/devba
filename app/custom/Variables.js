@@ -7,7 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {authenticationStyles, globalStyles} from './Styles';
+import {authenticationStyles, globalStyles} from '../style/Styles';
+
+//reads today's date in default Javascript
+let date = new Date();
+export let today =
+  [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
+  ' ' +
+  [
+    date.getHours(),
+    (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+  ].join(':');
 
 //constant component for posts
 export const Post = ({
@@ -17,8 +27,7 @@ export const Post = ({
   heading,
   location,
   onPress,
-  uri,
-  url
+  url,
 }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={globalStyles.postContainer}>
@@ -31,10 +40,7 @@ export const Post = ({
         {'\n'}
         {createdAt}
       </Text>
-      <Image
-        style={{alignSelf: 'center', height: 150, width: 150}}
-        source={{uri: url}}
-      />
+      <Image style={globalStyles.image} source={{uri: url}} />
     </View>
   </TouchableOpacity>
 );
@@ -56,7 +62,7 @@ export const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
   return (
     <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
       <TextInput
-        style={globalStyles.inputBox}
+        style={globalStyles.formPlaceholder}
         onChangeText={formikProps.handleChange(formikKey)}
         onBlur={formikProps.handleBlur(formikKey)}
         {...rest}
@@ -67,7 +73,7 @@ export const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
 export const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
   <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
     <Switch
-      trackColor={{ false: "#767577", true: "#81b0ff" }}
+      trackColor={{false: '#767577', true: '#81b0ff'}}
       value={formikProps.values[formikKey]}
       onValueChange={value => {
         formikProps.setFieldValue(formikKey, value);
@@ -76,6 +82,9 @@ export const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
     />
   </FieldWrapper>
 );
+
+//authentication custom components exist
+//as they're styled differently to in app inputs
 
 //variables for custom text input and switches on the authentication screens (login, register and forgot password)
 const AuthFieldWrapper = ({children, label, formikProps, formikKey}) => (
@@ -96,7 +105,7 @@ export const AuthInput = ({label, formikProps, formikKey, ...rest}) => {
       formikKey={formikKey}
       formikProps={formikProps}>
       <TextInput
-        style={authenticationStyles.authInput}
+        style={globalStyles.formPlaceholder}
         onChangeText={formikProps.handleChange(formikKey)}
         onBlur={formikProps.handleBlur(formikKey)}
         {...rest}

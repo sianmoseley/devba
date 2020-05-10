@@ -12,10 +12,11 @@ PushNotification.configure({
 export default function LocalNotification(heading, description, location) {
   PushNotification.localNotification({
     autoCancel: true,
-    bigText: (heading + '\nDescription: ' + description + '\nLocation: ' + location),
-    // subText: 'Local Notification Demo',
+    bigText:
+      heading + '\nDescription: ' + description + '\nLocation: ' + location,
     title: 'New post in Big APPetite',
-    message: (heading + '\nDescription: ' + description + '\nLocation: ' + location),
+    message:
+      heading + '\nDescription: ' + description + '\nLocation: ' + location,
     vibrate: true,
     vibration: 300,
     playSound: true,

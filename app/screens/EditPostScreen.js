@@ -15,24 +15,8 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import Firebase from 'firebase';
 import ImagePicker from 'react-native-image-picker';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 import RNFetchBlob from 'react-native-fetch-blob';
-
-//client-side validation with yup
-const editPostSchema = yup.object().shape({
-  heading: yup
-    .string()
-    .label('Heading')
-    .required('This is a required field.')
-    .min(5, 'Field must contain a valid description')
-    .max(50, "Don't be daft"),
-  description: yup
-    .string()
-    .label('Description')
-    .required('This is a required field.')
-    .min(5, 'Field must contain a valid description')
-    .max(50, "Don't be daft"),
-});
 
 export default function EditPostScreen({navigation, route}) {
   //obtain id of post from last screen
@@ -48,7 +32,6 @@ export default function EditPostScreen({navigation, route}) {
   const [Location, setLocation] = useState(post.location);
   const [Uri, setUri] = useState(post.uri);
   const [Filename, setFilename] = useState(post.filename);
-  const [Url, setUrl] = useState(post.url);
 
   //reference of current user posts
   const userKey = Firebase.auth().currentUser.uid;
@@ -75,54 +58,63 @@ export default function EditPostScreen({navigation, route}) {
   };
 
   // Prepare Blob support
-  const Blob = RNFetchBlob.polyfill.Blob
-  const fs = RNFetchBlob.fs
-  window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-  window.Blob = Blob
+  const Blob = RNFetchBlob.polyfill.Blob;
+  const fs = RNFetchBlob.fs;
+  window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+  window.Blob = Blob;
 
-// Function to upload image to Firebase storage and post details to Firebase realtime database
-function editPost(Heading, Description, Location, Uri, Filename, userKey, mime = 'image/jpeg') {
-  return new Promise((resolve, reject) => {
-    const uploadUri = Uri
-    let uploadBlob = null
+  // Function to upload image to Firebase storage and post details to Firebase realtime database
+  function editPost(
+    Heading,
+    Description,
+    Location,
+    Uri,
+    Filename,
+    userKey,
+    mime = 'image/jpeg',
+  ) {
+    return new Promise((resolve, reject) => {
+      const uploadUri = Uri;
+      let uploadBlob = null;
 
-    const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename)
+      const imageRef = Firebase.storage()
+        .ref('images/' + userKey)
+        .child(Filename);
 
-    fs.readFile(uploadUri, 'base64')
-      .then((data) => {
-        return Blob.build(data, { type: `${mime};BASE64` })
-      })
-      .then((blob) => {
-        uploadBlob = blob
-        return imageRef.put(blob, { contentType: mime })
-      })
-      .then(() => {
-        uploadBlob.close()
-        return imageRef.getDownloadURL()
-      })
-      .then(function(downloadURL){
-        console.log('File available at', downloadURL);
-        const url = downloadURL;
+      fs.readFile(uploadUri, 'base64')
+        .then(data => {
+          return Blob.build(data, {type: `${mime};BASE64`});
+        })
+        .then(blob => {
+          uploadBlob = blob;
+          return imageRef.put(blob, {contentType: mime});
+        })
+        .then(() => {
+          uploadBlob.close();
+          return imageRef.getDownloadURL();
+        })
+        .then(function(downloadURL) {
+          console.log('File available at', downloadURL);
+          const url = downloadURL;
 
-        updatePost({
-          heading: Heading,
-          description: Description,
-          location: Location,
-          uri: Uri,
-          filename: Filename,
-          userkey: userKey,
-          url: url
+          updatePost({
+            heading: Heading,
+            description: Description,
+            location: Location,
+            uri: Uri,
+            filename: Filename,
+            userkey: userKey,
+            url: url,
+          });
+        })
+        .then(url => {
+          resolve(url);
+        })
+        .catch(error => {
+          reject(error);
         });
-
-      })
-      .then((url) => {
-        resolve(url);
-      })
-      .catch((error) => {
-        reject(error)
-    })
-  })
-}
+    });
+  }
 
   //updates specified fields in specified path in database
   function updatePost(values) {
@@ -133,8 +125,8 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
         location: values.location,
         uri: Uri,
         filename: Filename,
-        userkey: userKey, 
-        url: values.url
+        userkey: userKey,
+        url: values.url,
       })
       .then(() => {
         //simultaneously updates same fields in user_posts table
@@ -146,8 +138,8 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
             location: values.location,
             uri: Uri,
             filename: Filename,
-            userkey: userKey, 
-            url: values.url
+            userkey: userKey,
+            url: values.url,
           });
       });
   }
@@ -160,13 +152,17 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
         .remove();
     });
 
-    const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename);
-    imageRef.delete().then(function(){
-      console.log('Image deleted from firebase storage')
-    })
-    .catch(function(error) {
-      console.log("Remove failed: " + error.message)
-    });
+    const imageRef = Firebase.storage()
+      .ref('images/' + userKey)
+      .child(Filename);
+    imageRef
+      .delete()
+      .then(function() {
+        console.log('Image deleted from firebase storage');
+      })
+      .catch(function(error) {
+        console.log('Remove failed: ' + error.message);
+      });
   }
 
   return (
@@ -192,15 +188,13 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
             console.log(values);
             editPost(Heading, Description, Location, Uri, Filename, userKey);
             Alert.alert('Your post has been updated', 'Thank you!', [
-          {
-            text: 'OK',
-            //navigation back to the view post screen
-            onPress: () => navigation.navigate('ViewPosts'),
-          },
-        ]);
-          }}
-          // validationSchema={editPostSchema}
-        >
+              {
+                text: 'OK',
+                //navigation back to the view post screen
+                onPress: () => navigation.navigate('ViewPosts'),
+              },
+            ]);
+          }}>
           {formikProps => (
             <React.Fragment>
               <View style={globalStyles.formField}>
@@ -228,14 +222,12 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
                   <Text style={globalStyles.inAppTouchText}>DELETE POST</Text>
                 </TouchableOpacity>
                 <TextInput
-                  style={globalStyles.inputBox}
                   placeholder={'Give your post a title'}
                   style={globalStyles.formPlaceholder}
                   onChangeText={text => setHeading(text)}
                   value={Heading}
                 />
                 <TextInput
-                  style={globalStyles.inputBox}
                   placeholder={'Tell us about your leftovers...'}
                   style={globalStyles.formPlaceholder}
                   onChangeText={text => setDescription(text)}
@@ -243,7 +235,7 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
                 />
                 <Text style={globalStyles.aboutText}>
                   {/* displays static existing value for location from nav props */}
-                  Is your food still at {post.location} ?
+                  Is your food still at {post.location}?
                 </Text>
                 <Picker
                   style={globalStyles.formPicker}
@@ -296,11 +288,10 @@ function editPost(Heading, Description, Location, Uri, Filename, userKey, mime =
                   onPress={selectImage}>
                   <Text style={globalStyles.inAppTouchText}>Select Photo</Text>
                 </TouchableOpacity>
-                
-                <Image 
-                  style={{width: '100%', height: 300}} 
-                  source={{uri: Uri}} />
-
+                <Image
+                  style={{width: '100%', height: 300}}
+                  source={{uri: Uri}}
+                />
                 <TouchableOpacity
                   style={globalStyles.inAppButton}
                   title={'submit'}

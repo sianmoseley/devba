@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {Image, FlatList, Text, View} from 'react-native';
 import Firebase from 'firebase';
-import {globalStyles} from '../config/Styles';
-import {Post} from '../config/Variables';
+import {globalStyles} from '../style/Styles';
+import {Post} from '../custom/Variables';
 
 export default class ViewPostsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //sets empty array
       userPostList: [],
     };
   }
@@ -44,10 +43,10 @@ export default class ViewPostsScreen extends Component {
           <View style={{padding: 25}}>
             <View style={globalStyles.logoContainer}>
               <Image
-                style={{width: 275, height: 238}}
+                style={globalStyles.logoSize}
                 source={require('../images/bigapp.png')}
               />
-              <Text style={{fontSize: 16, marginTop: 90}}>
+              <Text style={globalStyles.noPostText}>
                 You've not listed any of your leftovers yet!
               </Text>
             </View>

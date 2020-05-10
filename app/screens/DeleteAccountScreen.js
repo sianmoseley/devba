@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/Variables';
+import {globalStyles} from '../style/Styles';
+import {CustomTextInput} from '../custom/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import DeleteUser from '../database/DeleteAccount';
@@ -103,14 +103,12 @@ export default class DeleteAccountScreen extends Component {
                     formikProps={formikProps}
                     formikKey="email"
                     placeholder="Please enter your email"
-                    style={globalStyles.formPlaceholder}
                   />
                   <CustomTextInput
                     label="Please enter your password:"
                     formikProps={formikProps}
                     formikKey="password"
                     placeholder="Please enter your password"
-                    style={globalStyles.formPlaceholder}
                     secureTextEntry
                   />
                   <View style={globalStyles.submitButtonContainer}>

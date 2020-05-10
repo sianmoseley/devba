@@ -3,7 +3,7 @@ import {Picker} from '@react-native-community/picker';
 import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Firebase from 'firebase';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 
 export default class SearchScreen extends Component {
   constructor(props) {
@@ -29,11 +29,24 @@ export default class SearchScreen extends Component {
       const postsObject = snapshot.val();
       if (!postsObject) {
         console.log('NO SEARCH DATA:', Date(Date.now()));
-        // this.setState({postList: null});
       } else {
         console.log('SEARCH DATA RETRIEVED:', Date(Date.now()));
         const postsArray = Object.values(postsObject);
-        this.setState({postList: postsArray});
+        //get list of posts created today by filtering postsArray
+        const date = new Date();
+        //not abstracted, causes error
+        let now =
+          [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
+          ' ' +
+          [
+            date.getHours(),
+            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+          ].join(':');
+        function todaysPosts(post) {
+          return post.createdAt.substring(0, 6) === now.substring(0, 6);
+        }
+        const recentPosts = postsArray.filter(todaysPosts);
+        this.setState({postList: recentPosts});
       }
     });
 
@@ -47,8 +60,6 @@ export default class SearchScreen extends Component {
         const likedObject = snapshot.val();
         if (!likedObject) {
           console.log('USER HAS NO LIKES:', Date(Date.now()));
-          //solves bug if user unlikes post from fav screen
-          //but heart of last post to be unliked is still filled in
           this.setState({
             likedPosts: [],
           });
@@ -79,7 +90,7 @@ export default class SearchScreen extends Component {
   render() {
     return (
       //added paddingBottom so last post doesn't get clipped
-      <View style={{paddingBottom: 25}}>
+      <View style={{paddingBottom: 28}}>
         <View style={globalStyles.searchFormField}>
           <Picker
             style={globalStyles.formPicker}
@@ -134,14 +145,12 @@ export default class SearchScreen extends Component {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('LocatePostScreen', {
-
                     location: post.location,
                   })
                 }>
                 <View style={globalStyles.postContainer}>
                   <Text style={globalStyles.postText}>
-                    {post.heading}
-                    {'\n'}@{' '}
+                    <Text style={{fontWeight: 'bold'}}>{post.heading}</Text> @{' '}
                     <Text style={{fontWeight: 'bold'}}>{post.location}</Text>
                     {'\n'}
                     {post.description}
@@ -152,14 +161,7 @@ export default class SearchScreen extends Component {
                     on{' '}
                     <Text style={{fontWeight: 'bold'}}>{post.createdAt}</Text>
                   </Text>
-
-                  {/* SIAN - IMAGE INSERTED INTO POST VIEW, HAPPY FOR THIS TO BE MOVED, SIZE CHANGED ETC */}
-
-                  <Image
-                    style={{alignSelf: 'center', height: 200, width: 200}}
-                    source={{uri: post.url}}
-                  />
-
+                  <Image style={globalStyles.image} source={{uri: post.url}} />
                   <View style={globalStyles.iconMargin}>
                     <Icon
                       raised

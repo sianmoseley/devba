@@ -12,8 +12,8 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import SubmitLogin from '../database/Login';
-import {authenticationStyles, globalStyles} from '../config/Styles';
-import {AuthInput} from '../config/Variables';
+import {authenticationStyles, globalStyles} from '../style/Styles';
+import {AuthInput} from '../custom/Variables';
 
 //client-side validation via yup
 const loginSchema = yup.object().shape({
@@ -65,14 +65,12 @@ export default class Login extends Component {
                       formikKey="email"
                       label="Email:"
                       placeholder="Email"
-                      style={globalStyles.formPlaceholder}
                     />
                     <AuthInput
                       formikProps={formikProps}
                       formikKey="password"
                       label="Password:"
                       placeholder="Password"
-                      style={globalStyles.formPlaceholder}
                       secureTextEntry
                     />
                     {formikProps.isSubmitting ? (
@@ -88,9 +86,6 @@ export default class Login extends Component {
                         </TouchableOpacity>
                       </View>
                     )}
-                    {/* <Text style={authenticationStyles.authError}>
-                      {formikProps.errors.general}
-                    </Text> */}
                     <TouchableOpacity
                       style={authenticationStyles.newUserButton}
                       onPress={() =>
@@ -100,7 +95,6 @@ export default class Login extends Component {
                         NEW USER?
                       </Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                       style={authenticationStyles.forgotPassword}
                       onPress={() =>

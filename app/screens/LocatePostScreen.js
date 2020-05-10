@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import Firebase from 'firebase';
+
+//through navigation, location name passed
+//used to find co-ordinates
 
 export default class LocatePostScreen extends Component {
   constructor(props) {

@@ -1,27 +1,13 @@
-import React, {useState} from 'react';
-import {
-  Alert,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-  Keyboard,
-  Button,
-} from 'react-native';
-import {Formik} from 'formik';
-import * as yup from 'yup';
+import React from 'react';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/Variables';
-import {AuthInput, AuthSwitch} from '../config/Variables';
+import {globalStyles} from '../style/Styles';
 
 export default function ChangeNotificationsScreen({navigation}) {
   let user = Firebase.auth().currentUser;
   let uid = user.uid;
-  let currentUsername = user.displayName;
 
   function ChangeNotifications(uid, yesno) {
     //update notification preferences in the db

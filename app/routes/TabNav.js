@@ -17,6 +17,8 @@ export default function TabNav() {
       backBehavior="initialRoute"
       initialRouteName="Home"
       tabBarOptions={{
+        //styles are unique to tab bar
+        //as a result, cannot be abstracted
         //options for tab colours
         adaptive: true,
         activeTintColor: 'white', //passes to color prop
@@ -62,7 +64,7 @@ export default function TabNav() {
         }}
         name="Favourites"
         component={FavouritesStack}
-      />      
+      />
     </Tab.Navigator>
   );
 }

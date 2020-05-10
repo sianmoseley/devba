@@ -1,14 +1,12 @@
-import {firebaseConfig} from '../database/Firebase';
 import Firebase from 'firebase';
+import {firebaseConfig} from '../database/Firebase';
 import React, {useState, useEffect, createContext} from 'react';
 import LogInStack from './LoginStack';
 import LogOutStack from './LogoutStack';
-import Notifications from '../services/Notifications'
+import Notifications from '../services/Notifications';
 
 //plugs into App.js
-//initializes firebase database on app start
-
-// expose user data to LogInStack ONLY when the user succesfully logs in
+//expose user data to LogInStack ONLY when the user succesfully logs in
 const AuthContext = createContext(null);
 
 export default function AuthNavigator() {
@@ -24,27 +22,21 @@ export default function AuthNavigator() {
         setInitializing(false);
       }
     });
-    
     //unsubscribe on unmount
     return authSubscriber;
-    
   }, [initializing]);
 
- 
   if (initializing) {
     return null;
   }
 
   //directs to relevant stack dependant if user is logged in
   return user ? (
-    
     <AuthContext.Provider value={user}>
       <LogInStack />
       <Notifications />
-      
     </AuthContext.Provider>
   ) : (
     <LogOutStack />
   );
 }
-

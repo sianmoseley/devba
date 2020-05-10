@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, ScrollView, Text, View} from 'react-native';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 
 //basic page with Terms & Conditions info
 
@@ -9,7 +9,7 @@ export default function TCScreen() {
     <ScrollView style={{padding: 25}}>
       <View style={globalStyles.logoContainer}>
         <Image
-          style={{width: 275, height: 238}}
+          style={globalStyles.logoSize}
           source={require('../images/bigapp.png')}
         />
       </View>

@@ -12,9 +12,8 @@ import {
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ReportBug from '../database/ReportBug';
-import Firebase from 'firebase';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput, CustomSwitch} from '../config/Variables';
+import {globalStyles} from '../style/Styles';
+import {CustomTextInput, CustomSwitch} from '../custom/Variables';
 
 //client-side validation with yup
 const reportSchema = yup.object().shape({
@@ -22,8 +21,8 @@ const reportSchema = yup.object().shape({
     .string()
     .label('Description')
     .required('This is a required field.')
-    .min(5, 'Field must contain a valid description')
-    .max(50, "Don't be daft"),
+    .min(5, 'Field must contain a valid description.')
+    .max(100, 'Description too long.'),
   agreeToTerms: yup
     .boolean()
     .label('Terms')
@@ -31,18 +30,6 @@ const reportSchema = yup.object().shape({
 });
 
 export default function ReportBugScreen({navigation}) {
-  //current user ID
-  const userKey = Firebase.auth().currentUser.uid;
-
-  //remove later, just for logging
-  Firebase.database()
-    .ref('users/' + userKey)
-    .on('value', snapshot => {
-      const user = snapshot.val();
-      const Username = user.username;
-      console.log('Username:', Username, 'Retrieved:', Date(Date.now()));
-    });
-
   //set state for form picker
   const [selectedValue, setSelectedValue] = useState('crash');
   return (
@@ -103,7 +90,6 @@ export default function ReportBugScreen({navigation}) {
                   />
                   <Picker.Item label="Other" value="other" />
                 </Picker>
-                {/* custom fields */}
                 <CustomTextInput
                   label="Description of the bug:"
                   formikProps={formikProps}

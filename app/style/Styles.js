@@ -70,6 +70,13 @@ export const globalStyles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 25,
   },
+  customHeaderIconOne: {
+    color: 'white',
+    fontSize: 48,
+  },
+  customHeaderIconTwo: {
+    color: '#28A966',
+  },
   error: {
     color: 'black',
     fontWeight: 'bold',
@@ -82,12 +89,6 @@ export const globalStyles = StyleSheet.create({
   formField: {
     marginHorizontal: 10,
     marginTop: 12,
-  },
-  // added search formfield so that flatlist scrolled all the way to bottom of last post
-  searchFormField: {
-    marginHorizontal: 10,
-    marginTop: 12,
-    marginBottom: 220
   },
   formLabel: {
     color: '#28A966',
@@ -147,15 +148,15 @@ export const globalStyles = StyleSheet.create({
     right: 12,
   },
   image: {
-    height: 150,
-    width: 150,
+    height: 200,
+    width: 200,
     alignSelf: 'center',
   },
   inAppButton: {
     backgroundColor: '#28A966',
     borderRadius: 10,
     paddingVertical: 10,
-    marginVertical: 10, // SIAN - added this line in so that button on AddPostScreen doesn't touch bottom of screen
+    marginVertical: 10,
   },
   inAppDeleteButton: {
     backgroundColor: 'crimson',
@@ -180,7 +181,6 @@ export const globalStyles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    // justifyContent: 'space-evenly',
     flexGrow: 1,
     padding: 10,
   },
@@ -188,6 +188,10 @@ export const globalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 68,
+  },
+  logoSize: {
+    width: 275,
+    height: 238,
   },
   logoTag: {
     color: 'white',
@@ -199,6 +203,17 @@ export const globalStyles = StyleSheet.create({
   map: {
     height: '100%',
     width: '100%',
+  },
+  noPostText: {
+    fontSize: 18,
+    marginTop: 80,
+    fontFamily: 'arial',
+  },
+  notificationsText: {
+    color: '#28A966',
+    fontSize: 18,
+    margin: 20,
+    fontWeight: 'bold',
   },
   postContainer: {
     borderColor: '#28A966',
@@ -215,13 +230,12 @@ export const globalStyles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'arial',
   },
+  searchFormField: {
+    marginHorizontal: 10,
+    marginTop: 12,
+    marginBottom: 220,
+  },
   submitButtonContainer: {
     marginHorizontal: 100,
-  },
-  notificationsText: {
-    color: '#28A966',
-    fontSize: 18,
-    margin: 20,
-    fontWeight: 'bold',
   },
 });

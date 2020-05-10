@@ -1,6 +1,8 @@
 import React from 'react';
-import {globalStyles} from '../config/Styles';
+import {globalStyles} from '../style/Styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+
+//shows markers for SHU campus buildings
 
 export default function MapScreen() {
   return (

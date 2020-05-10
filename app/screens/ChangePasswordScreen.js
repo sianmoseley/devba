@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {globalStyles} from '../config/Styles';
-import {CustomTextInput} from '../config/Variables';
+import {globalStyles} from '../style/Styles';
+import {CustomTextInput} from '../custom/Variables';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import ChangePassword from '../database/ChangePassword';
@@ -43,7 +43,6 @@ export default class ChangePasswordScreen extends Component {
         onPress={() => {
           Keyboard.dismiss();
         }}>
-        {/* flex forces content to fit to size of screen */}
         <View style={{flex: 1}}>
           <Formik
             initialValues={{

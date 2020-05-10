@@ -5,7 +5,6 @@ import HomeScreen from '../screens/HomeScreen';
 import ReportPostScreen from '../screens/ReportPostScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import LocatePostScreen from '../screens/LocatePostScreen';
-import {globalStyles} from '../config/Styles';
 
 //stack that holds screens for main page
 //user sees HomeScreen upon successful login
@@ -23,7 +22,7 @@ export default function HomeNavigator({navigation, route}) {
       screenOptions={() => ({
         headerTintColor: 'white',
         headerStyle: {backgroundColor: '#28A966'},
-        headerTitleStyle: {fontFamily: 'arial', fontSize: 24}
+        headerTitleStyle: {fontFamily: 'arial'},
       })}>
       <Stack.Screen
         name="HomeScreen"

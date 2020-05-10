@@ -18,6 +18,8 @@ export default function RootStack() {
       drawerType="back"
       initialRouteName="HomeStack"
       drawerContentOptions={{
+        //styles are unique to drawer
+        //as a result, cannot be abstracted
         //options for colour when drawer is open
         activeTintColor: 'white',
         inactiveTintColor: '#28A966',

@@ -1,11 +1,10 @@
 import Firebase from 'firebase';
+import today from '../custom/Variables';
 
 //global variable
 let Username = '';
 
 export default async function ReportBug(values, submitComplete) {
-  //reads today's date in default Javascript
-  const date = new Date();
   //current user ID
   const userKey = Firebase.auth().currentUser.uid;
 
@@ -30,14 +29,7 @@ export default async function ReportBug(values, submitComplete) {
         bugDescription: values.bugDescription,
         bugId: key,
         bugType: values.bugType,
-        //date formatted: DD/MM/YYYY hh:mm
-        reportTimeStamp:
-          [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
-          ' ' +
-          [
-            date.getHours(),
-            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-          ].join(':'),
+        reportTimeStamp: today,
         submittedBy: Username,
       })
       .then(console.log('BUG REPORTED SUCCESSFULLY:', Date(Date.now())));
