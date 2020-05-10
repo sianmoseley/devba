@@ -28,6 +28,7 @@ const loginSchema = yup.object().shape({
     .required('Please enter your password.'),
 });
 
+// login form view
 export default class Login extends Component {
   render() {
     return (
@@ -64,12 +65,14 @@ export default class Login extends Component {
                       formikKey="email"
                       label="Email:"
                       placeholder="Email"
+                      style={globalStyles.formPlaceholder}
                     />
                     <AuthInput
                       formikProps={formikProps}
                       formikKey="password"
                       label="Password:"
                       placeholder="Password"
+                      style={globalStyles.formPlaceholder}
                       secureTextEntry
                     />
                     {formikProps.isSubmitting ? (

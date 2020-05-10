@@ -5,7 +5,6 @@ import FavouritesStack from './FavouritesStack';
 import HomeStack from './HomeStack';
 import SearchStack from './SearchStack';
 import MapStack from './MapStack';
-import NotificationsStack from './NotificationsStack';
 
 //stack that generates tab bar on bottom of screen
 //directs to HomeStack
@@ -21,8 +20,8 @@ export default function TabNav() {
         //options for tab colours
         adaptive: true,
         activeTintColor: 'white', //passes to color prop
-        inactiveTintColor: '#2bb76e',
-        activeBackgroundColor: '#2bb76e',
+        inactiveTintColor: '#28A966',
+        activeBackgroundColor: '#28A966',
         inactiveBackgroundColor: 'white',
         keyboardHidesTabBar: true,
         showLabel: false,
@@ -63,16 +62,7 @@ export default function TabNav() {
         }}
         name="Favourites"
         component={FavouritesStack}
-      />
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="bell" type="font-awesome" color={color} />
-          ),
-        }}
-        name="Notfications"
-        component={NotificationsStack}
-      />
+      />      
     </Tab.Navigator>
   );
 }

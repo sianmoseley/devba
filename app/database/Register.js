@@ -22,6 +22,9 @@ export default async function SubmitRegister(values) {
           }),
         );
     })
+    .then(() => {
+      console.log('USER REGISTERED SUCCESSFULLY:', Date(Date.now()));
+    })
     .catch(function(error) {
       //handle errors here
       var errorCode = error.code;
@@ -33,8 +36,7 @@ export default async function SubmitRegister(values) {
       }
       console.log(error);
     });
-  //NEEDS FIX, LOGS EVEN IF UNSUCCESSFUL
-  console.log('USER REGISTERED SUCCESSFULLY:', Date(Date.now()), values);
+  
 }
 
 

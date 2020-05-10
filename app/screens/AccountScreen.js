@@ -38,7 +38,7 @@ export default function AccountScreen({navigation}) {
           style={globalStyles.accountButton}
           onPress={() => navigation.navigate('ChangeNotifications')}>
           <Text style={globalStyles.accountButtonText}>
-            Change Notification Settings
+            Notification Settings
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

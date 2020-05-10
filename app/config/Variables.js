@@ -35,7 +35,6 @@ export const Post = ({
         style={{alignSelf: 'center', height: 150, width: 150}}
         source={{uri: url}}
       />
-
     </View>
   </TouchableOpacity>
 );
@@ -68,6 +67,7 @@ export const CustomTextInput = ({label, formikProps, formikKey, ...rest}) => {
 export const CustomSwitch = ({formikKey, formikProps, label, ...rest}) => (
   <FieldWrapper label={label} formikKey={formikKey} formikProps={formikProps}>
     <Switch
+      trackColor={{ false: "#767577", true: "#81b0ff" }}
       value={formikProps.values[formikKey]}
       onValueChange={value => {
         formikProps.setFieldValue(formikKey, value);

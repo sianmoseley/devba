@@ -1,6 +1,6 @@
 import Firebase from 'firebase';
 
-//replicates model aspect of MVC architecture
+//replicates model aspect of MVC architecture, function to send password reset to registered email account
 export default async function ResetPassword(values, navigation) {
   Firebase.auth()
     .sendPasswordResetEmail(values.email)

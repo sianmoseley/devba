@@ -13,7 +13,9 @@ import * as yup from 'yup';
 import SubmitRegister from '../database/Register';
 import {authenticationStyles} from '../config/Styles';
 import {AuthInput, AuthSwitch} from '../config/Variables';
+import {globalStyles} from '../config/Styles';
 
+//client side validation via yup
 const registerSchema = yup.object().shape({
   username: yup
     .string()
@@ -48,6 +50,7 @@ const registerSchema = yup.object().shape({
   notifications: yup.boolean().label('Notifications'),
 });
 
+// register form view
 export default class Register extends Component {
   render() {
     return (
@@ -85,18 +88,21 @@ export default class Register extends Component {
                         formikProps={formikProps}
                         formikKey="username"
                         placeholder="Please enter a username"
+                        style={globalStyles.formPlaceholder}
                       />
                       <AuthInput
                         label="Email:"
                         formikProps={formikProps}
                         formikKey="email"
                         placeholder="Please enter your email"
+                        style={globalStyles.formPlaceholder}
                       />
                       <AuthInput
                         label="Password:"
                         formikProps={formikProps}
                         formikKey="password"
                         placeholder="Please enter a password"
+                        style={globalStyles.formPlaceholder}
                         secureTextEntry
                       />
                       <AuthInput
@@ -104,6 +110,7 @@ export default class Register extends Component {
                         formikProps={formikProps}
                         formikKey="confirmPassword"
                         placeholder="Please confirm password"
+                        style={globalStyles.formPlaceholder}
                         secureTextEntry
                       />
                       <AuthSwitch
