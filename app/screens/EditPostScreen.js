@@ -77,10 +77,13 @@ export default function EditPostScreen({navigation, route}) {
       const uploadUri = Uri;
       let uploadBlob = null;
 
+  // Creates the reference to where the image will be stored in Firebase storage
       const imageRef = Firebase.storage()
         .ref('images/' + userKey)
         .child(Filename);
 
+  // Converts the Uri of the image selected into file type that can
+  // be uploaded to Firebase 
       fs.readFile(uploadUri, 'base64')
         .then(data => {
           return Blob.build(data, {type: `${mime};BASE64`});
@@ -91,10 +94,12 @@ export default function EditPostScreen({navigation, route}) {
         })
         .then(() => {
           uploadBlob.close();
+          // Once image is uploaded, a download url is created
           return imageRef.getDownloadURL();
         })
         .then(function(downloadURL) {
           console.log('File available at', downloadURL);
+          // download url captured in const so this info can be added to post table
           const url = downloadURL;
 
           updatePost({

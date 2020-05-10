@@ -14,10 +14,11 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import AddPost from '../database/AddPost';
 import Firebase from 'firebase';
-import ImagePicker from 'react-native-image-picker';
 import {globalStyles} from '../style/Styles';
 import {CustomTextInput} from '../custom/Variables';
 import RNFetchBlob from 'react-native-fetch-blob';
+import ImagePicker from 'react-native-image-picker';
+
 
 //client-side validation with yup
 const addPostSchema = yup.object().shape({
@@ -77,10 +78,13 @@ export default function AddPostScreen({navigation}) {
       const uploadUri = Uri;
       let uploadBlob = null;
 
+  // Creates the reference to where the image will be stored in Firebase storage
       const imageRef = Firebase.storage()
         .ref('images/' + userKey)
         .child(Filename);
 
+  // Converts the Uri of the image selected into file type that can
+  // be uploaded to Firebase 
       fs.readFile(uploadUri, 'base64')
         .then(data => {
           return Blob.build(data, {type: `${mime};BASE64`});
@@ -91,10 +95,12 @@ export default function AddPostScreen({navigation}) {
         })
         .then(() => {
           uploadBlob.close();
+          // Once image is uploaded, a download url is created
           return imageRef.getDownloadURL();
         })
         .then(function(downloadURL) {
           console.log('File available at', downloadURL);
+          // download url captured in const so this info can be added to post table
           const url = downloadURL;
 
           AddPost({
