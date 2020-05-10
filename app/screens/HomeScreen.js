@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {globalStyles} from '../style/Styles';
-import today from '../custom/Variables';
 import Firebase from 'firebase';
 import 'firebase/database';
 
@@ -35,14 +34,12 @@ export default class HomeScreen extends Component {
         const postsArray = Object.values(postsObject);
         //get list of posts created today by filtering postsArray
         const date = new Date();
-        //not abstracted, causes error
-        let now =
-          [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
-          ' ' +
-          [
-            date.getHours(),
-            (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-          ].join(':');
+        const now = [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
+        ' ' +
+        [
+          date.getHours(),
+          (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+        ].join(':');
         function todaysPosts(post) {
           return post.createdAt.substring(0, 6) === now.substring(0, 6);
         }

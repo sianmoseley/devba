@@ -9,16 +9,6 @@ import {
 } from 'react-native';
 import {authenticationStyles, globalStyles} from '../style/Styles';
 
-//reads today's date in default Javascript
-let date = new Date();
-export let today =
-  [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
-  ' ' +
-  [
-    date.getHours(),
-    (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
-  ].join(':');
-
 //constant component for posts
 export const Post = ({
   createdAt,
