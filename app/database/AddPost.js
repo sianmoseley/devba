@@ -39,6 +39,11 @@ export default async function AddPost(values, addComplete) {
           date.getHours(),
           (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
         ].join(':'),
+        createdBy: Username,
+        uri: values.uri,
+        filename: values.filename,
+        userkey: values.userkey,
+        url: values.url,
       })
       .then(console.log('POST ADDED SUCCESSFULLY:', Date(Date.now())));
     Firebase.database()
