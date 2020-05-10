@@ -53,9 +53,11 @@ export default function AddPostScreen({navigation}) {
     });
 
 
-  const [Uri, setUri] = useState('https://avatars0.githubusercontent.com/u/12028011?v=3&s=200');
+  const [Uri, setUri] = useState(
+    'https://avatars0.githubusercontent.com/u/12028011?v=3&s=200',
+  );
   const [Filename, setFilename] = useState('');
-  
+  const [DownloadURL, setDownloadURL] = useState('');
 
   //function to allow user to take a photo or select existing image
   const selectImage = () => {
@@ -77,34 +79,36 @@ export default function AddPostScreen({navigation}) {
       }
     });
   };
- 
+
   // Prepare Blob support
-  const Blob = RNFetchBlob.polyfill.Blob
-  const fs = RNFetchBlob.fs
-  window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-  window.Blob = Blob
+  const Blob = RNFetchBlob.polyfill.Blob;
+  const fs = RNFetchBlob.fs;
+  window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+  window.Blob = Blob;
 
   // Function to upload image to Firebase storage and post details to Firebase realtime database
   function uploadImage(values, Uri, Filename, userKey, mime = 'image/jpeg') {
     return new Promise((resolve, reject) => {
-      const uploadUri = Uri
-      let uploadBlob = null
+      const uploadUri = Uri;
+      let uploadBlob = null;
 
-      const imageRef = Firebase.storage().ref('images/' + userKey).child(Filename)
+      const imageRef = Firebase.storage()
+        .ref('images/' + userKey)
+        .child(Filename);
 
       fs.readFile(uploadUri, 'base64')
-        .then((data) => {
-          return Blob.build(data, { type: `${mime};BASE64` })
+        .then(data => {
+          return Blob.build(data, {type: `${mime};BASE64`});
         })
-        .then((blob) => {
-          uploadBlob = blob
-          return imageRef.put(blob, { contentType: mime })
+        .then(blob => {
+          uploadBlob = blob;
+          return imageRef.put(blob, {contentType: mime});
         })
         .then(() => {
-          uploadBlob.close()
-          return imageRef.getDownloadURL()
+          uploadBlob.close();
+          return imageRef.getDownloadURL();
         })
-        .then(function(downloadURL){
+        .then(function(downloadURL) {
           console.log('File available at', downloadURL);
           const url = downloadURL;
 
@@ -115,19 +119,35 @@ export default function AddPostScreen({navigation}) {
             uri: Uri,
             filename: Filename,
             userkey: userKey,
-            url: url
+            url: url,
           });
-
         })
-        .then((url) => {
+        .then(url => {
           resolve(url);
         })
-        .catch((error) => {
-          reject(error)
-      })
-    })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
+  //// FUNCTION TO DISPLAY USER SELECTED IMAGE
+
+  function renderSelectedImage() {
+    if (Uri === '') {
+      return (
+        <Image
+          source={require('../images/gallery.png')}
+          style={{width: '100%', height: 300}}
+        />
+      );
+    } else {
+      return <Image style={{width: '100%', height: 300}} source={{uri: Uri}} />;
+    }
+  }
+
+  /////////// END OF IMAGE PICKER CODE
+  
   //state set for 'location' picker
   const [selectedValue, setSelectedValue] = useState('Adsetts');
 

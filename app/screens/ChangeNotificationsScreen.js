@@ -1,22 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
   Text,
+  TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
+  Keyboard,
+  Button,
 } from 'react-native';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 import Firebase from 'firebase';
 import 'firebase/database';
 import 'firebase/auth';
 import {globalStyles} from '../config/Styles';
+import {CustomTextInput} from '../config/Variables';
+import {AuthInput, AuthSwitch} from '../config/Variables';
 
 export default function ChangeNotificationsScreen({navigation}) {
-  //get current user from authentication, and get the user id from that
   let user = Firebase.auth().currentUser;
   let uid = user.uid;
+  let currentUsername = user.displayName;
 
   function ChangeNotifications(uid, yesno) {
-    //update notification preferences for the current user in the db
+    //update notification preferences in the db
     Firebase.database()
       .ref('users/' + uid)
       .update({
@@ -26,33 +34,32 @@ export default function ChangeNotificationsScreen({navigation}) {
     Alert.alert(
       'Notification Settings',
       'Your notification settings have been changed.',
-      [{
+      [
+        {
           text: 'OK',
           onPress: () => navigation.goBack(),
-        },],
+        },
+      ],
     );
   }
 
   return (
     <View>
-      <Text style={globalStyles.notificationsText}>
+      <Text style={globalStyles.heading}>
         Would you like to receive notifications when there are new posts?
       </Text>
-      <View style={globalStyles.submitButtonContainer}>      
-        <TouchableOpacity
-          style={globalStyles.inAppButton}
-          onPress={() => ChangeNotifications(uid, true)}
-          >
-          <Text style={globalStyles.inAppTouchText}>Yes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={globalStyles.inAppButton}
-          onPress={() => ChangeNotifications(uid, false)}
-          >
-          <Text style={globalStyles.inAppTouchText}>No</Text>
-        </TouchableOpacity>
-      </View>
-    </View>    
+      <TouchableOpacity
+        style={globalStyles.inAppButton}
+        onPress={() => ChangeNotifications(uid, true)}
+        title="Yes">
+        <Text style={globalStyles.inAppTouchText}>Yes</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={globalStyles.inAppButton}
+        onPress={() => ChangeNotifications(uid, false)}
+        title="No">
+        <Text style={globalStyles.inAppTouchText}>No</Text>
+      </TouchableOpacity>
+    </View>
   );
-
 }

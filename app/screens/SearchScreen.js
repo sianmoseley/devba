@@ -134,6 +134,7 @@ export default class SearchScreen extends Component {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('LocatePostScreen', {
+
                     location: post.location,
                   })
                 }>
