@@ -41,7 +41,7 @@ export default class Login extends Component {
           <View style={authenticationStyles.authContainer}>
             <View style={globalStyles.logoLoginContainer}>
               <Image
-                style={{width: 275, height: 238, marginTop: 80}}
+                style={{width: 185, height: 158, marginTop: 20}}
                 source={require('../images/bigapp.png')}
               />
               <Text style={globalStyles.logoTag}>An app for leftovers.</Text>
