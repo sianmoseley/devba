@@ -45,6 +45,14 @@ export const authenticationStyles = StyleSheet.create({
   forgotPassword: {
     marginTop: 10,
   },
+  tcText: {
+    color: 'white',
+    fontFamily: 'Arial',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    paddingBottom: 5
+  }
 });
 
 export const globalStyles = StyleSheet.create({

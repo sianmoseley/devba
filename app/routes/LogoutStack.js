@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../screens/LoginScreen';
 import Register from '../screens/RegisterScreen';
 import ForgotPassword from '../screens/ForgotPasswordScreen';
+import TCScreen from '../screens/TCScreen';
 
 //directs to LoginScreen
 //contains navigation options for Register and ForgotPassword
@@ -39,6 +40,11 @@ export default function LogOutStack() {
           name="Register"
           component={Register}
           options={{title: 'Register'}}
+        />
+        <Stack.Screen
+          name="TCScreen"
+          component={TCScreen}
+          options={{title: 'Terms and Conditions'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
