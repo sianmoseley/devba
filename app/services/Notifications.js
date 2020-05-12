@@ -37,7 +37,7 @@ export default function Notifications() {
                     first = false;
                 } else {                     
                     //this if code stops the code firing when a post has been deleted
-                    if (newPost.createdAt == now) {
+                    if (newPost.createdAt == now) {                        
                         LocalPushController(newPost.heading, newPost.description, newPost.location);                          
                     }                          
                 }                    
