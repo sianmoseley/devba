@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ScrollView,
+  Modal,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -49,9 +50,11 @@ const registerSchema = yup.object().shape({
   notifications: yup.boolean().label('Notifications'),
 });
 
+
 // register form view
 export default class Register extends Component {
-  render() {
+
+  render(){
     return (
       <ScrollView>
         <TouchableWithoutFeedback
@@ -108,6 +111,11 @@ export default class Register extends Component {
                         placeholder="Please confirm password"
                         secureTextEntry
                       />
+
+                      <TouchableOpacity onPress={() => this.props.navigation.navigate('TCScreen')}>
+                        <Text style={authenticationStyles.tcText}>View Terms and Conditions</Text>
+                      </TouchableOpacity>
+                      
                       <AuthSwitch
                         label="Agree to Terms:"
                         formikKey="agreeToTerms"

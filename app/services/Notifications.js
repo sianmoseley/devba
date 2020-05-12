@@ -29,7 +29,8 @@ export default function Notifications() {
         if (notificationPreferences === true) {
             let first = true;
             const ref = Firebase.database().ref('/posts');
-            const onValueChange = function(snapshot, prevChildKey) {
+            const onValueChange = function(snapshot, prevChildKey) {    
+                console.log("notifications check 1");       
                 let newPost = snapshot.val();
                 console.log('snapshot: ',snapshot.val());
                 //puts current date into same format as post createdat
@@ -39,11 +40,10 @@ export default function Notifications() {
                 //this if code makes sure notifications are only fired for additional posts                                         
                 if (first) {
                     first = false;
-                } else {                     
-                    //this if code stops the code firing when a post has been deleted
-                    if (newPost.createdAt == now) {                        
-                        LocalPushController(newPost.heading, newPost.description, newPost.location);                          
-                    }                          
+                    console.log("notifications check 2");
+                } else {
+                    console.log("notifications check 3");
+                    LocalPushController(newPost.heading, newPost.description, newPost.location);                     
                 }                    
             };  
 
