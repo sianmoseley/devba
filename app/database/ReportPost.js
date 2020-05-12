@@ -19,7 +19,10 @@ export default async function ReportPost(values, submitComplete) {
     .ref('users/' + userKey)
     .on('value', snapshot => {
       const user = snapshot.val();
-      Username = user.username;
+      //if is needed to avoid errors when a user is deleted
+      if (user) {
+        Username = user.username;
+      }
     });
 
   try {

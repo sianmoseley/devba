@@ -81,7 +81,7 @@ export default class DeleteAccountScreen extends Component {
           <Formik
             initialValues={{email: '', password: ''}}
             onSubmit={(values, actions) => {
-              console.log(values);
+              console.log(values);              
               this.deletePosts();
               DeleteUser(values);
               setTimeout(() => {

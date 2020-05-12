@@ -78,34 +78,38 @@ export default class ChangeUsernameScreen extends Component {
           .update({username: value.username});
       })
       .then(() => {
-
-        this.state.posts.forEach(post => {
-          const uid = post.userkey;
-          const postKey = post.id;
-          if (userKey === uid) {
-            Firebase.database()
-              .ref('posts/' + postKey)
-              .update({
-                createdBy: value.username,
-              });
-          }
-          else if (post === null) {
-            return null;
-          }
-        });
+        if (this.state.posts === null) {
+          this.props.navigation.navigate('Account');
+        } else {
+          this.state.posts.forEach(post => {
+            const uid = post.userkey;
+            const postKey = post.id;
+            if (userKey === uid) {
+              Firebase.database()
+                .ref('posts/' + postKey)
+                .update({
+                  createdBy: value.username,
+                });
+            }
+          });
+        }
       })
       .then(() => {
-        this.state.userPosts.forEach(post => {
-          const uid = post.userkey;
-          const postKey = post.id;
-          if (userKey === uid) {
-            Firebase.database()
-              .ref('user_posts/' + userKey + '/' + postKey)
-              .update({
-                createdBy: value.username,
-              });
-          }
-        });
+        if (this.state.userPosts === null) {
+          this.props.navigation.navigate('Account');
+        } else {
+          this.state.userPosts.forEach(post => {
+            const uid = post.userkey;
+            const postKey = post.id;
+            if (userKey === uid) {
+              Firebase.database()
+                .ref('user_posts/' + userKey + '/' + postKey)
+                .update({
+                  createdBy: value.username,
+                });
+            }
+          });
+        }
       });
   }
 
