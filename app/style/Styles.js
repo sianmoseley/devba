@@ -76,6 +76,7 @@ export const globalStyles = StyleSheet.create({
   },
   customHeaderIconTwo: {
     color: '#28A966',
+    fontSize: 48,
   },
   error: {
     color: 'black',

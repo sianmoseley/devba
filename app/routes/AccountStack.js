@@ -46,7 +46,7 @@ export default function AccountStack() {
         name="ChangeUsername"
         component={ChangeUsernameScreen}
         options={{title: 'Change Username', headerTitleAlign: 'center'}}
-      />      
+      />
       <Stack.Screen
         name="ChangePassword"
         component={ChangePasswordScreen}
@@ -60,7 +60,10 @@ export default function AccountStack() {
       <Stack.Screen
         name="ChangeNotifications"
         component={ChangeNotificationsScreen}
-        options={{title: 'Change Notification Settings', headerTitleAlign: 'center'}}
+        options={{
+          title: 'Change Notification Settings',
+          headerTitleAlign: 'center',
+        }}
       />
     </Stack.Navigator>
   );
