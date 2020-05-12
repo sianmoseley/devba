@@ -21,7 +21,10 @@ export default async function AddPost(values, addComplete) {
       //set of data in path read as an object
       const user = snapshot.val();
       //extract specific value of username
-      Username = user.username;
+      //if is needed to avoid errors when a user is deleted
+      if (user) {
+        Username = user.username;
+      }
     });
 
   try {

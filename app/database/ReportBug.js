@@ -19,7 +19,9 @@ export default async function ReportBug(values, submitComplete) {
     .ref('users/' + userKey)
     .on('value', snapshot => {
       const user = snapshot.val();
-      Username = user.username;
+      if (user) {
+        Username = user.username;
+      }
     });
 
   try {
