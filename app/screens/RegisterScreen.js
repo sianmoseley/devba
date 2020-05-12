@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   View,
   ScrollView,
-  Modal,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
