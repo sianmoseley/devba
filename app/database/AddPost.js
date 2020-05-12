@@ -1,10 +1,11 @@
 import Firebase from 'firebase';
-import today from '../custom/Variables';
 
 //global variable
 let Username = '';
 
 export default async function AddPost(values, addComplete) {
+  //reads today's date in default Javascript
+  const date = new Date();
   //current user ID
   const userKey = Firebase.auth().currentUser.uid;
 
@@ -32,7 +33,17 @@ export default async function AddPost(values, addComplete) {
         heading: values.heading,
         description: values.description,
         location: values.location,
-        createdAt: today,
+        createdAt: [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
+        ' ' +
+        [
+          date.getHours(),
+          (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+        ].join(':'),
+        createdBy: Username,
+        uri: values.uri,
+        filename: values.filename,
+        userkey: values.userkey,
+        url: values.url,
       })
       .then(console.log('POST ADDED SUCCESSFULLY:', Date(Date.now())));
     Firebase.database()
@@ -43,7 +54,12 @@ export default async function AddPost(values, addComplete) {
         heading: values.heading,
         description: values.description,
         location: values.location,
-        createdAt: today,
+        createdAt: [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/') +
+        ' ' +
+        [
+          date.getHours(),
+          (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+        ].join(':'),
         createdBy: Username,
         uri: values.uri,
         filename: values.filename,
