@@ -10,7 +10,7 @@ export default class devba extends Component {
     //removes warning from screen
     //no solution for this warning can be found online
     YellowBox.ignoreWarnings(['Setting a timer']);
-    YellowBox.ignoreWarnings(["Can{'}t perform a React"]);
+    YellowBox.ignoreWarnings(["Can{'}t perform a React state update"]);
     return <AuthNavigator />;
   }
 }

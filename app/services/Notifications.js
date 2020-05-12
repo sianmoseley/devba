@@ -18,14 +18,19 @@ export default function Notifications() {
         //gets user's notification preferences from the database
         dbuser.on('value', snapshot => {
             const userObject = snapshot.val();
-            setNotificationPreferences(userObject.notifications);
+            //if is needed to avoid errors when a user is deleted
+            if (userObject) {
+                setNotificationPreferences(userObject.notifications)
+            }
+            ;
           });
         
         //this if code runs if the user has opted into notifications
         if (notificationPreferences === true) {
             let first = true;
             const ref = Firebase.database().ref('/posts');
-            const onValueChange = function(snapshot, prevChildKey) {
+            const onValueChange = function(snapshot, prevChildKey) {    
+                console.log("notifications check 1");       
                 let newPost = snapshot.val();
                 console.log('snapshot: ',snapshot.val());
                 //puts current date into same format as post createdat
@@ -35,9 +40,12 @@ export default function Notifications() {
                 //this if code makes sure notifications are only fired for additional posts                                         
                 if (first) {
                     first = false;
+                    console.log("notifications check 2");
                 } else {                     
                     //this if code stops the code firing when a post has been deleted
-                    if (newPost.createdAt == now) {                        
+                    console.log("notifications check 3");
+                    if (newPost.createdAt == now) {
+                        console.log("notifications check 4");
                         LocalPushController(newPost.heading, newPost.description, newPost.location);                          
                     }                          
                 }                    

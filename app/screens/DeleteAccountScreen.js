@@ -70,16 +70,6 @@ export default class DeleteAccountScreen extends Component {
     });
   }
 
-   //makes sure logout function also occurs to avoid notification code from firing
-  LogOut() {
-    try {
-      Firebase.auth().signOut();
-      console.log('USER LOGGED OUT SUCCESSFULLY:', Date(Date.now()));
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
   render() {
     return (
       <TouchableWithoutFeedback
@@ -91,8 +81,7 @@ export default class DeleteAccountScreen extends Component {
           <Formik
             initialValues={{email: '', password: ''}}
             onSubmit={(values, actions) => {
-              console.log(values);
-              this.LogOut();
+              console.log(values);              
               this.deletePosts();
               DeleteUser(values);
               setTimeout(() => {

@@ -21,7 +21,7 @@ export default function DeleteUser(values) {
           Firebase.database()
             .ref('user_posts/' + userKey)
             .remove();
-        })
+        })        
         .then(() => user.delete())
         .then(() => {
           console.log('ACCOUNT DELETED SUCCESSFULLY:', Date(Date.now()));
