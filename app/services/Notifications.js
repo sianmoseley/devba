@@ -18,7 +18,11 @@ export default function Notifications() {
         //gets user's notification preferences from the database
         dbuser.on('value', snapshot => {
             const userObject = snapshot.val();
-            setNotificationPreferences(userObject.notifications);
+            //if is needed to avoid errors when a user is deleted
+            if (userObject) {
+                setNotificationPreferences(userObject.notifications)
+            }
+            ;
           });
         
         //this if code runs if the user has opted into notifications
