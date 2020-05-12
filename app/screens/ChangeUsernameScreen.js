@@ -152,6 +152,7 @@ export default class ChangeUsernameScreen extends Component {
                     //variable Username will be set to whatever is typed into this text input
                     onChangeText={text => this.setState({Username: text})}
                     value={this.state.Username}
+                    style={globalStyles.formPlaceholder}
                   />
                   <TouchableOpacity
                     style={globalStyles.inAppButton}
