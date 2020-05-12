@@ -18,7 +18,7 @@ export default function DrawerHeader({navigation, title}) {
         />
       </View>
       <Text style={globalStyles.headerText}>{title}</Text>
-      <View>
+      <View style={globalStyles.iconRight}>
         {/* Icon is invisible and has no onPress, but is needed so that the header is aligned in the middle */}
         <Icon
           iconStyle={globalStyles.customHeaderIconTwo}
