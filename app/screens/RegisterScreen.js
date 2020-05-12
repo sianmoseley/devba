@@ -14,9 +14,6 @@ import * as yup from 'yup';
 import SubmitRegister from '../database/Register';
 import {AuthInput, AuthSwitch} from '../custom/Variables';
 import {authenticationStyles, globalStyles} from '../style/Styles';
-import TCScreen from '../screens/TCScreen';
-import {Icon} from 'react-native-elements';
-import { set } from 'react-native-reanimated';
 
 //client side validation via yup
 const registerSchema = yup.object().shape({

@@ -41,13 +41,9 @@ export default function Notifications() {
                 if (first) {
                     first = false;
                     console.log("notifications check 2");
-                } else {                     
-                    //this if code stops the code firing when a post has been deleted
+                } else {
                     console.log("notifications check 3");
-                    if (newPost.createdAt == now) {
-                        console.log("notifications check 4");
-                        LocalPushController(newPost.heading, newPost.description, newPost.location);                          
-                    }                          
+                    LocalPushController(newPost.heading, newPost.description, newPost.location);                     
                 }                    
             };  
 

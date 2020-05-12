@@ -14,7 +14,7 @@ export default function LocalNotification(heading, description, location) {
     autoCancel: true,
     bigText:
       heading + '\nDescription: ' + description + '\nLocation: ' + location,
-    title: 'New post in Big APPetite',
+    title: 'A post has been created or deleted in Big APPetite',
     message:
       heading + '\nDescription: ' + description + '\nLocation: ' + location,
     vibrate: true,
