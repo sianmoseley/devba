@@ -78,6 +78,7 @@ export default class ChangeUsernameScreen extends Component {
           .update({username: value.username});
       })
       .then(() => {
+
         this.state.posts.forEach(post => {
           const uid = post.userkey;
           const postKey = post.id;
@@ -87,6 +88,9 @@ export default class ChangeUsernameScreen extends Component {
               .update({
                 createdBy: value.username,
               });
+          }
+          else if (post === null) {
+            return null;
           }
         });
       })
